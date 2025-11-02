@@ -2,6 +2,9 @@
 # Use debian-based image for onnxruntime-node compatibility
 FROM node:20-slim AS base
 
+# Install OpenSSL for Prisma
+RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
+
 # Install dependencies only when needed
 FROM base AS deps
 WORKDIR /app
@@ -37,8 +40,8 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/prisma ./prisma
 
-# Copy public folder if it exists
-COPY --from=builder /app/public ./public 2>/dev/null || mkdir ./public
+# Create public folder (Next.js doesn't need it for API-only backend)
+RUN mkdir -p ./public
 
 USER nextjs
 
