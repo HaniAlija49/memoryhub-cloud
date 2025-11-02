@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+  binaryTargets = ["native", "debian-openssl-3.0.x", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("MEMORYHUB_DATABASE_URL")
+  extensions = [vector]
+}
+
+model User {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  clerkUserId String? @unique @map("clerk_user_id")
+  apiKey     String   @unique @map("api_key")
+  apiKeyHash String?  @unique @map("api_key_hash")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  memories Memory[]
+
+  @@index([apiKeyHash])
+  @@map("users")
+}
+
+model Memory {
+  id        String   @id @default(dbgenerated("gen_random_uuid()::text"))
+  userId    String   @map("user_id")
+  project   String?
+  content   String   @db.Text
+  embedding Unsupported("vector(384)")?
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([project])
+  @@map("memories")
+}
