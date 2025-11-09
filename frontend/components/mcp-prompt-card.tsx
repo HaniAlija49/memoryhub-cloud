@@ -13,62 +13,101 @@ import {
 } from "@/components/ui/dialog"
 import { Check, Copy, Terminal, ExternalLink } from "lucide-react"
 
-const MCP_PROMPT = `# Memory Layer MCP Integration
+const getMcpPrompt = (apiKey?: string | null, apiUrl?: string) => {
+  const key = apiKey || 'YOUR_API_KEY'
+  const baseUrl = apiUrl || 'http://localhost:3000'
+
+  return `# Memory Layer MCP Integration
 
 You now have access to the Memory Layer API for persistent long-term memory storage.
 
 ## API Endpoint
-https://api.memorylayer.dev/v1
+${baseUrl}
+
+## Authentication
+All requests must include the API key in the Authorization header:
+Authorization: Bearer ${key}
 
 ## Available Operations
 
-### Store Memory
-POST /memories
+### 1. Store a Memory
+POST ${baseUrl}/api/memory
+Content-Type: application/json
+Authorization: Bearer ${key}
+
 {
-  "agent_id": "your-agent-id",
   "content": "Memory content to store",
+  "project": "project-name",
   "metadata": {
-    "timestamp": "2025-01-01T00:00:00Z",
     "tags": ["important", "user-preference"]
   }
 }
 
-### Retrieve Memories
-GET /memories?agent_id=your-agent-id&limit=10
+### 2. List All Memories
+GET ${baseUrl}/api/memory/list?limit=10&offset=0
+Authorization: Bearer ${key}
 
-### Search Memories
-POST /memories/search
+### 3. Search Memories (Semantic)
+POST ${baseUrl}/api/memory/search
+Content-Type: application/json
+Authorization: Bearer ${key}
+
 {
-  "agent_id": "your-agent-id",
   "query": "search query",
-  "limit": 10
+  "limit": 10,
+  "threshold": 0.7
 }
 
-## Authentication
-Include your API key in the Authorization header:
-Authorization: Bearer YOUR_API_KEY
+### 4. Get Memory Statistics
+GET ${baseUrl}/api/memory/stats
+Authorization: Bearer ${key}
+
+### 5. Delete a Memory
+DELETE ${baseUrl}/api/memory/{memory-id}
+Authorization: Bearer ${key}
 
 ## Usage Example
 When a user shares important information, store it:
-- User preferences
-- Past conversations
-- Important facts
-- Context that should persist across sessions
+- User preferences (name, email, preferences)
+- Past conversation context
+- Important facts or decisions
+- Project-specific context
 
-This allows you to provide personalized, context-aware responses across multiple conversations.`
+This allows you to provide personalized, context-aware responses across multiple conversations.
 
-export function McpPromptCard() {
+## Response Format
+All successful responses return:
+{
+  "status": "success",
+  "data": { ... }
+}
+
+Error responses return:
+{
+  "status": "error",
+  "error": "Error message"
+}`
+}
+
+interface McpPromptCardProps {
+  apiKey?: string | null
+  apiUrl?: string
+}
+
+export function McpPromptCard({ apiKey, apiUrl }: McpPromptCardProps = {}) {
   const [copied, setCopied] = useState(false)
   const [copiedCard, setCopiedCard] = useState(false)
 
+  const prompt = getMcpPrompt(apiKey, apiUrl)
+
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(MCP_PROMPT)
+    await navigator.clipboard.writeText(prompt)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
 
   const handleCardCopy = async () => {
-    await navigator.clipboard.writeText(MCP_PROMPT)
+    await navigator.clipboard.writeText(prompt)
     setCopiedCard(true)
     setTimeout(() => setCopiedCard(false), 2000)
   }
@@ -127,7 +166,7 @@ export function McpPromptCard() {
               <div className="flex-1 overflow-y-auto space-y-4 pr-2">
                 <div className="rounded-lg border border-border bg-background p-4 overflow-x-auto">
                   <pre className="text-xs text-muted-foreground leading-relaxed whitespace-pre-wrap font-mono">
-                    {MCP_PROMPT}
+                    {prompt}
                   </pre>
                 </div>
 
@@ -146,9 +185,17 @@ export function McpPromptCard() {
                     />
                   </svg>
                   <p className="text-xs text-foreground leading-relaxed">
-                    Paste this prompt at the start of your conversation with Claude. Replace{" "}
-                    <code className="px-1.5 py-0.5 rounded bg-background text-accent-cyan">YOUR_API_KEY</code> with your
-                    actual API key from the API Keys section.
+                    {apiKey ? (
+                      <>
+                        This prompt is ready to use! Your API key and endpoint are already included. Simply paste it at the start of your conversation with Claude.
+                      </>
+                    ) : (
+                      <>
+                        Paste this prompt at the start of your conversation with Claude. Replace{" "}
+                        <code className="px-1.5 py-0.5 rounded bg-background text-accent-cyan">YOUR_API_KEY</code> with your
+                        actual API key from the API Keys section.
+                      </>
+                    )}
                   </p>
                 </div>
               </div>

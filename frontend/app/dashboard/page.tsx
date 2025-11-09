@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { formatDistanceToNow } from "date-fns"
 import Link from "next/link"
+import { McpPromptCard } from "@/components/mcp-prompt-card"
 
 export default function DashboardPage() {
   const api = useApi()
@@ -55,22 +56,61 @@ export default function DashboardPage() {
     setIsLoading(false)
   }
 
-  if (!api.isReady) {
+  // Show loading state
+  if (api.isLoading) {
     return (
       <div className="space-y-8">
         <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
         <div className="flex items-center justify-center h-64">
-          {api.isLoading ? (
-            <div className="text-center space-y-2">
-              <Loader2 className="w-8 h-8 animate-spin text-muted-foreground mx-auto" />
-              <p className="text-sm text-muted-foreground">Loading dashboard...</p>
-            </div>
-          ) : (
-            <Alert variant="destructive" className="max-w-md">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{api.error}</AlertDescription>
-            </Alert>
-          )}
+          <div className="text-center space-y-2">
+            <Loader2 className="w-8 h-8 animate-spin text-muted-foreground mx-auto" />
+            <p className="text-sm text-muted-foreground">Loading dashboard...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Show error state
+  if (api.error) {
+    return (
+      <div className="space-y-8">
+        <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
+        <div className="flex items-center justify-center h-64">
+          <Alert variant="destructive" className="max-w-md">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{api.error}</AlertDescription>
+          </Alert>
+        </div>
+      </div>
+    )
+  }
+
+  // Show "Generate API Key" state
+  if (!api.hasApiKey) {
+    return (
+      <div className="space-y-8">
+        <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
+        <div className="flex items-center justify-center h-64">
+          <Card className="max-w-md">
+            <CardHeader>
+              <CardTitle>Welcome to Memory Layer!</CardTitle>
+              <CardDescription>
+                You need to generate an API key to get started
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-sm text-muted-foreground">
+                Click the "API Keys" link in the sidebar to generate your first API key.
+                This will activate your account and allow you to store memories.
+              </p>
+              <Link href="/dashboard/api-keys">
+                <button className="w-full px-4 py-2 bg-gradient-to-r from-accent-cyan to-accent-purple text-white rounded-lg hover:opacity-90 transition-opacity">
+                  Generate API Key →
+                </button>
+              </Link>
+            </CardContent>
+          </Card>
         </div>
       </div>
     )
@@ -235,6 +275,12 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* MCP Integration */}
+      <McpPromptCard
+        apiKey={api.apiKey}
+        apiUrl={process.env.NEXT_PUBLIC_API_URL}
+      />
 
       {/* Quick Actions */}
       <Card>

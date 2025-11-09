@@ -1,6 +1,5 @@
 "use client"
 
-import { DashboardLayout } from "@/components/dashboard-layout"
 import { Button } from "@/components/ui/button"
 import { Copy, Eye, EyeOff, RefreshCw, AlertCircle } from "lucide-react"
 import { useState } from "react"
@@ -9,11 +8,34 @@ import { useApi } from "@/hooks/use-api"
 import { AuthService } from "@/services"
 import { copyToClipboard } from "@/lib/utils"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { McpPromptCard } from "@/components/mcp-prompt-card"
 
 export default function ApiKeysPage() {
   const api = useApi()
   const { toast } = useToast()
   const [isRegenerating, setIsRegenerating] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false)
+
+  const handleGenerate = async () => {
+    setIsGenerating(true)
+    const result = await AuthService.generateApiKey()
+    setIsGenerating(false)
+
+    if (result) {
+      toast({
+        title: 'Success',
+        description: 'API key generated successfully',
+      })
+      // Force page reload to get new key
+      window.location.reload()
+    } else {
+      toast({
+        title: 'Error',
+        description: 'Failed to generate API key',
+        variant: 'destructive',
+      })
+    }
+  }
 
   const handleRegenerate = async () => {
     if (!confirm('Are you sure you want to regenerate your API key? This will invalidate your current key.')) {
@@ -41,21 +63,31 @@ export default function ApiKeysPage() {
   }
 
   return (
-    <DashboardLayout>
-      <div className="space-y-8">
+    <div className="space-y-8">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-foreground">API Keys</h1>
             <p className="text-sm text-muted-foreground mt-1">Manage your API key for Memory Layer integration</p>
           </div>
-          <Button
-            onClick={handleRegenerate}
-            disabled={!api.isReady || isRegenerating}
-            className="bg-white text-black hover:bg-gray-200"
-          >
-            <RefreshCw className={`w-4 h-4 mr-2 ${isRegenerating ? 'animate-spin' : ''}`} />
-            {isRegenerating ? 'Regenerating...' : 'Regenerate Key'}
-          </Button>
+          {api.hasApiKey ? (
+            <Button
+              onClick={handleRegenerate}
+              disabled={isRegenerating}
+              className="bg-white text-black hover:bg-gray-200"
+            >
+              <RefreshCw className={`w-4 h-4 mr-2 ${isRegenerating ? 'animate-spin' : ''}`} />
+              {isRegenerating ? 'Regenerating...' : 'Regenerate Key'}
+            </Button>
+          ) : (
+            <Button
+              onClick={handleGenerate}
+              disabled={isGenerating}
+              className="bg-gradient-to-r from-accent-cyan to-accent-purple text-white hover:opacity-90"
+            >
+              <RefreshCw className={`w-4 h-4 mr-2 ${isGenerating ? 'animate-spin' : ''}`} />
+              {isGenerating ? 'Generating...' : 'Generate API Key'}
+            </Button>
+          )}
         </div>
 
         {api.error && (
@@ -67,9 +99,13 @@ export default function ApiKeysPage() {
 
         <ApiKeyDisplay apiKey={api.apiKey} isLoading={api.isLoading} />
 
+        <McpPromptCard
+          apiKey={api.apiKey}
+          apiUrl={process.env.NEXT_PUBLIC_API_URL}
+        />
+
         <ApiKeyUsageGuide />
-      </div>
-    </DashboardLayout>
+    </div>
   )
 }
 
@@ -106,7 +142,15 @@ function ApiKeyDisplay({ apiKey, isLoading }: { apiKey: string | null; isLoading
   if (!apiKey) {
     return (
       <div className="border border-border rounded-lg p-6">
-        <p className="text-muted-foreground">No API key available</p>
+        <div className="text-center space-y-4 py-8">
+          <AlertCircle className="w-12 h-12 text-muted-foreground mx-auto" />
+          <div>
+            <h3 className="text-lg font-medium text-foreground mb-2">No API Key Yet</h3>
+            <p className="text-sm text-muted-foreground">
+              Click the "Generate API Key" button above to create your first API key.
+            </p>
+          </div>
+        </div>
       </div>
     )
   }

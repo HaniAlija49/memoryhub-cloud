@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { validateApiKey, AuthError } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { generateEmbedding } from '@/lib/embeddings'
@@ -48,16 +48,12 @@ export async function POST(request: NextRequest) {
 
     const savedMemory = memory[0]
 
-    return createSuccessResponse({
-      message: 'Memory saved successfully',
-      memory: {
-        id: savedMemory.id,
-        content: savedMemory.content,
-        project: savedMemory.project,
-        metadata: savedMemory.metadata,
-        createdAt: savedMemory.created_at,
-      },
-    }, 201)
+    return NextResponse.json({
+      status: 'success',
+      data: {
+        memoryId: savedMemory.id
+      }
+    }, { status: 201 })
 
   } catch (error) {
     if (error instanceof AuthError) {

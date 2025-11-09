@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { validateApiKey, AuthError } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { createErrorResponse, createSuccessResponse } from '@/lib/utils'
@@ -39,6 +39,7 @@ export async function GET(request: NextRequest) {
         skip: offset,
         select: {
           id: true,
+          userId: true,
           content: true,
           project: true,
           metadata: true,
@@ -48,14 +49,14 @@ export async function GET(request: NextRequest) {
       prisma.memory.count({ where }),
     ])
 
-    return createSuccessResponse({
-      memories,
-      pagination: {
+    return NextResponse.json({
+      status: 'success',
+      data: {
+        memories,
         total,
         limit: limit || 0,
         offset: offset || 0,
-        hasMore: (offset || 0) + (limit || 0) < total,
-      },
+      }
     })
 
   } catch (error) {

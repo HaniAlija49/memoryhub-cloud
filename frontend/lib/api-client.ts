@@ -141,20 +141,29 @@ export class MemoryHubClient {
   }
 
   /**
-   * Get API key for authenticated Clerk user
+   * Check if user has an API key (returns null if not generated yet)
    */
-  async linkClerkUser(): Promise<ApiResponse<{ apiKey: string; userId: string; email: string }>> {
-    return this.request('/api/auth/clerk-link', {
+  async getApiKeyStatus(): Promise<ApiResponse<{ hasApiKey: boolean; apiKey: string | null; userId?: string; email: string | null }>> {
+    return this.request('/api/api-keys', {
       method: 'GET',
     }, true) // Use Clerk authentication
   }
 
   /**
-   * Regenerate API key for authenticated Clerk user
+   * Generate API key for authenticated Clerk user (first time)
+   */
+  async generateApiKey(): Promise<ApiResponse<{ apiKey: string; userId: string; email: string }>> {
+    return this.request('/api/api-keys', {
+      method: 'POST',
+    }, true) // Use Clerk authentication
+  }
+
+  /**
+   * Regenerate API key for authenticated Clerk user (replaces existing)
    */
   async regenerateApiKey(): Promise<ApiResponse<{ apiKey: string; userId: string; email: string }>> {
-    return this.request('/api/auth/clerk-link', {
-      method: 'POST',
+    return this.request('/api/api-keys', {
+      method: 'PUT',
     }, true) // Use Clerk authentication
   }
 

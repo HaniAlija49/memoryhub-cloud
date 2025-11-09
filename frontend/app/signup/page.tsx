@@ -21,6 +21,7 @@ export default function SignUpPage() {
 
         <div className="flex justify-center">
           <SignUp
+            routing="hash"
             appearance={{
               elements: {
                 rootBox: "w-full",

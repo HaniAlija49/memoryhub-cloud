@@ -13,7 +13,7 @@ export async function GET() {
     })
 
     // Get memory count by project
-    const memoriesByProject = await prisma.memory.groupBy({
+    const memoriesByProjectRaw = await prisma.memory.groupBy({
       by: ['project'],
       where: { userId: user.id },
       _count: {
@@ -21,68 +21,46 @@ export async function GET() {
       },
     })
 
-    // Format project stats
-    const projectStats = memoriesByProject.map((item) => ({
-      project: item.project || 'default',
-      count: item._count.id,
-    }))
-
-    // Get oldest and newest memory dates
-    const oldestMemory = await prisma.memory.findFirst({
-      where: { userId: user.id },
-      orderBy: { createdAt: 'asc' },
-      select: { createdAt: true },
+    // Format as object for frontend
+    const memoriesByProject: Record<string, number> = {}
+    memoriesByProjectRaw.forEach((item) => {
+      const projectName = item.project || 'Uncategorized'
+      memoriesByProject[projectName] = item._count.id
     })
 
-    const newestMemory = await prisma.memory.findFirst({
+    // Get recent memories
+    const recentMemories = await prisma.memory.findMany({
       where: { userId: user.id },
       orderBy: { createdAt: 'desc' },
-      select: { createdAt: true },
+      take: 10,
+      select: {
+        id: true,
+        content: true,
+        project: true,
+        createdAt: true,
+      },
     })
 
-    // Calculate estimated storage (rough estimate)
-    const memories = await prisma.memory.findMany({
-      where: { userId: user.id },
-      select: { content: true, metadata: true },
-    })
-
-    let estimatedStorageBytes = 0
-    memories.forEach((memory) => {
-      estimatedStorageBytes += new Blob([memory.content]).size
-      if (memory.metadata) {
-        estimatedStorageBytes += new Blob([JSON.stringify(memory.metadata)]).size
-      }
-      // Add approximate embedding size (384 floats * 4 bytes)
-      estimatedStorageBytes += 384 * 4
-    })
-
-    const estimatedStorageMB = (estimatedStorageBytes / (1024 * 1024)).toFixed(2)
-
-    // Return stats
+    // Return stats in the format expected by frontend
     return NextResponse.json({
-      success: true,
-      stats: {
+      status: 'success',
+      data: {
         totalMemories,
-        projectStats,
-        oldestMemoryDate: oldestMemory?.createdAt || null,
-        newestMemoryDate: newestMemory?.createdAt || null,
-        estimatedStorageMB: parseFloat(estimatedStorageMB),
-        userId: user.id,
-        userEmail: user.email,
-        accountCreatedAt: user.createdAt,
+        memoriesByProject,
+        recentMemories,
       },
     })
   } catch (error) {
     if (error instanceof AuthError) {
       return NextResponse.json(
-        { error: error.message },
+        { status: 'error', error: error.message },
         { status: error.statusCode }
       )
     }
 
     console.error('Error fetching stats:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch statistics' },
+      { status: 'error', error: 'Failed to fetch statistics' },
       { status: 500 }
     )
   }

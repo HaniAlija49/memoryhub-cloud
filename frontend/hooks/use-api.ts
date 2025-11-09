@@ -19,6 +19,7 @@ import { apiClient } from '@/lib/api-client'
 interface UseApiState {
   isLoading: boolean
   isReady: boolean
+  hasApiKey: boolean
   apiKey: string | null
   error: string | null
 }
@@ -29,6 +30,7 @@ export function useApi() {
   const [state, setState] = useState<UseApiState>({
     isLoading: true,
     isReady: false,
+    hasApiKey: false,
     apiKey: null,
     error: null,
   })
@@ -42,6 +44,7 @@ export function useApi() {
         setState({
           isLoading: false,
           isReady: false,
+          hasApiKey: false,
           apiKey: null,
           error: 'Not signed in',
         })
@@ -57,17 +60,18 @@ export function useApi() {
         // Set Clerk token in API client for authentication
         apiClient.setClerkToken(token)
 
-        // Get API key from backend
-        const result = await AuthService.getApiKey()
+        // Check if user has generated an API key yet
+        const status = await AuthService.checkApiKeyStatus()
 
-        if (!result) {
-          throw new Error('Failed to get API key')
+        if (!status) {
+          throw new Error('Failed to check API key status')
         }
 
         setState({
           isLoading: false,
-          isReady: true,
-          apiKey: result.apiKey,
+          isReady: status.hasApiKey, // Only ready if API key exists
+          hasApiKey: status.hasApiKey,
+          apiKey: status.apiKey,
           error: null,
         })
       } catch (error) {
@@ -76,6 +80,7 @@ export function useApi() {
         setState({
           isLoading: false,
           isReady: false,
+          hasApiKey: false,
           apiKey: null,
           error: errorMessage,
         })

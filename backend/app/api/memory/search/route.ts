@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { validateApiKey, AuthError } from '@/lib/auth'
 import { searchMemories } from '@/lib/search'
 import { createErrorResponse, createSuccessResponse } from '@/lib/utils'
@@ -22,10 +22,9 @@ export async function POST(request: NextRequest) {
     // Search using semantic search
     const results = await searchMemories(user.id, query, limit)
 
-    return createSuccessResponse({
-      query,
-      count: Array.isArray(results) ? results.length : 0,
-      memories: results || [],
+    return NextResponse.json({
+      status: 'success',
+      data: results || []
     })
 
   } catch (error) {
