@@ -26,13 +26,15 @@ Click **"Environment Variables"** and add these **3 variables**:
 
 #### 1. NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 ```
-pk_test_a25vd24tc2Vhc25haWwtODAuY2xlcmsuYWNjb3VudHMuZGV2JA
+pk_test_your_publishable_key_here
 ```
+(Get from https://dashboard.clerk.com/last-active?path=api-keys)
 
 #### 2. CLERK_SECRET_KEY
 ```
-sk_test_BAPsNjl9TcFI98Jg30cVDtEbIDy6kWiecn057DZYxO
+sk_test_your_secret_key_here
 ```
+(Get from https://dashboard.clerk.com/last-active?path=api-keys)
 
 #### 3. NEXT_PUBLIC_API_URL
 ```
