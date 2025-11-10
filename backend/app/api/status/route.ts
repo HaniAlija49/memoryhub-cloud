@@ -17,11 +17,12 @@ export async function GET() {
 
     // Check pgvector extension
     try {
-      await prisma.$queryRaw`SELECT '[1,2,3]'::vector(3)`
+      // Cast result to avoid deserialization error
+      await prisma.$queryRaw`SELECT '[1,2,3]'::vector(3)::text as vector_test`
       checks.pgvector = 'enabled'
     } catch (vectorError) {
       checks.pgvector = 'disabled'
-      isHealthy = false
+      // Don't mark as unhealthy - pgvector is optional for basic operations
     }
 
     // Check Redis connection (optional)

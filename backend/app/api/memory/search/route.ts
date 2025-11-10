@@ -3,8 +3,9 @@ import { validateApiKey, AuthError } from '@/lib/auth'
 import { searchMemories } from '@/lib/search'
 import { createErrorResponse, createSuccessResponse } from '@/lib/utils'
 import { searchMemorySchema, validateRequest } from '@/lib/validation'
+import { withAppRouterHighlight } from '@/app/_utils/app-router-highlight.config'
 
-export async function POST(request: NextRequest) {
+export const POST = withAppRouterHighlight(async function POST(request: NextRequest) {
   try {
     // Authenticate user
     const user = await validateApiKey()
@@ -34,4 +35,4 @@ export async function POST(request: NextRequest) {
     console.error('Error searching memories:', error)
     return createErrorResponse('Failed to search memories', 500)
   }
-}
+})

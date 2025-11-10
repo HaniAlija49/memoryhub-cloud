@@ -2,7 +2,9 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useUser, SignOutButton } from "@clerk/nextjs"
+import { H } from '@highlight-run/next/client'
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -32,6 +34,20 @@ const accountNav = [
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { user, isLoaded } = useUser()
+
+  // Identify user in Highlight.io when authenticated
+  useEffect(() => {
+    if (isLoaded && user) {
+      H.identify(user.primaryEmailAddress?.emailAddress || user.id, {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.primaryEmailAddress?.emailAddress,
+        createdAt: user.createdAt,
+      })
+    }
+  }, [isLoaded, user])
 
   return (
     <div className="min-h-screen bg-background">
@@ -209,7 +225,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 <DropdownMenuItem>Billing</DropdownMenuItem>
                 <DropdownMenuItem>Team</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Log out</DropdownMenuItem>
+                <SignOutButton>
+                  <DropdownMenuItem>Log out</DropdownMenuItem>
+                </SignOutButton>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

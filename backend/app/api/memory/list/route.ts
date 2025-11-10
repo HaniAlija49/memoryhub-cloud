@@ -3,8 +3,9 @@ import { validateApiKey, AuthError } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { createErrorResponse, createSuccessResponse } from '@/lib/utils'
 import { listMemoriesSchema, validateRequest } from '@/lib/validation'
+import { withAppRouterHighlight } from '@/app/_utils/app-router-highlight.config'
 
-export async function GET(request: NextRequest) {
+export const GET = withAppRouterHighlight(async function GET(request: NextRequest) {
   try {
     // Authenticate user
     const user = await validateApiKey()
@@ -66,4 +67,4 @@ export async function GET(request: NextRequest) {
     console.error('Error listing memories:', error)
     return createErrorResponse('Failed to list memories', 500)
   }
-}
+})

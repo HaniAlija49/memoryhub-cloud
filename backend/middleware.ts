@@ -28,7 +28,7 @@ export default clerkMiddleware(async (auth, request: NextRequest) => {
     }
 
     response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-highlight-request, x-highlight-session, traceparent, tracestate, baggage')
     response.headers.set('Access-Control-Allow-Credentials', 'true')
     response.headers.set('Access-Control-Max-Age', '86400') // 24 hours
 
@@ -63,7 +63,7 @@ export default clerkMiddleware(async (auth, request: NextRequest) => {
     }
 
     response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-highlight-request, x-highlight-session, traceparent, tracestate, baggage')
     response.headers.set('Access-Control-Allow-Credentials', 'true')
     response.headers.set('Access-Control-Max-Age', '86400') // 24 hours
 

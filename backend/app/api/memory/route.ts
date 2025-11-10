@@ -4,8 +4,9 @@ import { prisma } from '@/lib/prisma'
 import { generateEmbedding } from '@/lib/embeddings'
 import { createErrorResponse, createSuccessResponse } from '@/lib/utils'
 import { saveMemorySchema, validateRequest } from '@/lib/validation'
+import { withAppRouterHighlight } from '@/app/_utils/app-router-highlight.config'
 
-export async function POST(request: NextRequest) {
+export const POST = withAppRouterHighlight(async function POST(request: NextRequest) {
   try {
     // Authenticate user
     const user = await validateApiKey()
@@ -62,4 +63,4 @@ export async function POST(request: NextRequest) {
     console.error('Error saving memory:', error)
     return createErrorResponse('Failed to save memory', 500)
   }
-}
+})
