@@ -102,8 +102,8 @@ curl https://api.persistq.dev/v1/memories?group=preferences \\
           </h1>
 
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            The API that gives your AI agents long-term memory. Store context, retrieve insights, and build truly
-            intelligent applications.
+            The cost-effective API that gives your AI agents long-term memory. With local embeddings and transparent
+            pricing, store context at scale without breaking the bank.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -130,20 +130,20 @@ curl https://api.persistq.dev/v1/memories?group=preferences \\
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent-cyan mb-2">&lt; 50ms</div>
-              <div className="text-sm text-muted-foreground">Response time</div>
+              <div className="text-4xl md:text-5xl font-bold text-accent-cyan mb-2">~200ms</div>
+              <div className="text-sm text-muted-foreground">Avg response time</div>
             </div>
             <div className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-accent-purple mb-2">99.9%</div>
-              <div className="text-sm text-muted-foreground">Uptime SLA</div>
+              <div className="text-sm text-muted-foreground">Uptime SLA (Pro+)</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent-cyan mb-2">300+</div>
-              <div className="text-sm text-muted-foreground">Edge locations</div>
+              <div className="text-4xl md:text-5xl font-bold text-accent-cyan mb-2">$0</div>
+              <div className="text-sm text-muted-foreground">Embedding costs</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent-purple mb-2">SOC 2</div>
-              <div className="text-sm text-muted-foreground">Type 2</div>
+              <div className="text-4xl md:text-5xl font-bold text-accent-purple mb-2">GDPR</div>
+              <div className="text-sm text-muted-foreground">Compliant</div>
             </div>
           </div>
         </div>
@@ -185,13 +185,128 @@ curl https://api.persistq.dev/v1/memories?group=preferences \\
         </div>
       </section>
 
+      {/* Zero Embedding Costs Section */}
+      <section className="container mx-auto px-4 py-32 bg-surface/30">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+          <div>
+            <h2 className="text-5xl font-bold mb-6 leading-tight">
+              Zero embedding costs.
+              <br />
+              <span className="text-muted-foreground">Save thousands.</span>
+            </h2>
+            <p className="text-xl text-muted-foreground mb-8">
+              Unlike competitors who charge for OpenAI embeddings, we generate vectors locally using open-source models.
+              No per-token fees. No surprise bills.
+            </p>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <Check className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
+                <div>
+                  <div className="font-medium mb-1">Free embeddings forever</div>
+                  <div className="text-sm text-muted-foreground">Transformers.js runs locally - no API costs</div>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
+                <div>
+                  <div className="font-medium mb-1">Privacy-first</div>
+                  <div className="text-sm text-muted-foreground">
+                    Your data never leaves your infrastructure for embeddings
+                  </div>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
+                <div>
+                  <div className="font-medium mb-1">Transparent pricing</div>
+                  <div className="text-sm text-muted-foreground">Flat rates based on storage, not usage</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div className="rounded-lg border border-border bg-surface p-8">
+            <h3 className="font-semibold mb-6 text-lg">Cost Comparison</h3>
+            <div className="space-y-4">
+              <div className="p-4 rounded bg-red-500/10 border border-red-500/20">
+                <div className="text-sm font-medium mb-2 text-red-400">Competitor (OpenAI embeddings)</div>
+                <div className="text-xs text-muted-foreground">
+                  1M memories × $0.0001/embedding = <strong className="text-foreground">$100+/month</strong>
+                </div>
+              </div>
+              <div className="p-4 rounded bg-accent-cyan/10 border border-accent-cyan/20">
+                <div className="text-sm font-medium mb-2 text-accent-cyan">PersistQ (local embeddings)</div>
+                <div className="text-xs text-muted-foreground">
+                  1M memories = <strong className="text-foreground">$0 embedding costs</strong>
+                </div>
+              </div>
+              <div className="pt-4 text-center">
+                <div className="text-2xl font-bold text-accent-cyan">Save $100+/month</div>
+                <div className="text-xs text-muted-foreground mt-1">on every million memories</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* MCP Integration Section */}
+      <section className="container mx-auto px-4 py-32">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+          <div className="order-2 md:order-1 rounded-lg border border-border bg-surface p-8">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 mb-4 text-sm text-muted-foreground">
+                <div className="w-3 h-3 rounded-full bg-red-500" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                <div className="w-3 h-3 rounded-full bg-green-500" />
+                <span className="ml-2">Claude Code</span>
+              </div>
+              <div className="text-sm font-mono">
+                <div className="text-accent-cyan mb-2">&gt; One prompt, instant setup</div>
+                <div className="text-muted-foreground mb-4">
+                  "Add PersistQ memory to my AI agent using MCP"
+                </div>
+                <div className="text-green-400 mb-1">✓ MCP server configured</div>
+                <div className="text-green-400 mb-1">✓ Memory tools available</div>
+                <div className="text-green-400">✓ Ready to use in seconds</div>
+              </div>
+            </div>
+          </div>
+          <div className="order-1 md:order-2">
+            <h2 className="text-5xl font-bold mb-6 leading-tight">
+              Works with Claude Code.
+              <br />
+              <span className="text-muted-foreground">MCP ready.</span>
+            </h2>
+            <p className="text-xl text-muted-foreground mb-8">
+              One prompt and Claude Code sets up PersistQ via MCP (Model Context Protocol). No manual configuration
+              needed.
+            </p>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <Check className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
+                <div>
+                  <div className="font-medium mb-1">MCP integration</div>
+                  <div className="text-sm text-muted-foreground">Automatic setup with Claude Code</div>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
+                <div>
+                  <div className="font-medium mb-1">Zero config</div>
+                  <div className="text-sm text-muted-foreground">Claude handles all the setup for you</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       {/* Works with your stack */}
       <section className="container mx-auto px-4 py-32 bg-surface/30">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold mb-6">Works with your stack</h2>
             <p className="text-xl text-muted-foreground">
-              Integrate PersistQ into your language or framework within minutes
+              Integrate PersistQ into any language or framework within minutes
             </p>
           </div>
 
@@ -262,6 +377,13 @@ curl https://api.persistq.dev/v1/memories?group=preferences \\
                     <div className="text-sm text-muted-foreground">Combines semantic and keyword search</div>
                   </div>
                 </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
+                  <div>
+                    <div className="font-medium mb-1">Zero embedding costs</div>
+                    <div className="text-sm text-muted-foreground">Local Transformers.js - no per-token charges</div>
+                  </div>
+                </li>
               </ul>
             </div>
             <div className="rounded-lg border border-border bg-surface p-8">
@@ -304,10 +426,11 @@ curl https://api.persistq.dev/v1/memories?group=preferences \\
               <h2 className="text-5xl font-bold mb-6 leading-tight">
                 Lightning fast.
                 <br />
-                <span className="text-muted-foreground">Edge ready.</span>
+                <span className="text-muted-foreground">Built for scale.</span>
               </h2>
               <p className="text-xl text-muted-foreground mb-8">
-                Deployed across 300+ edge locations worldwide. Your memories are always close to your users.
+                PostgreSQL with pgvector extension ensures sub-200ms semantic search across millions of memories.
+                Optimized for real-time applications.
               </p>
               <Link href="/docs">
                 <Button variant="link" className="text-accent-cyan p-0 h-auto text-lg">
@@ -321,21 +444,21 @@ curl https://api.persistq.dev/v1/memories?group=preferences \\
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-5xl font-bold mb-6 leading-tight">
-                Enterprise security.
+                Security first.
                 <br />
-                <span className="text-muted-foreground">By default.</span>
+                <span className="text-muted-foreground">Privacy built-in.</span>
               </h2>
               <p className="text-xl text-muted-foreground mb-8">
-                SOC 2 Type 2 compliant with end-to-end encryption. Your data is always secure.
+                GDPR compliant with secure authentication. Your data stays private with local embedding generation.
               </p>
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 rounded-lg border border-border bg-surface">
                   <Lock className="w-8 h-8 text-accent-cyan mb-2" />
-                  <div className="font-medium">Encrypted at rest</div>
+                  <div className="font-medium">Encrypted storage</div>
                 </div>
                 <div className="p-4 rounded-lg border border-border bg-surface">
                   <Shield className="w-8 h-8 text-accent-purple mb-2" />
-                  <div className="font-medium">SOC 2 Type 2</div>
+                  <div className="font-medium">GDPR compliant</div>
                 </div>
               </div>
             </div>
@@ -343,27 +466,98 @@ curl https://api.persistq.dev/v1/memories?group=preferences \\
               <div className="space-y-4 text-sm">
                 <div className="flex items-center gap-3">
                   <Check className="w-5 h-5 text-accent-cyan shrink-0" />
-                  <span>End-to-end encryption</span>
+                  <span>Secure API key authentication</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Check className="w-5 h-5 text-accent-cyan shrink-0" />
-                  <span>Role-based access control</span>
+                  <span>Local embedding generation</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Check className="w-5 h-5 text-accent-cyan shrink-0" />
-                  <span>Audit logs</span>
+                  <span>GDPR compliant data handling</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Check className="w-5 h-5 text-accent-cyan shrink-0" />
-                  <span>GDPR compliant</span>
+                  <span>User data deletion on request</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Check className="w-5 h-5 text-accent-cyan shrink-0" />
-                  <span>Data residency options</span>
+                  <span>No third-party AI dependencies</span>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Pricing Preview */}
+      <section className="container mx-auto px-4 py-32 bg-surface/30">
+        <div className="max-w-6xl mx-auto text-center space-y-12">
+          <div>
+            <h2 className="text-5xl font-bold mb-6">Simple, transparent pricing</h2>
+            <p className="text-xl text-muted-foreground">Start free. Scale as you grow. No hidden fees.</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 pt-8">
+            {/* Free */}
+            <div className="p-6 rounded-lg border border-border bg-surface text-left">
+              <h3 className="text-2xl font-bold mb-2">Free</h3>
+              <div className="text-4xl font-bold mb-4">$0</div>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li>5,000 API calls/mo</li>
+                <li>250 memories</li>
+                <li>12.5MB storage</li>
+              </ul>
+            </div>
+
+            {/* Starter */}
+            <div className="p-6 rounded-lg border border-border bg-surface text-left">
+              <h3 className="text-2xl font-bold mb-2">Starter</h3>
+              <div className="text-4xl font-bold mb-4">
+                $5<span className="text-lg text-muted-foreground">/mo</span>
+              </div>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li>50K API calls/mo</li>
+                <li>2,500 memories</li>
+                <li>250MB storage</li>
+              </ul>
+            </div>
+
+            {/* Pro */}
+            <div className="p-6 rounded-lg border-2 border-accent-cyan bg-surface text-left relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-accent-cyan text-black text-xs font-medium rounded-full">
+                Popular
+              </div>
+              <h3 className="text-2xl font-bold mb-2">Pro</h3>
+              <div className="text-4xl font-bold mb-4">
+                $12<span className="text-lg text-muted-foreground">/mo</span>
+              </div>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li>500K API calls/mo</li>
+                <li>25,000 memories</li>
+                <li>5GB storage</li>
+              </ul>
+            </div>
+
+            {/* Premium */}
+            <div className="p-6 rounded-lg border border-border bg-surface text-left">
+              <h3 className="text-2xl font-bold mb-2">Premium</h3>
+              <div className="text-4xl font-bold mb-4">
+                $29<span className="text-lg text-muted-foreground">/mo</span>
+              </div>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li>2M API calls/mo</li>
+                <li>100K memories</li>
+                <li>50GB storage</li>
+              </ul>
+            </div>
+          </div>
+
+          <Link href="/pricing">
+            <Button variant="outline" className="mt-8 bg-transparent">
+              View detailed pricing →
+            </Button>
+          </Link>
         </div>
       </section>
 
@@ -411,26 +605,6 @@ curl https://api.persistq.dev/v1/memories?group=preferences \\
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Company</h4>
-              <ul className="space-y-3 text-sm text-muted-foreground">
-                <li>
-                  <Link href="#" className="hover:text-foreground transition-colors">
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-foreground transition-colors">
-                    Blog
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:text-foreground transition-colors">
-                    Careers
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
               <h4 className="font-semibold mb-4">Resources</h4>
               <ul className="space-y-3 text-sm text-muted-foreground">
                 <li>
@@ -443,29 +617,24 @@ curl https://api.persistq.dev/v1/memories?group=preferences \\
                     Guides
                   </Link>
                 </li>
-                <li>
-                  <Link href="#" className="hover:text-foreground transition-colors">
-                    Status
-                  </Link>
-                </li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Legal</h4>
               <ul className="space-y-3 text-sm text-muted-foreground">
                 <li>
-                  <Link href="#" className="hover:text-foreground transition-colors">
-                    Privacy
+                  <Link href="/privacy-policy" className="hover:text-foreground transition-colors">
+                    Privacy Policy
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-foreground transition-colors">
-                    Terms
+                  <Link href="/terms" className="hover:text-foreground transition-colors">
+                    Terms of Service
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:text-foreground transition-colors">
-                    Security
+                  <Link href="/refund-policy" className="hover:text-foreground transition-colors">
+                    Refund Policy
                   </Link>
                 </li>
               </ul>
