@@ -11,8 +11,8 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Memory Layer - AI Agent Memory API",
-  description: "Professional dashboard for Memory Layer - persistent long-term memory for AI agents",
+  title: "PersistQ - AI Agent Memory API",
+  description: "Professional dashboard for PersistQ - persistent long-term memory for AI agents",
   generator: "v0.app",
 }
 

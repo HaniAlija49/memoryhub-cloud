@@ -94,7 +94,7 @@ export default function DashboardPage() {
         <div className="flex items-center justify-center h-64">
           <Card className="max-w-md">
             <CardHeader>
-              <CardTitle>Welcome to Memory Layer!</CardTitle>
+              <CardTitle>Welcome to PersistQ!</CardTitle>
               <CardDescription>
                 You need to generate an API key to get started
               </CardDescription>
@@ -286,7 +286,7 @@ export default function DashboardPage() {
       <Card>
         <CardHeader>
           <CardTitle>Quick Start</CardTitle>
-          <CardDescription>Get started with Memory Layer</CardDescription>
+          <CardDescription>Get started with PersistQ</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -304,7 +304,7 @@ export default function DashboardPage() {
             />
             <QuickActionCard
               title="Documentation"
-              description="Learn how to integrate Memory Layer"
+              description="Learn how to integrate PersistQ"
               href="/docs"
               action="Read"
             />

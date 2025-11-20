@@ -9,9 +9,9 @@ export default function LandingPage() {
   const [activeTab, setActiveTab] = useState("node")
 
   const codeExamples = {
-    node: `import { MemoryLayer } from '@memorylayer/sdk';
+    node: `import { PersistQ } from '@persistq/sdk';
 
-const memory = new MemoryLayer(process.env.MEMORY_API_KEY);
+const memory = new PersistQ(process.env.MEMORY_API_KEY);
 
 // Store a memory
 await memory.store({
@@ -25,9 +25,9 @@ const memories = await memory.search({
   query: 'user preferences',
   group: 'preferences'
 });`,
-    python: `from memorylayer import MemoryLayer
+    python: `from persistq import PersistQ
 
-memory = MemoryLayer(api_key=os.getenv('MEMORY_API_KEY'))
+memory = PersistQ(api_key=os.getenv('MEMORY_API_KEY'))
 
 # Store a memory
 memory.store(
@@ -42,7 +42,7 @@ memories = memory.search(
     group='preferences'
 )`,
     curl: `# Store a memory
-curl -X POST https://api.memorylayer.dev/v1/memories \\
+curl -X POST https://api.persistq.dev/v1/memories \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -52,7 +52,7 @@ curl -X POST https://api.memorylayer.dev/v1/memories \\
   }'
 
 # Retrieve memories
-curl https://api.memorylayer.dev/v1/memories?group=preferences \\
+curl https://api.persistq.dev/v1/memories?group=preferences \\
   -H "Authorization: Bearer YOUR_API_KEY"`,
   }
 
@@ -65,7 +65,7 @@ curl https://api.memorylayer.dev/v1/memories?group=preferences \\
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center">
               <Brain className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-semibold">Memory Layer</span>
+            <span className="text-xl font-semibold">PersistQ</span>
           </div>
           <nav className="hidden md:flex items-center gap-6">
             <Link href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
@@ -176,7 +176,7 @@ curl https://api.memorylayer.dev/v1/memories?group=preferences \\
             </div>
             <pre className="text-sm overflow-x-auto">
               <code className="text-accent-cyan">$ </code>
-              <code className="text-foreground">npm install @memorylayer/sdk</code>
+              <code className="text-foreground">npm install @persistq/sdk</code>
               <br />
               <br />
               <code className="text-muted-foreground"># Ready to use in 2 seconds</code>
@@ -191,7 +191,7 @@ curl https://api.memorylayer.dev/v1/memories?group=preferences \\
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold mb-6">Works with your stack</h2>
             <p className="text-xl text-muted-foreground">
-              Integrate Memory Layer into your language or framework within minutes
+              Integrate PersistQ into your language or framework within minutes
             </p>
           </div>
 
@@ -372,7 +372,7 @@ curl https://api.memorylayer.dev/v1/memories?group=preferences \\
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <h2 className="text-5xl md:text-6xl font-bold leading-tight">Ready to build smarter AI?</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Start building with Memory Layer today. No credit card required.
+            Start building with PersistQ today. No credit card required.
           </p>
           <Link href="/signup">
             <Button
@@ -476,9 +476,9 @@ curl https://api.memorylayer.dev/v1/memories?group=preferences \\
               <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center">
                 <Brain className="w-4 h-4 text-white" />
               </div>
-              <span className="font-semibold text-lg">Memory Layer</span>
+              <span className="font-semibold text-lg">PersistQ</span>
             </div>
-            <p className="text-sm text-muted-foreground">© 2025 Memory Layer. All rights reserved.</p>
+            <p className="text-sm text-muted-foreground">© 2025 PersistQ. All rights reserved.</p>
           </div>
         </div>
       </footer>

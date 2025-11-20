@@ -23,7 +23,7 @@ export default function GettingStartedPage() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center">
               <Database className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-semibold">Memory Layer</span>
+            <span className="text-xl font-semibold">PersistQ</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/docs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
@@ -70,15 +70,15 @@ export default function GettingStartedPage() {
           <article className="prose prose-invert max-w-none">
             <h1 className="text-4xl font-bold mb-4">Getting Started</h1>
             <p className="text-xl text-muted-foreground mb-12">
-              Learn how to integrate Memory Layer into your AI application in under 5 minutes.
+              Learn how to integrate PersistQ into your AI application in under 5 minutes.
             </p>
 
             <h2 className="text-2xl font-bold mt-12 mb-4">Installation</h2>
-            <p className="text-muted-foreground mb-4">Install the Memory Layer SDK for your preferred language:</p>
+            <p className="text-muted-foreground mb-4">Install the PersistQ SDK for your preferred language:</p>
 
             <div className="rounded-lg border border-border bg-surface p-4 mb-8 relative group">
               <button
-                onClick={() => copyCode("npm install @memorylayer/sdk", "npm")}
+                onClick={() => copyCode("npm install @persistq/sdk", "npm")}
                 className="absolute top-4 right-4 p-2 rounded hover:bg-background transition-colors"
               >
                 {copiedSection === "npm" ? (
@@ -88,13 +88,13 @@ export default function GettingStartedPage() {
                 )}
               </button>
               <pre className="text-sm overflow-x-auto">
-                <code>npm install @memorylayer/sdk</code>
+                <code>npm install @persistq/sdk</code>
               </pre>
             </div>
 
             <div className="rounded-lg border border-border bg-surface p-4 mb-8 relative group">
               <button
-                onClick={() => copyCode("pip install memorylayer", "pip")}
+                onClick={() => copyCode("pip install persistq", "pip")}
                 className="absolute top-4 right-4 p-2 rounded hover:bg-background transition-colors"
               >
                 {copiedSection === "pip" ? (
@@ -104,7 +104,7 @@ export default function GettingStartedPage() {
                 )}
               </button>
               <pre className="text-sm overflow-x-auto">
-                <code>pip install memorylayer</code>
+                <code>pip install persistq</code>
               </pre>
             </div>
 
@@ -119,7 +119,7 @@ export default function GettingStartedPage() {
 
             <div className="rounded-lg border border-border bg-surface p-4 mb-8 relative group">
               <button
-                onClick={() => copyCode("export MEMORYLAYER_API_KEY=ml_your_api_key_here", "env")}
+                onClick={() => copyCode("export PERSISTQ_API_KEY=pq_your_api_key_here", "env")}
                 className="absolute top-4 right-4 p-2 rounded hover:bg-background transition-colors"
               >
                 {copiedSection === "env" ? (
@@ -129,7 +129,7 @@ export default function GettingStartedPage() {
                 )}
               </button>
               <pre className="text-sm overflow-x-auto">
-                <code>export MEMORYLAYER_API_KEY=ml_your_api_key_here</code>
+                <code>export PERSISTQ_API_KEY=pq_your_api_key_here</code>
               </pre>
             </div>
 
@@ -140,12 +140,12 @@ export default function GettingStartedPage() {
               <button
                 onClick={() =>
                   copyCode(
-                    `import { MemoryLayer } from '@memorylayer/sdk';
+                    `import { PersistQ } from '@persistq/sdk';
 
-const ml = new MemoryLayer(process.env.MEMORYLAYER_API_KEY);
+const pq = new PersistQ(process.env.PERSISTQ_API_KEY);
 
 // Store a memory
-const memory = await ml.memories.create({
+const memory = await pq.memories.create({
   content: 'User prefers dark mode and compact layouts',
   group: 'preferences',
   tags: ['ui', 'settings']
@@ -164,12 +164,12 @@ console.log('Memory stored:', memory.id);`,
                 )}
               </button>
               <pre className="text-sm overflow-x-auto">
-                <code>{`import { MemoryLayer } from '@memorylayer/sdk';
+                <code>{`import { PersistQ } from '@persistq/sdk';
 
-const ml = new MemoryLayer(process.env.MEMORYLAYER_API_KEY);
+const pq = new PersistQ(process.env.PERSISTQ_API_KEY);
 
 // Store a memory
-const memory = await ml.memories.create({
+const memory = await pq.memories.create({
   content: 'User prefers dark mode and compact layouts',
   group: 'preferences',
   tags: ['ui', 'settings']
@@ -187,12 +187,12 @@ console.log('Memory stored:', memory.id);`}</code>
                 onClick={() =>
                   copyCode(
                     `// Get all memories in a group
-const preferences = await ml.memories.list({
+const preferences = await pq.memories.list({
   group: 'preferences'
 });
 
 // Semantic search
-const results = await ml.memories.search({
+const results = await pq.memories.search({
   query: 'What are the user UI preferences?',
   limit: 5
 });`,
@@ -209,12 +209,12 @@ const results = await ml.memories.search({
               </button>
               <pre className="text-sm overflow-x-auto">
                 <code>{`// Get all memories in a group
-const preferences = await ml.memories.list({
+const preferences = await pq.memories.list({
   group: 'preferences'
 });
 
 // Semantic search
-const results = await ml.memories.search({
+const results = await pq.memories.search({
   query: 'What are the user UI preferences?',
   limit: 5
 });`}</code>

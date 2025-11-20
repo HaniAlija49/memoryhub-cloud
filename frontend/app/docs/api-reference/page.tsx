@@ -14,7 +14,7 @@ export default function APIReferencePage() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center">
               <Database className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-semibold">Memory Layer</span>
+            <span className="text-xl font-semibold">PersistQ</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/docs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
@@ -101,13 +101,13 @@ export default function APIReferencePage() {
             <article className="space-y-12">
               <div>
                 <h1 className="text-4xl font-bold mb-4">API Reference</h1>
-                <p className="text-xl text-muted-foreground">Complete reference for the Memory Layer REST API</p>
+                <p className="text-xl text-muted-foreground">Complete reference for the PersistQ REST API</p>
               </div>
 
               {/* Base URL */}
               <div className="p-6 rounded-lg border border-border bg-surface">
                 <h3 className="font-semibold mb-2">Base URL</h3>
-                <code className="text-accent-cyan">https://api.memorylayer.dev/v1</code>
+                <code className="text-accent-cyan">https://api.persistq.dev/v1</code>
               </div>
 
               {/* Create Memory */}
@@ -158,7 +158,7 @@ export default function APIReferencePage() {
                   <h3 className="font-semibold mb-3">Example Request</h3>
                   <div className="rounded-lg border border-border bg-surface p-4">
                     <pre className="text-sm overflow-x-auto">
-                      <code>{`curl -X POST https://api.memorylayer.dev/v1/memories \\
+                      <code>{`curl -X POST https://api.persistq.dev/v1/memories \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{

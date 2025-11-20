@@ -14,7 +14,7 @@ export default function DocsPage() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center">
               <Database className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-semibold">Memory Layer</span>
+            <span className="text-xl font-semibold">PersistQ</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
@@ -54,7 +54,7 @@ export default function DocsPage() {
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <h1 className="text-5xl md:text-6xl font-bold">Documentation</h1>
           <p className="text-xl text-muted-foreground">
-            Everything you need to integrate Memory Layer into your AI applications
+            Everything you need to integrate PersistQ into your AI applications
           </p>
         </div>
       </section>

@@ -67,7 +67,7 @@ export default function ApiKeysPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-foreground">API Keys</h1>
-            <p className="text-sm text-muted-foreground mt-1">Manage your API key for Memory Layer integration</p>
+            <p className="text-sm text-muted-foreground mt-1">Manage your API key for PersistQ integration</p>
           </div>
           {api.hasApiKey ? (
             <Button
@@ -201,7 +201,7 @@ function ApiKeyUsageGuide() {
       <div>
         <h2 className="text-xl font-semibold text-foreground mb-4">Using Your API Key</h2>
         <p className="text-sm text-muted-foreground mb-6">
-          Use your API key to authenticate requests to the Memory Layer API. Include it in the Authorization header of your requests.
+          Use your API key to authenticate requests to the PersistQ API. Include it in the Authorization header of your requests.
         </p>
       </div>
 

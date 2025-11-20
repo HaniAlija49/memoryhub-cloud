@@ -12,11 +12,11 @@ export default function SignUpPage() {
               <Database className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-[#00E0FF] to-[#8B5CF6] bg-clip-text text-transparent">
-              Memory Layer
+              PersistQ
             </span>
           </Link>
           <h1 className="text-2xl font-bold text-white mb-2">Create your account</h1>
-          <p className="text-gray-400">Get started with Memory Layer today</p>
+          <p className="text-gray-400">Get started with PersistQ today</p>
         </div>
 
         <div className="flex justify-center">

@@ -14,7 +14,7 @@ export default function PricingPage() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center">
               <Database className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-semibold">Memory Layer</span>
+            <span className="text-xl font-semibold">PersistQ</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
@@ -319,7 +319,7 @@ export default function PricingPage() {
         <div className="max-w-4xl mx-auto text-center space-y-6 p-12 rounded-2xl border border-border bg-gradient-to-br from-accent-cyan/5 to-accent-purple/5">
           <h2 className="text-3xl md:text-4xl font-bold">Ready to get started?</h2>
           <p className="text-lg text-muted-foreground">
-            Start building with Memory Layer today. No credit card required.
+            Start building with PersistQ today. No credit card required.
           </p>
           <Link href="/signup">
             <Button size="lg" className="bg-accent-cyan hover:bg-accent-cyan/90 text-black font-medium">

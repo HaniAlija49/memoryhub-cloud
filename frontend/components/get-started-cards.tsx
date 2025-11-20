@@ -16,13 +16,13 @@ const cards = [
   },
   {
     title: "Integrate with your AI",
-    description: "Use the Memory Layer SDK to connect AI agents like GPT, Claude, and more",
+    description: "Use the PersistQ SDK to connect AI agents like GPT, Claude, and more",
     icon: Code2,
     action: "Get SDK",
   },
   {
     title: "View API documentation",
-    description: "Learn how to use the Memory Layer API to manage agent memories",
+    description: "Learn how to use the PersistQ API to manage agent memories",
     icon: Cpu,
     action: "Go to docs",
   },

@@ -17,9 +17,9 @@ const getMcpPrompt = (apiKey?: string | null, apiUrl?: string) => {
   const key = apiKey || 'YOUR_API_KEY'
   const baseUrl = apiUrl || 'http://localhost:3000'
 
-  return `# Memory Layer MCP Integration
+  return `# PersistQ MCP Integration
 
-You now have access to the Memory Layer API for persistent long-term memory storage.
+You now have access to the PersistQ API for persistent long-term memory storage.
 
 ## API Endpoint
 ${baseUrl}
@@ -122,7 +122,7 @@ export function McpPromptCard({ apiKey, apiUrl }: McpPromptCardProps = {}) {
           <div>
             <h2 className="text-base font-medium text-foreground">Claude MCP Integration</h2>
             <p className="text-sm text-muted-foreground mt-1">
-              Copy the prompt to give Claude access to Memory Layer API
+              Copy the prompt to give Claude access to PersistQ API
             </p>
           </div>
         </div>
@@ -159,7 +159,7 @@ export function McpPromptCard({ apiKey, apiUrl }: McpPromptCardProps = {}) {
               <DialogHeader>
                 <DialogTitle className="text-foreground">Claude MCP Integration Prompt</DialogTitle>
                 <DialogDescription className="text-muted-foreground">
-                  Copy this prompt to give Claude access to the Memory Layer API for persistent memory storage.
+                  Copy this prompt to give Claude access to the PersistQ API for persistent memory storage.
                 </DialogDescription>
               </DialogHeader>
 

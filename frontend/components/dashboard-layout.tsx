@@ -59,7 +59,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <div className="flex h-7 w-7 items-center justify-center rounded-md bg-accent-glow">
               <Brain className="h-4 w-4 text-accent-cyan" />
             </div>
-            <span className="text-base font-semibold text-foreground">Memory Layer</span>
+            <span className="text-base font-semibold text-foreground">PersistQ</span>
             <span className="ml-auto rounded bg-accent-glow px-1.5 py-0.5 text-xs font-medium text-accent-cyan">
               FREE
             </span>
@@ -116,7 +116,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent-glow">
             <Brain className="h-5 w-5 text-accent-cyan" />
           </div>
-          <span className="text-lg font-semibold text-foreground">Memory Layer</span>
+          <span className="text-lg font-semibold text-foreground">PersistQ</span>
         </div>
         <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -131,7 +131,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent-glow">
                 <Brain className="h-5 w-5 text-accent-cyan" />
               </div>
-              <span className="text-lg font-semibold text-foreground">Memory Layer</span>
+              <span className="text-lg font-semibold text-foreground">PersistQ</span>
             </div>
             <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)}>
               <X className="h-5 w-5" />

@@ -12,7 +12,7 @@ export default function LoginPage() {
               <Database className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-[#00E0FF] to-[#8B5CF6] bg-clip-text text-transparent">
-              Memory Layer
+              PersistQ
             </span>
           </Link>
           <h1 className="text-2xl font-bold text-white mb-2">Welcome back</h1>
