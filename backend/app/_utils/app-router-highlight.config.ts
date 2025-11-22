@@ -114,13 +114,9 @@ export function withAppRouterHighlight(
 
 // Helper to log errors with context
 export function logError(error: Error, context?: Record<string, any>) {
-  H.consumeError(error, undefined, context)
-}
-
-// Helper to add custom attributes to current span
-export function addSpanAttributes(attributes: Record<string, any>) {
-  // This will add attributes to the current active span
-  Object.entries(attributes).forEach(([key, value]) => {
-    H.recordMetric(key, value)
-  })
+  H.consumeError(error)
+  // Log context separately if provided
+  if (context) {
+    console.error('Error context:', context)
+  }
 }

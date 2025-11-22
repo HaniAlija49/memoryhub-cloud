@@ -6,7 +6,7 @@
  */
 
 import { PrismaClient } from "@prisma/client";
-import { getPlan } from "../../config/plans";
+import { getPlan } from "@/config/plans";
 
 const prisma = new PrismaClient();
 

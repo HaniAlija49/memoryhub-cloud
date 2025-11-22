@@ -19,9 +19,20 @@
       "Bash(git push:*)",
       "Bash(npm install:*)",
       "Bash(curl:*)",
-      "Bash(npm i:*)"
+      "Bash(npm i:*)",
+      "WebSearch",
+      "WebFetch(domain:dodopayments.com)",
+      "WebFetch(domain:marketplace.visualstudio.com)",
+      "Bash(cat:*)",
+      "WebFetch(domain:docs.dodopayments.com)",
+      "Bash(npx prisma migrate dev:*)",
+      "Bash(npx prisma db pull:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enabledMcpjsonServers": [
+    "dodopayments"
+  ]
 }

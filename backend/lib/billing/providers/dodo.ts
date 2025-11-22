@@ -6,7 +6,7 @@
  */
 
 import { Webhook } from "standardwebhooks";
-import { getPlanIdFromProductId, getProviderProductId } from "../../config/plans";
+import { getPlanIdFromProductId, getProviderProductId } from "../../../config/plans";
 import type {
   BillingEvent,
   CheckoutSession,
