@@ -319,10 +319,10 @@ export class DodoProvider implements IBillingProvider {
         return {
           type: "subscription.created",
           provider: "dodo",
-          customerId: dodoEvent.data.customer_id,
-          subscriptionId: dodoEvent.data.id,
+          customerId: dodoEvent.data.customer?.customer_id || dodoEvent.data.customer_id,
+          subscriptionId: dodoEvent.data.subscription_id || dodoEvent.data.id,
           data: this.normalizeSubscriptionData(dodoEvent.data),
-          timestamp: new Date(dodoEvent.created || Date.now()),
+          timestamp: new Date(dodoEvent.timestamp || dodoEvent.created || Date.now()),
           rawEvent: dodoEvent,
         };
 
@@ -331,10 +331,10 @@ export class DodoProvider implements IBillingProvider {
         return {
           type: "subscription.updated",
           provider: "dodo",
-          customerId: dodoEvent.data.customer_id,
-          subscriptionId: dodoEvent.data.id,
+          customerId: dodoEvent.data.customer?.customer_id || dodoEvent.data.customer_id,
+          subscriptionId: dodoEvent.data.subscription_id || dodoEvent.data.id,
           data: this.normalizeSubscriptionData(dodoEvent.data),
-          timestamp: new Date(dodoEvent.created || Date.now()),
+          timestamp: new Date(dodoEvent.timestamp || dodoEvent.created || Date.now()),
           rawEvent: dodoEvent,
         };
 
@@ -343,10 +343,10 @@ export class DodoProvider implements IBillingProvider {
         return {
           type: "subscription.canceled",
           provider: "dodo",
-          customerId: dodoEvent.data.customer_id,
-          subscriptionId: dodoEvent.data.id,
+          customerId: dodoEvent.data.customer?.customer_id || dodoEvent.data.customer_id,
+          subscriptionId: dodoEvent.data.subscription_id || dodoEvent.data.id,
           data: this.normalizeSubscriptionData(dodoEvent.data),
-          timestamp: new Date(dodoEvent.created || Date.now()),
+          timestamp: new Date(dodoEvent.timestamp || dodoEvent.created || Date.now()),
           rawEvent: dodoEvent,
         };
 
@@ -355,10 +355,10 @@ export class DodoProvider implements IBillingProvider {
         return {
           type: "subscription.paused",
           provider: "dodo",
-          customerId: dodoEvent.data.customer_id,
-          subscriptionId: dodoEvent.data.id,
+          customerId: dodoEvent.data.customer?.customer_id || dodoEvent.data.customer_id,
+          subscriptionId: dodoEvent.data.subscription_id || dodoEvent.data.id,
           data: this.normalizeSubscriptionData(dodoEvent.data),
-          timestamp: new Date(dodoEvent.created || Date.now()),
+          timestamp: new Date(dodoEvent.timestamp || dodoEvent.created || Date.now()),
           rawEvent: dodoEvent,
         };
 
@@ -392,17 +392,25 @@ export class DodoProvider implements IBillingProvider {
   private normalizeSubscriptionData(dodoSub: any): SubscriptionData {
     const planInfo = getPlanIdFromProductId("dodo", dodoSub.product_id);
 
+    // Parse dates - they could be ISO strings or timestamps
+    const parseDate = (dateValue: any): Date => {
+      if (!dateValue) return new Date();
+      if (typeof dateValue === 'string') return new Date(dateValue);
+      if (typeof dateValue === 'number') return new Date(dateValue * 1000);
+      return new Date();
+    };
+
     return {
-      id: dodoSub.id,
-      customerId: dodoSub.customer_id,
+      id: dodoSub.subscription_id || dodoSub.id,
+      customerId: dodoSub.customer?.customer_id || dodoSub.customer_id,
       planId: planInfo?.planId || "free",
       status: this.normalizeDodoStatus(dodoSub.status),
-      currentPeriodStart: new Date(dodoSub.current_period_start * 1000),
-      currentPeriodEnd: new Date(dodoSub.current_period_end * 1000),
-      cancelAtPeriodEnd: dodoSub.cancel_at_period_end || false,
+      currentPeriodStart: parseDate(dodoSub.previous_billing_date || dodoSub.current_period_start),
+      currentPeriodEnd: parseDate(dodoSub.next_billing_date || dodoSub.current_period_end),
+      cancelAtPeriodEnd: dodoSub.cancel_at_next_billing_date || dodoSub.cancel_at_period_end || false,
       interval: (planInfo?.interval || "monthly") as "monthly" | "yearly",
-      amount: dodoSub.amount || 0,
-      currency: dodoSub.currency || "usd",
+      amount: dodoSub.recurring_pre_tax_amount || dodoSub.amount || 0,
+      currency: (dodoSub.currency || "usd").toLowerCase(),
     };
   }
 
