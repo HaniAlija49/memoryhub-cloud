@@ -22,9 +22,12 @@ type EnvVars = RequiredEnvVars & OptionalEnvVars
 export function validateEnv(): EnvVars {
   const errors: string[] = []
 
+  // Skip validation during build phase
+  const isBuildPhase = process.env.NEXT_PHASE === 'phase-production-build'
+
   // Required variables
   const MEMORYHUB_DATABASE_URL = process.env.MEMORYHUB_DATABASE_URL
-  if (!MEMORYHUB_DATABASE_URL) {
+  if (!MEMORYHUB_DATABASE_URL && !isBuildPhase) {
     errors.push('MEMORYHUB_DATABASE_URL is required')
   }
 
@@ -63,16 +66,18 @@ export function validateEnv(): EnvVars {
     }
   }
 
-  if (errors.length > 0) {
+  if (errors.length > 0 && !isBuildPhase) {
     console.error('❌ Environment validation failed:')
     errors.forEach(error => console.error(`   - ${error}`))
     process.exit(1)
   }
 
-  console.log('✅ Environment validation passed')
+  if (!isBuildPhase) {
+    console.log('✅ Environment validation passed')
+  }
 
   return {
-    MEMORYHUB_DATABASE_URL: MEMORYHUB_DATABASE_URL!,
+    MEMORYHUB_DATABASE_URL: MEMORYHUB_DATABASE_URL || '',
     NODE_ENV,
     UPSTASH_REDIS_REST_URL,
     UPSTASH_REDIS_REST_TOKEN,
