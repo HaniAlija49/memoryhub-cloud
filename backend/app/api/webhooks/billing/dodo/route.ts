@@ -13,6 +13,8 @@ import { env } from "@/lib/env";
 
 export async function POST(request: Request) {
   try {
+    console.log("[Webhook] Received Dodo webhook request");
+
     // Get webhook secret
     const webhookSecret = env.DODO_WEBHOOK_SECRET;
 
@@ -24,14 +26,23 @@ export async function POST(request: Request) {
       );
     }
 
+    console.log("[Webhook] Webhook secret is configured");
+
     // Get raw body for signature verification
     const rawBody = await request.text();
+    console.log("[Webhook] Received payload length:", rawBody.length);
 
     // Get webhook headers
     const headersList = await headers();
     const webhookId = headersList.get("webhook-id");
     const webhookSignature = headersList.get("webhook-signature");
     const webhookTimestamp = headersList.get("webhook-timestamp");
+
+    console.log("[Webhook] Headers:", {
+      webhookId,
+      hasSignature: !!webhookSignature,
+      webhookTimestamp,
+    });
 
     // Validate required headers
     if (!webhookId || !webhookSignature || !webhookTimestamp) {
@@ -54,6 +65,7 @@ export async function POST(request: Request) {
 
     let billingEvent;
     try {
+      console.log("[Webhook] Attempting to verify signature...");
       // Verify webhook signature and normalize event
       // Pass the headers object directly (Standard Webhooks spec)
       billingEvent = await provider.verifyWebhook(
@@ -61,11 +73,13 @@ export async function POST(request: Request) {
         whHeaders,
         webhookSecret
       );
+      console.log("[Webhook] Signature verified successfully");
     } catch (error) {
       console.error(
         "[Webhook] Signature verification failed:",
         error instanceof Error ? error.message : String(error)
       );
+      console.error("[Webhook] Error stack:", error instanceof Error ? error.stack : "");
       return NextResponse.json(
         { error: "Invalid webhook signature" },
         { status: 401 }
