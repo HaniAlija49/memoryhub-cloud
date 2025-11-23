@@ -258,24 +258,17 @@ export class DodoProvider implements IBillingProvider {
 
   async verifyWebhook(
     payload: string | Buffer,
-    signature: string,
+    headers: Record<string, string>,
     secret: string
   ): Promise<BillingEvent> {
     const webhook = new Webhook(secret);
 
-    // Extract webhook headers from signature (Standard Webhooks format)
-    // The signature parameter should contain all three headers separated by commas
-    const headers: Record<string, string> = {};
-
-    // For Dodo webhooks, we expect the signature to be passed as a string
-    // containing all three required headers
-    if (typeof signature === "string") {
-      headers["webhook-signature"] = signature;
-    }
-
     try {
-      // Verify the webhook signature
+      // Verify the webhook signature using Standard Webhooks library
+      // The library expects the raw payload and headers object
       const rawPayload = typeof payload === "string" ? payload : payload.toString();
+
+      // Verify signature - this will throw if invalid
       await webhook.verify(rawPayload, headers as any);
 
       // Parse the event

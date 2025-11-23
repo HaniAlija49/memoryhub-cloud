@@ -169,7 +169,7 @@ export interface IBillingProvider {
    */
   verifyWebhook(
     payload: string | Buffer,
-    signature: string,
+    headers: Record<string, string>,
     secret: string
   ): Promise<BillingEvent>;
 }

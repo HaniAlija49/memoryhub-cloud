@@ -55,10 +55,10 @@ export async function POST(request: Request) {
     let billingEvent;
     try {
       // Verify webhook signature and normalize event
-      // Pass the entire headers object as the signature parameter
+      // Pass the headers object directly (Standard Webhooks spec)
       billingEvent = await provider.verifyWebhook(
         rawBody,
-        JSON.stringify(whHeaders), // Serialize headers for verification
+        whHeaders,
         webhookSecret
       );
     } catch (error) {
