@@ -21,45 +21,59 @@ const getMcpPrompt = (apiKey?: string | null, apiUrl?: string) => {
 
 You now have access to the PersistQ API for persistent long-term memory storage.
 
-## Installation (Recommended)
+## Quick Setup (3 Steps)
 
-Install the official PersistQ MCP server package:
-
-\`\`\`bash
-npx persistq
-\`\`\`
-
-Or install globally:
+### Step 1: Install the PersistQ package
 
 \`\`\`bash
 npm install -g persistq
-persistq
 \`\`\`
 
-### Claude Code Configuration
+### Step 2: Add the MCP server to Claude Code
 
-Add to your Claude Code MCP configuration (~/.claude/mcp.json):
+\`\`\`bash
+claude mcp add --transport stdio --scope user persistq "npx -y persistq"
+\`\`\`
+
+### Step 3: Configure environment variables
+
+Edit your Claude configuration file at \`~/.claude.json\` (Mac/Linux) or \`C:\\Users\\YourUsername\\.claude.json\` (Windows).
+
+Find the \`mcpServers\` section and update the \`persistq\` entry to include the environment variables:
 
 \`\`\`json
-{
-  "mcpServers": {
-    "persistq": {
-      "command": "npx",
-      "args": ["-y", "persistq"],
-      "env": {
-        "PERSISTQ_URL": "${baseUrl}",
-        "PERSISTQ_API_KEY": "${key}"
-      }
+"mcpServers": {
+  "persistq": {
+    "type": "stdio",
+    "command": "npx -y persistq",
+    "args": [],
+    "env": {
+      "PERSISTQ_URL": "${baseUrl}",
+      "PERSISTQ_API_KEY": "${key}"
     }
   }
 }
 \`\`\`
 
-This will give you access to these MCP tools:
-- add_memory: Store new memories
-- search_memory: Semantic search across memories
-- list_memories: List memories by project/tag
-- get_memory_stats: View storage statistics
+**Important:** Restart Claude Code after making these changes.
+
+### Verify Installation
+
+After restarting, run:
+
+\`\`\`bash
+claude mcp list
+\`\`\`
+
+You should see \`persistq\` listed as ✓ Connected.
+
+## Available MCP Tools
+
+Once configured, you'll have access to these tools:
+- \`mcp__persistq__add_memory\`: Store new memories
+- \`mcp__persistq__search_memory\`: Semantic search across memories
+- \`mcp__persistq__list_memories\`: List memories by project/tag
+- \`mcp__persistq__get_memory_stats\`: View storage statistics
 
 ## Direct API Access (Alternative)
 
