@@ -415,7 +415,68 @@ export class DodoProvider implements IBillingProvider {
           rawEvent: dodoEvent,
         };
 
+      // Additional payment events (log but don't require action)
+      case "payment.processing":
+      case "payment.cancelled":
+        console.log(`[Dodo] Ignoring ${eventType} event - not actionable`);
+        return {
+          type: "payment.succeeded", // Map to succeeded for logging purposes
+          provider: "dodo",
+          customerId: dodoEvent.data.customer?.customer_id || dodoEvent.data.customer_id,
+          subscriptionId: dodoEvent.data.subscription_id || undefined,
+          data: this.normalizePaymentData(dodoEvent.data),
+          timestamp: new Date(dodoEvent.timestamp || dodoEvent.created || Date.now()),
+          rawEvent: dodoEvent,
+        };
+
+      // Refund events (log for now, can implement handlers later)
+      case "refund.succeeded":
+      case "refund.failed":
+        console.log(`[Dodo] Received ${eventType} - implement refund handling if needed`);
+        return {
+          type: "payment.refunded",
+          provider: "dodo",
+          customerId: dodoEvent.data.customer?.customer_id || dodoEvent.data.customer_id,
+          subscriptionId: dodoEvent.data.subscription_id || undefined,
+          data: this.normalizePaymentData(dodoEvent.data),
+          timestamp: new Date(dodoEvent.timestamp || dodoEvent.created || Date.now()),
+          rawEvent: dodoEvent,
+        };
+
+      // Dispute events (log for monitoring, handle manually)
+      case "dispute.opened":
+      case "dispute.expired":
+      case "dispute.accepted":
+      case "dispute.cancelled":
+      case "dispute.challenged":
+      case "dispute.won":
+      case "dispute.lost":
+        console.warn(`[Dodo] Dispute event received: ${eventType} - manual review required`);
+        return {
+          type: "payment.failed", // Map to failed for alert purposes
+          provider: "dodo",
+          customerId: dodoEvent.data.customer?.customer_id || dodoEvent.data.customer_id,
+          subscriptionId: dodoEvent.data.subscription_id || undefined,
+          data: this.normalizePaymentData(dodoEvent.data),
+          timestamp: new Date(dodoEvent.timestamp || dodoEvent.created || Date.now()),
+          rawEvent: dodoEvent,
+        };
+
+      // License key events (not applicable for this use case)
+      case "license_key.created":
+        console.log(`[Dodo] Ignoring ${eventType} - not using license keys`);
+        return {
+          type: "payment.succeeded",
+          provider: "dodo",
+          customerId: dodoEvent.data.customer?.customer_id || dodoEvent.data.customer_id,
+          subscriptionId: undefined,
+          data: {} as any,
+          timestamp: new Date(dodoEvent.timestamp || dodoEvent.created || Date.now()),
+          rawEvent: dodoEvent,
+        };
+
       default:
+        console.warn(`[Dodo] Unknown event type: ${eventType} - ignoring`);
         throw new Error(`Unknown Dodo event type: ${eventType}`);
     }
   }
