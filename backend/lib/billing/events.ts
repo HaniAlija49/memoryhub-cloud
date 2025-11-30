@@ -33,28 +33,32 @@ export async function handleSubscriptionCreated(
   });
 
   // If not found by customer ID, try to find by metadata (for first-time subscribers)
-  if (!user && event.rawEvent?.metadata) {
-    const metadata = event.rawEvent.metadata;
-    const userId = metadata.userId || metadata.user_id;
-    const clerkUserId = metadata.clerkUserId || metadata.clerk_user_id;
+  if (!user) {
+    // Metadata is in different locations depending on the event
+    const metadata = event.rawEvent?.data?.metadata || event.rawEvent?.metadata;
 
-    console.log(`[Billing] Trying to find user by metadata:`, { userId, clerkUserId });
+    if (metadata) {
+      const userId = metadata.userId || metadata.user_id;
+      const clerkUserId = metadata.clerkUserId || metadata.clerk_user_id;
 
-    if (userId) {
-      user = await prisma.user.findUnique({
-        where: { id: userId },
-      });
-    } else if (clerkUserId) {
-      user = await prisma.user.findUnique({
-        where: { clerkUserId: clerkUserId },
-      });
+      console.log(`[Billing] Trying to find user by metadata:`, { userId, clerkUserId, metadata });
+
+      if (userId) {
+        user = await prisma.user.findUnique({
+          where: { id: userId },
+        });
+      } else if (clerkUserId) {
+        user = await prisma.user.findUnique({
+          where: { clerkUserId: clerkUserId },
+        });
+      }
     }
   }
 
   if (!user) {
     console.error(
       `[Billing] No user found for customer ${event.customerId}, subscription ${data.id}, metadata:`,
-      event.rawEvent?.metadata
+      event.rawEvent?.data?.metadata || event.rawEvent?.metadata
     );
     return;
   }
