@@ -71,11 +71,14 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check if user already has an active subscription
+    // Check if user already has an active PAID subscription
+    // Free tier users (planId === "free") should be allowed to upgrade
     if (
       user.subscriptionId &&
       user.subscriptionStatus === "active" &&
-      !user.cancelAtPeriodEnd
+      !user.cancelAtPeriodEnd &&
+      user.planId !== "free" &&
+      isPaidPlan(user.planId)
     ) {
       return NextResponse.json(
         {
@@ -90,7 +93,15 @@ export async function POST(request: Request) {
     const provider = getBillingProvider();
 
     // Determine success and cancel URLs
-    const appUrl = env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const appUrl = env.NEXT_PUBLIC_APP_URL;
+    if (!appUrl) {
+      console.error("[Billing] NEXT_PUBLIC_APP_URL is not configured");
+      return NextResponse.json(
+        { error: "Server configuration error: Missing app URL" },
+        { status: 500 }
+      );
+    }
+
     const successUrl = `${appUrl}/dashboard/billing?success=true&session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${appUrl}/pricing?canceled=true`;
 

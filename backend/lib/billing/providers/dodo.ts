@@ -37,8 +37,8 @@ class DodoAPIClient {
     this.apiKey = apiKey;
     this.baseUrl =
       mode === "live"
-        ? "https://api.dodopayments.com"
-        : "https://api.dodopayments.com/test";
+        ? "https://live.dodopayments.com"
+        : "https://test.dodopayments.com";
   }
 
   private async request<T>(
@@ -73,24 +73,39 @@ class DodoAPIClient {
     cancelUrl: string;
     metadata?: Record<string, string>;
   }): Promise<{ url: string; sessionId: string }> {
-    const response = await this.request<{ checkout_url: string; id: string }>(
-      "/v1/checkout/sessions",
+    const requestBody: any = {
+      product_cart: [
+        {
+          product_id: params.productId,
+          quantity: 1,
+        },
+      ],
+      return_url: params.successUrl,
+    };
+
+    // Add customer info if provided
+    if (params.customerEmail) {
+      requestBody.customer = {
+        email: params.customerEmail,
+      };
+    }
+
+    // Add metadata if provided
+    if (params.metadata) {
+      requestBody.metadata = params.metadata;
+    }
+
+    const response = await this.request<{ checkout_url: string; session_id: string }>(
+      "/checkouts",
       {
         method: "POST",
-        body: JSON.stringify({
-          product_id: params.productId,
-          customer_id: params.customerId,
-          customer_email: params.customerEmail,
-          success_url: params.successUrl,
-          cancel_url: params.cancelUrl,
-          metadata: params.metadata,
-        }),
+        body: JSON.stringify(requestBody),
       }
     );
 
     return {
       url: response.checkout_url,
-      sessionId: response.id,
+      sessionId: response.session_id,
     };
   }
 
