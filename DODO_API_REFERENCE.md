@@ -132,9 +132,11 @@ POST /customers/{customer_id}/customer-portal/session
 **Response:**
 ```json
 {
-  "url": "https://portal.dodopayments.com/xxx"
+  "link": "https://portal.dodopayments.com/xxx"
 }
 ```
+
+**Note:** Response field is `link`, not `url`.
 
 ---
 

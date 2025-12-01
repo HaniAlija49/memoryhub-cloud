@@ -113,7 +113,7 @@ class DodoAPIClient {
     customerId: string;
     returnUrl: string;
   }): Promise<{ url: string }> {
-    const response = await this.request<{ url: string }>(
+    const response = await this.request<{ link: string }>(
       `/customers/${params.customerId}/customer-portal/session`,
       {
         method: "POST",
@@ -123,7 +123,8 @@ class DodoAPIClient {
       }
     );
 
-    return { url: response.url };
+    // Dodo returns "link" not "url"
+    return { url: response.link };
   }
 
   async getSubscription(
