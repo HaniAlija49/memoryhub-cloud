@@ -7,10 +7,10 @@
  */
 
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
 import { PrismaClient } from "@prisma/client";
 import { getBillingProvider, isBillingConfigured } from "@/lib/billing/factory";
 import { getPlan, isValidPlanId } from "@/config/plans";
+import { authenticateRequest } from "@/lib/clerk-auth-helper";
 
 const prisma = new PrismaClient();
 
@@ -28,8 +28,8 @@ export async function GET(request: Request) {
       );
     }
 
-    // Authenticate user
-    const { userId: clerkUserId } = await auth();
+    // Authenticate user (supports both cookies and Bearer token)
+    const { userId: clerkUserId } = await authenticateRequest(request);
 
     if (!clerkUserId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -131,10 +131,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // Authenticate user
-    const { userId: clerkUserId } = await auth();
+    // Authenticate user (supports both cookies and Bearer token)
+    const { userId: clerkUserId } = await authenticateRequest(request);
 
     if (!clerkUserId) {
+      console.error("[Billing] Authentication failed - no userId from Clerk");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -226,8 +227,8 @@ export async function DELETE(request: Request) {
       );
     }
 
-    // Authenticate user
-    const { userId: clerkUserId } = await auth();
+    // Authenticate user (supports both cookies and Bearer token)
+    const { userId: clerkUserId } = await authenticateRequest(request);
 
     if (!clerkUserId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

@@ -6,11 +6,11 @@
  */
 
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
 import { PrismaClient } from "@prisma/client";
 import { getBillingProvider, isBillingConfigured } from "@/lib/billing/factory";
 import { isValidPlanId, isPaidPlan } from "@/config/plans";
 import { env } from "@/lib/env";
+import { authenticateRequest } from "@/lib/clerk-auth-helper";
 
 const prisma = new PrismaClient();
 
@@ -24,8 +24,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Authenticate user
-    const { userId: clerkUserId } = await auth();
+    // Authenticate user (supports both cookies and Bearer token)
+    const { userId: clerkUserId } = await authenticateRequest(request);
 
     if (!clerkUserId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
