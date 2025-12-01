@@ -63,10 +63,21 @@ export async function GET(request: Request) {
     const returnUrl = `${appUrl}/dashboard/billing`;
 
     // Create portal session
+    console.log(`[Billing] Creating portal session for customer ${user.billingCustomerId}`);
+    console.log(`[Billing] Return URL: ${returnUrl}`);
+
     const portalSession = await provider.createPortalSession({
       customerId: user.billingCustomerId,
       returnUrl,
     });
+
+    console.log(`[Billing] Portal session response:`, portalSession);
+
+    if (!portalSession?.url) {
+      throw new Error(`Portal session URL is missing or invalid: ${JSON.stringify(portalSession)}`);
+    }
+
+    console.log(`[Billing] Redirecting to portal: ${portalSession.url}`);
 
     // Redirect to portal
     return NextResponse.redirect(portalSession.url);
