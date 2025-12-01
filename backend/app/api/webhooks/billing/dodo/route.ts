@@ -43,6 +43,8 @@ export async function POST(request: Request) {
     }
 
     console.log("[Webhook] Webhook secret is configured");
+    console.log("[Webhook] Secret length:", webhookSecret.length);
+    console.log("[Webhook] Secret prefix:", webhookSecret.substring(0, 10) + "...");
 
     // Get raw body for signature verification
     const rawBody = await request.text();
@@ -112,6 +114,12 @@ export async function POST(request: Request) {
         error instanceof Error ? error.message : String(error)
       );
       console.error("[Webhook] Error stack:", error instanceof Error ? error.stack : "");
+      console.error("[Webhook] Raw body length:", rawBody.length);
+      console.error("[Webhook] Headers:", JSON.stringify(whHeaders));
+
+      // For debugging: log first/last 100 chars of body
+      console.error("[Webhook] Body preview:", rawBody.substring(0, 100), "...", rawBody.substring(rawBody.length - 100));
+
       return NextResponse.json(
         { error: "Invalid webhook signature" },
         { status: 401 }
