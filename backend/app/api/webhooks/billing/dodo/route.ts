@@ -10,6 +10,22 @@ import { headers } from "next/headers";
 import { getBillingProvider } from "@/lib/billing/factory";
 import { handleBillingEvent } from "@/lib/billing/events";
 import { env } from "@/lib/env";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+// Track processed webhook IDs to prevent duplicate processing
+const processedWebhooks = new Map<string, number>();
+
+// Clean up old webhook IDs (older than 24 hours)
+setInterval(() => {
+  const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
+  for (const [id, timestamp] of processedWebhooks.entries()) {
+    if (timestamp < oneDayAgo) {
+      processedWebhooks.delete(id);
+    }
+  }
+}, 60 * 60 * 1000); // Run every hour
 
 export async function POST(request: Request) {
   try {
@@ -51,6 +67,12 @@ export async function POST(request: Request) {
         { error: "Missing webhook headers" },
         { status: 400 }
       );
+    }
+
+    // Check if we've already processed this webhook (idempotency)
+    if (processedWebhooks.has(webhookId)) {
+      console.log(`[Webhook] Already processed webhook ${webhookId}, returning success`);
+      return NextResponse.json({ received: true, note: "Already processed" });
     }
 
     // Construct Standard Webhooks compatible headers object
@@ -101,6 +123,9 @@ export async function POST(request: Request) {
       `[Webhook] Received ${billingEvent.type} event from ${billingEvent.provider}`
     );
 
+    // Mark webhook as processed
+    processedWebhooks.set(webhookId, Date.now());
+
     // Handle the event using provider-agnostic business logic
     try {
       await handleBillingEvent(billingEvent);
@@ -111,6 +136,7 @@ export async function POST(request: Request) {
         "[Webhook] Error processing event:",
         error instanceof Error ? error.message : String(error)
       );
+      console.error("[Webhook] Event processing stack:", error instanceof Error ? error.stack : "");
 
       // For critical errors, you might want to send alerts here
       // TODO: Send alert to monitoring system (e.g., Highlight.io)

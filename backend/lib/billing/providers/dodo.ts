@@ -150,13 +150,22 @@ class DodoAPIClient {
     immediate: boolean = false
   ): Promise<any> {
     // Dodo uses PATCH with cancel_at_next_billing_date parameter
-    // Setting it to true cancels at period end, false would cancel immediately
+    // When true: cancel at period end (graceful)
+    // When false with status=cancelled: cancel immediately
+    const body: any = {};
+
+    if (immediate) {
+      // Immediate cancellation: set status to cancelled
+      body.status = "cancelled";
+      body.cancel_at_next_billing_date = false;
+    } else {
+      // Cancel at period end: set cancel_at_next_billing_date flag
+      body.cancel_at_next_billing_date = true;
+    }
+
     return this.request(`/subscriptions/${subscriptionId}`, {
       method: "PATCH",
-      body: JSON.stringify({
-        cancel_at_next_billing_date: !immediate, // If immediate=false, cancel at period end
-        status: immediate ? "cancelled" : undefined, // If immediate, set status to cancelled
-      }),
+      body: JSON.stringify(body),
     });
   }
 
@@ -164,13 +173,11 @@ class DodoAPIClient {
     subscriptionId: string,
     newProductId: string
   ): Promise<any> {
-    // Use the dedicated change plan endpoint
-    return this.request(`/subscriptions/change-plan`, {
-      method: "POST",
+    // Use PATCH on the subscription endpoint to update the product
+    return this.request(`/subscriptions/${subscriptionId}`, {
+      method: "PATCH",
       body: JSON.stringify({
-        subscription_id: subscriptionId,
         product_id: newProductId,
-        change_plan_type: "prorated_immediately", // Charge prorated amount
       }),
     });
   }

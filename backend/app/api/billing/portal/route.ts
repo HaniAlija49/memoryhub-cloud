@@ -50,8 +50,16 @@ export async function GET(request: Request) {
     // Get billing provider
     const provider = getBillingProvider();
 
-    // Determine return URL
-    const appUrl = env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    // Determine return URL - use request headers if env var not set
+    let appUrl = env.NEXT_PUBLIC_APP_URL;
+
+    if (!appUrl) {
+      // Fallback to request origin in production
+      const url = new URL(request.url);
+      appUrl = `${url.protocol}//${url.host}`;
+      console.log(`[Billing] NEXT_PUBLIC_APP_URL not set, using request origin: ${appUrl}`);
+    }
+
     const returnUrl = `${appUrl}/dashboard/billing`;
 
     // Create portal session

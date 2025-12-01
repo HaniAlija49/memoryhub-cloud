@@ -137,6 +137,11 @@ export async function handleSubscriptionCanceled(
   console.log(
     `[Billing] Subscription canceled: ${data.id} for customer ${event.customerId}`
   );
+  console.log(`[Billing] Cancellation details:`, {
+    cancelAtPeriodEnd: data.cancelAtPeriodEnd,
+    status: data.status,
+    currentPeriodEnd: data.currentPeriodEnd,
+  });
 
   const user = await prisma.user.findUnique({
     where: { billingCustomerId: event.customerId },
@@ -149,20 +154,24 @@ export async function handleSubscriptionCanceled(
     return;
   }
 
-  // If immediate cancellation, downgrade to free plan
+  // If immediate cancellation (status=canceled and not cancelAtPeriodEnd), downgrade to free plan
   // If cancel at period end, keep plan until period ends
-  if (!data.cancelAtPeriodEnd) {
+  const isImmediateCancellation = data.status === "canceled" && !data.cancelAtPeriodEnd;
+
+  if (isImmediateCancellation) {
     await prisma.user.update({
       where: { id: user.id },
       data: {
         planId: "free",
         subscriptionStatus: "canceled",
         cancelAtPeriodEnd: false,
+        subscriptionId: null,
       },
     });
 
-    console.log(`[Billing] User ${user.id} downgraded to free plan`);
+    console.log(`[Billing] User ${user.id} immediately downgraded to free plan`);
   } else {
+    // Scheduled cancellation - keep current plan until period end
     await prisma.user.update({
       where: { id: user.id },
       data: {
@@ -172,7 +181,7 @@ export async function handleSubscriptionCanceled(
     });
 
     console.log(
-      `[Billing] User ${user.id} will be downgraded at period end: ${data.currentPeriodEnd}`
+      `[Billing] User ${user.id} subscription will end at period end: ${data.currentPeriodEnd}`
     );
   }
 }
