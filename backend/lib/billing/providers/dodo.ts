@@ -296,8 +296,16 @@ export class DodoProvider implements IBillingProvider {
       // The library expects the raw payload and headers object
       const rawPayload = typeof payload === "string" ? payload : payload.toString();
 
+      console.log("[Dodo] Verifying webhook with:");
+      console.log("[Dodo]   - Payload length:", rawPayload.length);
+      console.log("[Dodo]   - Headers:", JSON.stringify(headers));
+      console.log("[Dodo]   - Secret length:", secret.length);
+      console.log("[Dodo]   - Secret prefix:", secret.substring(0, 10) + "...");
+
       // Verify signature - this will throw if invalid
       await webhook.verify(rawPayload, headers as any);
+
+      console.log("[Dodo] Signature verification successful!");
 
       // Parse the event
       const event = JSON.parse(rawPayload);
@@ -305,6 +313,12 @@ export class DodoProvider implements IBillingProvider {
       // Normalize the event to our standard format
       return this.normalizeDodoEvent(event);
     } catch (error) {
+      console.error("[Dodo] Verification error details:", {
+        errorMessage: error instanceof Error ? error.message : String(error),
+        errorStack: error instanceof Error ? error.stack : undefined,
+        payloadPreview: typeof payload === "string" ? payload.substring(0, 200) : "Buffer",
+        headersReceived: headers,
+      });
       throw new Error(
         `Webhook verification failed: ${error instanceof Error ? error.message : String(error)}`
       );

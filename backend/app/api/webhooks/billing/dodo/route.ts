@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     const rawBody = await request.text();
     console.log("[Webhook] Received payload length:", rawBody.length);
 
-    // Get webhook headers
+    // Get webhook headers - Note: Next.js headers() returns lowercase keys
     const headersList = await headers();
     const webhookId = headersList.get("webhook-id");
     const webhookSignature = headersList.get("webhook-signature");
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
 
     console.log("[Webhook] Headers:", {
       webhookId,
-      hasSignature: !!webhookSignature,
+      webhookSignature: webhookSignature ? `${webhookSignature.substring(0, 20)}...` : null,
       webhookTimestamp,
     });
 
