@@ -189,6 +189,19 @@ export async function POST(request: Request) {
       interval
     );
 
+    // Update user in database immediately (don't wait for webhook)
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        planId: updatedSubscription.planId,
+        billingInterval: updatedSubscription.interval,
+        subscriptionStatus: updatedSubscription.status,
+        currentPeriodStart: updatedSubscription.currentPeriodStart,
+        currentPeriodEnd: updatedSubscription.currentPeriodEnd,
+        cancelAtPeriodEnd: updatedSubscription.cancelAtPeriodEnd,
+      },
+    });
+
     // Return updated subscription
     return NextResponse.json({
       status: "success",
@@ -263,6 +276,23 @@ export async function DELETE(request: Request) {
       user.subscriptionId,
       immediate
     );
+
+    // Update user in database immediately (don't wait for webhook)
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        subscriptionStatus: canceledSubscription.status,
+        cancelAtPeriodEnd: canceledSubscription.cancelAtPeriodEnd,
+        currentPeriodEnd: canceledSubscription.currentPeriodEnd,
+        // If immediate cancellation, also update plan to free
+        ...(immediate && {
+          planId: 'free',
+          billingInterval: null,
+          subscriptionId: null,
+          billingCustomerId: null,
+        }),
+      },
+    });
 
     // Return canceled subscription
     return NextResponse.json({
