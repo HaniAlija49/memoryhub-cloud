@@ -196,8 +196,8 @@ export async function POST(request: Request) {
         planId: updatedSubscription.planId,
         billingInterval: updatedSubscription.interval,
         subscriptionStatus: updatedSubscription.status,
-        currentPeriodEnd: updatedSubscription.currentPeriodEnd,
-        cancelAtPeriodEnd: updatedSubscription.cancelAtPeriodEnd,
+        currentPeriodEnd: updatedSubscription.currentPeriodEnd || null,
+        cancelAtPeriodEnd: updatedSubscription.cancelAtPeriodEnd || false,
       },
     });
 
@@ -281,8 +281,8 @@ export async function DELETE(request: Request) {
       where: { id: user.id },
       data: {
         subscriptionStatus: canceledSubscription.status,
-        cancelAtPeriodEnd: canceledSubscription.cancelAtPeriodEnd,
-        currentPeriodEnd: canceledSubscription.currentPeriodEnd,
+        cancelAtPeriodEnd: canceledSubscription.cancelAtPeriodEnd || false,
+        currentPeriodEnd: canceledSubscription.currentPeriodEnd || null,
         // If immediate cancellation, also update plan to free
         ...(immediate && {
           planId: 'free',

@@ -51,8 +51,8 @@ export interface SubscriptionData {
   customerId: string;
   planId: string; // Our internal plan ID (free, starter, pro, premium)
   status: SubscriptionStatus;
-  currentPeriodStart: Date;
-  currentPeriodEnd: Date;
+  currentPeriodStart: Date | null;
+  currentPeriodEnd: Date | null;
   cancelAtPeriodEnd: boolean;
   interval: BillingInterval;
   amount: number; // in cents

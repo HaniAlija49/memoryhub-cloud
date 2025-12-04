@@ -511,12 +511,21 @@ export class DodoProvider implements IBillingProvider {
   private normalizeSubscriptionData(dodoSub: any): SubscriptionData {
     const planInfo = getPlanIdFromProductId("dodo", dodoSub.product_id);
 
-    // Parse dates - they could be ISO strings or timestamps
-    const parseDate = (dateValue: any): Date => {
-      if (!dateValue) return new Date();
-      if (typeof dateValue === 'string') return new Date(dateValue);
-      if (typeof dateValue === 'number') return new Date(dateValue * 1000);
-      return new Date();
+    // Parse dates - they could be ISO strings, timestamps, or null
+    const parseDate = (dateValue: any): Date | null => {
+      if (!dateValue) return null;
+
+      let date: Date;
+      if (typeof dateValue === 'string') {
+        date = new Date(dateValue);
+      } else if (typeof dateValue === 'number') {
+        date = new Date(dateValue * 1000);
+      } else {
+        return null;
+      }
+
+      // Check if date is valid
+      return isNaN(date.getTime()) ? null : date;
     };
 
     // Extract subscription ID - it might be subscription_id, id, or we generate a fallback
