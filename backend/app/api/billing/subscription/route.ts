@@ -196,7 +196,6 @@ export async function POST(request: Request) {
         planId: updatedSubscription.planId,
         billingInterval: updatedSubscription.interval,
         subscriptionStatus: updatedSubscription.status,
-        currentPeriodStart: updatedSubscription.currentPeriodStart,
         currentPeriodEnd: updatedSubscription.currentPeriodEnd,
         cancelAtPeriodEnd: updatedSubscription.cancelAtPeriodEnd,
       },
