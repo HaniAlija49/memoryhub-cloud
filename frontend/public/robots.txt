@@ -1,0 +1,11 @@
+# Allow crawling of all public pages
+User-agent: *
+Allow: /
+
+# Block dashboard and authenticated pages
+Disallow: /dashboard
+Disallow: /login
+Disallow: /signup
+
+# Sitemap location
+Sitemap: https://persistq.com/sitemap.xml
