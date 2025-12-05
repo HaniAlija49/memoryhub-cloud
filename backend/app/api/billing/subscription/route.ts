@@ -23,6 +23,8 @@ const prisma = new PrismaClient();
  * Fetch current subscription details
  */
 export async function GET(request: Request) {
+  let user: any = null;
+
   try {
     // Check if billing is configured
     if (!isBillingConfigured()) {
@@ -40,7 +42,7 @@ export async function GET(request: Request) {
     }
 
     // Get user from database
-    const user = await prisma.user.findUnique({
+    user = await prisma.user.findUnique({
       where: { clerkUserId },
       include: {
         usageRecords: {
@@ -135,6 +137,8 @@ export async function GET(request: Request) {
  * Update subscription (upgrade/downgrade)
  */
 export async function POST(request: Request) {
+  let user: any = null;
+
   try {
     // Check if billing is configured
     if (!isBillingConfigured()) {
@@ -153,7 +157,7 @@ export async function POST(request: Request) {
     }
 
     // Get user from database
-    const user = await prisma.user.findUnique({
+    user = await prisma.user.findUnique({
       where: { clerkUserId },
     });
 
@@ -259,6 +263,8 @@ export async function POST(request: Request) {
  * Cancel subscription
  */
 export async function DELETE(request: Request) {
+  let user: any = null;
+
   try {
     // Check if billing is configured
     if (!isBillingConfigured()) {
@@ -276,7 +282,7 @@ export async function DELETE(request: Request) {
     }
 
     // Get user from database
-    const user = await prisma.user.findUnique({
+    user = await prisma.user.findUnique({
       where: { clerkUserId },
     });
 

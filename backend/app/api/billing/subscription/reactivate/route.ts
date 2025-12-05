@@ -18,6 +18,8 @@ const prisma = new PrismaClient();
  * Reactivate a cancelled subscription
  */
 export async function POST(request: Request) {
+  let user: any = null;
+
   try {
     // Check if billing is configured
     if (!isBillingConfigured()) {
@@ -35,7 +37,7 @@ export async function POST(request: Request) {
     }
 
     // Get user from database
-    const user = await prisma.user.findUnique({
+    user = await prisma.user.findUnique({
       where: { clerkUserId },
     });
 

@@ -16,6 +16,8 @@ import { createGenericErrorResponse } from "@/lib/billing/errors";
 const prisma = new PrismaClient();
 
 export async function GET(request: Request) {
+  let user: any = null;
+
   try {
     // Check if billing is configured
     if (!isBillingConfigured()) {
@@ -33,7 +35,7 @@ export async function GET(request: Request) {
     }
 
     // Get user from database
-    const user = await prisma.user.findUnique({
+    user = await prisma.user.findUnique({
       where: { clerkUserId },
     });
 

@@ -19,6 +19,8 @@ import { z } from "zod";
 const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
+  let user: { id: string; clerkUserId: string | null; email: string; subscriptionId: string | null; subscriptionStatus: string | null; cancelAtPeriodEnd: boolean; planId: string } | null = null;
+
   try {
     // Check if billing is configured
     if (!isBillingConfigured()) {
@@ -36,7 +38,7 @@ export async function POST(request: Request) {
     }
 
     // Get user from database
-    const user = await prisma.user.findUnique({
+    user = await prisma.user.findUnique({
       where: { clerkUserId },
     });
 
