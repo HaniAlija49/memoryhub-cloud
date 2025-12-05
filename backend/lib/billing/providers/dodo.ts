@@ -322,6 +322,29 @@ export class DodoProvider implements IBillingProvider {
       newProductId,
     });
 
+    // Check if subscription is scheduled for cancellation
+    // If so, un-cancel it before changing the plan
+    try {
+      const currentSub = await this.getSubscription(subscriptionId);
+
+      if (currentSub.cancelAtPeriodEnd) {
+        console.log("[Dodo] Subscription is scheduled for cancellation, removing cancellation flag first...");
+
+        // Use PATCH to remove the cancellation flag and reactivate
+        await this.client.request(`/subscriptions/${subscriptionId}`, {
+          method: "PATCH",
+          body: JSON.stringify({
+            cancel_at_next_billing_date: false,
+          }),
+        });
+
+        console.log("[Dodo] Cancellation flag removed successfully");
+      }
+    } catch (error) {
+      console.warn("[Dodo] Failed to check/remove cancellation flag:", error);
+      // Continue anyway - the change-plan call will fail if needed
+    }
+
     const updateResponse = await this.client.updateSubscription(subscriptionId, newProductId);
 
     console.log("[Dodo] Dodo API update response:", JSON.stringify(updateResponse, null, 2));
