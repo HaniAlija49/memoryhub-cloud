@@ -68,6 +68,27 @@ export async function POST(request: Request) {
       );
     }
 
+    // Validate webhook timestamp to prevent replay attacks
+    const timestamp = parseInt(webhookTimestamp);
+    const now = Math.floor(Date.now() / 1000);
+    const TOLERANCE_SECONDS = 300; // 5 minutes
+
+    if (isNaN(timestamp)) {
+      console.error("[Webhook] Invalid timestamp format");
+      return NextResponse.json(
+        { error: "Invalid webhook timestamp" },
+        { status: 401 }
+      );
+    }
+
+    if (Math.abs(now - timestamp) > TOLERANCE_SECONDS) {
+      console.error(`[Webhook] Timestamp outside acceptable range. Diff: ${Math.abs(now - timestamp)}s`);
+      return NextResponse.json(
+        { error: "Webhook timestamp outside acceptable range" },
+        { status: 401 }
+      );
+    }
+
     // Database-backed idempotency check
     const existingWebhook = await prisma.webhookEvent.findUnique({
       where: { webhookId },

@@ -301,15 +301,37 @@ export class DodoProvider implements IBillingProvider {
       return null;
     };
 
+    if (!planInfo) {
+      console.error(`[CRITICAL] Unknown Dodo product ID: ${sub.product_id}`);
+      console.error(`[CRITICAL] Subscription details:`, {
+        subscriptionId: sub.subscription_id,
+        customerId: sub.customer.customer_id,
+        productId: sub.product_id,
+      });
+
+      // Send alert to monitoring if available
+      if (typeof global !== "undefined" && (global as any).monitoring) {
+        (global as any).monitoring.captureMessage(
+          `Unknown Dodo product ID: ${sub.product_id}`,
+          {
+            level: "critical",
+            extra: { subscription: sub },
+          }
+        );
+      }
+
+      throw new Error(`Unknown Dodo product ID: ${sub.product_id}. Cannot determine plan.`);
+    }
+
     return {
       id: sub.subscription_id,
       customerId: sub.customer.customer_id,
-      planId: planInfo?.planId || "free",
+      planId: planInfo.planId,
       status: this.normalizeDodoStatus(sub.status),
       currentPeriodStart: parseDate(sub.previous_billing_date),
       currentPeriodEnd: parseDate(sub.next_billing_date),
       cancelAtPeriodEnd: sub.cancel_at_next_billing_date,
-      interval: (planInfo?.interval || "monthly") as "monthly" | "yearly",
+      interval: (planInfo.interval || "monthly") as "monthly" | "yearly",
       amount: sub.recurring_pre_tax_amount,
       currency: sub.currency,
     };
@@ -627,15 +649,37 @@ export class DodoProvider implements IBillingProvider {
     // Extract subscription ID - it might be subscription_id, id, or we generate a fallback
     const subscriptionId = dodoSub.subscription_id || dodoSub.id || `sub_${dodoSub.customer?.customer_id}_${Date.now()}`;
 
+    if (!planInfo) {
+      console.error(`[CRITICAL] Unknown Dodo product ID in webhook: ${dodoSub.product_id}`);
+      console.error(`[CRITICAL] Webhook subscription details:`, {
+        subscriptionId,
+        customerId: dodoSub.customer?.customer_id,
+        productId: dodoSub.product_id,
+      });
+
+      // Send alert to monitoring if available
+      if (typeof global !== "undefined" && (global as any).monitoring) {
+        (global as any).monitoring.captureMessage(
+          `Unknown Dodo product ID in webhook: ${dodoSub.product_id}`,
+          {
+            level: "critical",
+            extra: { subscription: dodoSub },
+          }
+        );
+      }
+
+      throw new Error(`Unknown Dodo product ID: ${dodoSub.product_id}. Cannot determine plan.`);
+    }
+
     return {
       id: subscriptionId,
       customerId: dodoSub.customer?.customer_id || dodoSub.customer_id,
-      planId: planInfo?.planId || "free",
+      planId: planInfo.planId,
       status: this.normalizeDodoStatus(dodoSub.status),
       currentPeriodStart: parseDate(dodoSub.previous_billing_date || dodoSub.current_period_start),
       currentPeriodEnd: parseDate(dodoSub.next_billing_date || dodoSub.current_period_end),
       cancelAtPeriodEnd: dodoSub.cancel_at_next_billing_date || dodoSub.cancel_at_period_end || false,
-      interval: (planInfo?.interval || "monthly") as "monthly" | "yearly",
+      interval: (planInfo.interval || "monthly") as "monthly" | "yearly",
       amount: dodoSub.recurring_pre_tax_amount || dodoSub.amount || 0,
       currency: (dodoSub.currency || "usd").toLowerCase(),
     };

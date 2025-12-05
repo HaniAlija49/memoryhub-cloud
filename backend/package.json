@@ -7,7 +7,8 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "validate:plans": "tsx scripts/validate-plan-config.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.34.1",
