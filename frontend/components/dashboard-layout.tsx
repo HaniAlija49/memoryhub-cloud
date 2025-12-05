@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import { useUser, SignOutButton } from "@clerk/nextjs"
-import { H } from '@highlight-run/next/client'
+import * as Sentry from '@sentry/nextjs'
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import {
@@ -37,15 +37,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { user, isLoaded } = useUser()
 
-  // Identify user in Highlight.io when authenticated
+  // Identify user in Sentry when authenticated
   useEffect(() => {
     if (isLoaded && user) {
-      H.identify(user.primaryEmailAddress?.emailAddress || user.id, {
+      Sentry.setUser({
         id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.primaryEmailAddress?.emailAddress,
-        createdAt: user.createdAt,
+        email: user.primaryEmailAddress?.emailAddress || "",
+        username: `${user.firstName || ""} ${user.lastName || ""}`.trim(),
+        createdAt: user.createdAt?.toString() || "",
       })
     }
   }, [isLoaded, user])

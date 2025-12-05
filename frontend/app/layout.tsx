@@ -4,7 +4,6 @@ import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ClerkProvider } from "@clerk/nextjs"
-import { HighlightInit } from '@highlight-run/next/client'
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
@@ -66,9 +65,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  // Only enable Highlight.io in production to save quota
-  const isProduction = process.env.NODE_ENV === 'production'
-
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -84,25 +80,7 @@ export default function RootLayout({
   }
 
   return (
-    <>
-      {isProduction && (
-        <HighlightInit
-          projectId={process.env.NEXT_PUBLIC_HIGHLIGHT_PROJECT_ID || '5g5y914e'}
-          serviceName="memoryhub-frontend"
-          environment={process.env.NODE_ENV}
-          tracingOrigins={true}
-          networkRecording={{
-            enabled: true,
-            recordHeadersAndBody: true,
-            urlBlocklist: [
-              // Block sensitive endpoints from being recorded
-              '/api/webhooks/clerk',
-            ],
-          }}
-        />
-      )}
-
-      <ClerkProvider>
+    <ClerkProvider>
         <html lang="en" className="dark">
           <head>
             <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -122,6 +100,5 @@ export default function RootLayout({
           </body>
         </html>
       </ClerkProvider>
-    </>
   )
 }

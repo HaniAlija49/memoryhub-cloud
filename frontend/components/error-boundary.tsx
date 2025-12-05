@@ -1,7 +1,7 @@
 'use client'
 
 import { Component, ReactNode } from 'react'
-import { H } from '@highlight-run/next/client'
+import * as Sentry from '@sentry/nextjs'
 
 interface Props {
   children: ReactNode
@@ -14,10 +14,10 @@ interface State {
 }
 
 /**
- * Error Boundary component for catching React errors and reporting to Highlight.io
+ * Error Boundary component for catching React errors and reporting to Sentry
  *
  * Wraps the application and catches unhandled errors in the component tree.
- * When an error occurs, it reports to Highlight.io and shows a fallback UI.
+ * When an error occurs, it reports to Sentry and shows a fallback UI.
  */
 export class ErrorBoundary extends Component<Props, State> {
   state: State = { hasError: false }
@@ -29,8 +29,14 @@ export class ErrorBoundary extends Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: any) {
     console.error('ErrorBoundary caught error:', error, errorInfo)
 
-    // Report error to Highlight.io
-    H.consumeError(error, errorInfo?.componentStack)
+    // Report error to Sentry
+    Sentry.captureException(error, {
+      contexts: {
+        react: {
+          componentStack: errorInfo?.componentStack,
+        },
+      },
+    })
   }
 
   render() {

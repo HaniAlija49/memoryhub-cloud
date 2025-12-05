@@ -327,6 +327,17 @@ export class MemoryHubClient {
   }
 
   /**
+   * Reactivate subscription
+   */
+  async reactivateSubscription(): Promise<ApiResponse<any>> {
+    return this.request(
+      `/api/billing/subscription/reactivate`,
+      { method: 'POST' },
+      true
+    )
+  }
+
+  /**
    * Get customer portal URL
    */
   async getPortalUrl(): Promise<ApiResponse<{ url: string }>> {

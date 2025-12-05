@@ -12,8 +12,8 @@
   "dependencies": {
     "@clerk/nextjs": "^6.34.1",
     "@dodopayments/nextjs": "^0.3.1",
-    "@highlight-run/next": "^7.9.38",
     "@prisma/client": "^6.18.0",
+    "@sentry/nextjs": "^10.29.0",
     "@types/bcrypt": "^6.0.0",
     "@upstash/ratelimit": "^2.0.6",
     "@upstash/redis": "^1.35.6",

@@ -13,6 +13,7 @@ interface SubscriptionCardProps {
   onChangePlan: () => void
   onCancel: () => void
   onManagePortal: () => void
+  onReactivate: () => void
   isLoading?: boolean
 }
 
@@ -22,6 +23,7 @@ export function SubscriptionCard({
   onChangePlan,
   onCancel,
   onManagePortal,
+  onReactivate,
   isLoading = false,
 }: SubscriptionCardProps) {
   // Status badge color logic
@@ -125,7 +127,17 @@ export function SubscriptionCard({
             </Button>
           )}
 
-          {!isFree && (
+          {!isFree && isCanceled && (
+            <Button
+              onClick={onReactivate}
+              variant="default"
+              disabled={isLoading}
+            >
+              Reactivate
+            </Button>
+          )}
+
+          {!isFree && !isCanceled && (
             <Button
               onClick={onManagePortal}
               variant="outline"

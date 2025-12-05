@@ -3,10 +3,10 @@ import { validateApiKey, AuthError } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { createErrorResponse, createSuccessResponse } from '@/lib/utils'
 import { listMemoriesSchema, validateRequest } from '@/lib/validation'
-import { withAppRouterHighlight } from '@/app/_utils/app-router-highlight.config'
+import { withSentryTracing } from '@/app/_utils/app-router-sentry.config'
 import { enforceQuota } from '@/lib/billing/quotas'
 
-export const GET = withAppRouterHighlight(async function GET(request: NextRequest) {
+export const GET = withSentryTracing(async function GET(request: NextRequest) {
   try {
     // Authenticate user
     const user = await validateApiKey()
@@ -77,4 +77,4 @@ export const GET = withAppRouterHighlight(async function GET(request: NextReques
     console.error('Error listing memories:', error)
     return createErrorResponse('Failed to list memories', 500)
   }
-})
+}, { op: 'api.memory.list', name: 'GET /api/memory/list' })

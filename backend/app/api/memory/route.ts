@@ -4,10 +4,10 @@ import { prisma } from '@/lib/prisma'
 import { generateEmbedding } from '@/lib/embeddings'
 import { createErrorResponse, createSuccessResponse } from '@/lib/utils'
 import { saveMemorySchema, validateRequest } from '@/lib/validation'
-import { withAppRouterHighlight } from '@/app/_utils/app-router-highlight.config'
+import { withSentryTracing } from '@/app/_utils/app-router-sentry.config'
 import { enforceQuota } from '@/lib/billing/quotas'
 
-export const POST = withAppRouterHighlight(async function POST(request: NextRequest) {
+export const POST = withSentryTracing(async function POST(request: NextRequest) {
   try {
     // Authenticate user
     const user = await validateApiKey()
@@ -81,4 +81,4 @@ export const POST = withAppRouterHighlight(async function POST(request: NextRequ
     console.error('Error saving memory:', error)
     return createErrorResponse('Failed to save memory', 500)
   }
-})
+}, { op: 'api.memory.create', name: 'POST /api/memory' })

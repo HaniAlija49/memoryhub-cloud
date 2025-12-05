@@ -356,6 +356,22 @@ export class DodoProvider implements IBillingProvider {
     return refreshedSub;
   }
 
+  async reactivateSubscription(subscriptionId: string): Promise<SubscriptionData> {
+    console.log("[Dodo] Reactivating subscription:", subscriptionId);
+
+    // Use PATCH to remove the cancellation flag
+    await this.client.request(`/subscriptions/${subscriptionId}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        cancel_at_next_billing_date: false,
+      }),
+    });
+
+    console.log("[Dodo] Subscription reactivated successfully");
+
+    return this.getSubscription(subscriptionId);
+  }
+
   async verifyWebhook(
     payload: string | Buffer,
     headers: Record<string, string>,

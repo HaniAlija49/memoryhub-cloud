@@ -96,6 +96,35 @@ export class BillingService {
   }
 
   /**
+   * Reactivate a cancelled subscription
+   */
+  static async reactivateSubscription(
+    getToken?: () => Promise<string | null>
+  ): Promise<{ success: boolean; error?: string }> {
+    try {
+      // Refresh token before API call
+      if (getToken) {
+        const token = await getToken()
+        if (token) apiClient.setClerkToken(token)
+      }
+
+      const response = await apiClient.reactivateSubscription()
+
+      if (response.status === 'error') {
+        return { success: false, error: response.error }
+      }
+
+      return { success: true }
+    } catch (error) {
+      console.error('Error reactivating subscription:', error)
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      }
+    }
+  }
+
+  /**
    * Open customer portal (redirects user)
    */
   static async openPortal(getToken?: () => Promise<string | null>): Promise<void> {

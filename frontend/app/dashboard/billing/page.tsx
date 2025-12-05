@@ -173,6 +173,29 @@ export default function BillingPage() {
     }
   }
 
+  // Handle reactivation
+  const handleReactivate = async () => {
+    setIsActionLoading(true)
+
+    const result = await BillingService.reactivateSubscription(getToken)
+
+    if (result.success) {
+      toast({
+        title: "Subscription Reactivated",
+        description: "Your subscription has been reactivated successfully.",
+      })
+      await loadBillingData()
+    } else {
+      toast({
+        title: "Reactivation Failed",
+        description: result.error || "Failed to reactivate subscription. Please try again.",
+        variant: "destructive",
+      })
+    }
+
+    setIsActionLoading(false)
+  }
+
   // Loading state
   if (api.isLoading || isLoading) {
     return (
@@ -258,6 +281,7 @@ export default function BillingPage() {
           onChangePlan={() => setShowChangePlanDialog(true)}
           onCancel={() => setShowCancelDialog(true)}
           onManagePortal={handleManagePortal}
+          onReactivate={handleReactivate}
           isLoading={isActionLoading}
         />
 
