@@ -130,15 +130,19 @@ class DodoAPIClient {
   async getSubscription(
     subscriptionId: string
   ): Promise<{
-    id: string;
-    customer_id: string;
+    subscription_id: string;
+    customer: {
+      customer_id: string;
+      email: string;
+      name: string;
+    };
     product_id: string;
     status: string;
-    current_period_start: number;
-    current_period_end: number;
-    cancel_at_period_end: boolean;
-    billing_interval: string;
-    amount: number;
+    next_billing_date: string | null;
+    previous_billing_date: string | null;
+    cancel_at_next_billing_date: boolean;
+    payment_frequency_interval: string;
+    recurring_pre_tax_amount: number;
     currency: string;
   }> {
     return this.request(`/subscriptions/${subscriptionId}`, {
@@ -262,15 +266,15 @@ export class DodoProvider implements IBillingProvider {
     };
 
     return {
-      id: sub.subscription_id || sub.id,
-      customerId: sub.customer?.customer_id || sub.customer_id,
+      id: sub.subscription_id,
+      customerId: sub.customer.customer_id,
       planId: planInfo?.planId || "free",
       status: this.normalizeDodoStatus(sub.status),
-      currentPeriodStart: parseDate(sub.previous_billing_date || sub.current_period_start),
-      currentPeriodEnd: parseDate(sub.next_billing_date || sub.current_period_end),
-      cancelAtPeriodEnd: sub.cancel_at_next_billing_date || sub.cancel_at_period_end || false,
+      currentPeriodStart: parseDate(sub.previous_billing_date),
+      currentPeriodEnd: parseDate(sub.next_billing_date),
+      cancelAtPeriodEnd: sub.cancel_at_next_billing_date,
       interval: (planInfo?.interval || "monthly") as "monthly" | "yearly",
-      amount: sub.recurring_pre_tax_amount || sub.amount || 0,
+      amount: sub.recurring_pre_tax_amount,
       currency: sub.currency,
     };
   }
