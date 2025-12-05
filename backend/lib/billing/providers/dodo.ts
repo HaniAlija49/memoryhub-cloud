@@ -365,11 +365,18 @@ export class DodoProvider implements IBillingProvider {
       newProductId,
     });
 
-    // Check if subscription is scheduled for cancellation
-    // If so, un-cancel it before changing the plan
+    // Check subscription status before attempting plan change
     try {
       const currentSub = await this.getSubscription(subscriptionId);
 
+      // Check if subscription is fully cancelled (inactive)
+      if (currentSub.status === "canceled") {
+        throw new Error(
+          "Cannot change plans on a cancelled subscription. The subscription must be reactivated first."
+        );
+      }
+
+      // If subscription is scheduled for cancellation, remove the flag first
       if (currentSub.cancelAtPeriodEnd) {
         console.log("[Dodo] Subscription is scheduled for cancellation, removing cancellation flag first...");
 
@@ -379,6 +386,10 @@ export class DodoProvider implements IBillingProvider {
         console.log("[Dodo] Cancellation flag removed successfully");
       }
     } catch (error) {
+      // Re-throw our custom error messages
+      if (error instanceof Error && error.message.includes("Cannot change plans")) {
+        throw error;
+      }
       console.warn("[Dodo] Failed to check/remove cancellation flag:", error);
       // Continue anyway - the change-plan call will fail if needed
     }

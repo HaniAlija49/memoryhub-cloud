@@ -57,10 +57,25 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check if subscription is actually cancelled
-    if (!user.cancelAtPeriodEnd) {
+    // Check if subscription is cancelled or scheduled for cancellation
+    const isCancelled = user.subscriptionStatus === "canceled";
+    const isScheduledForCancellation = user.cancelAtPeriodEnd;
+
+    if (!isCancelled && !isScheduledForCancellation) {
       return NextResponse.json(
-        { error: "Subscription is not scheduled for cancellation" },
+        { error: "Subscription is not cancelled or scheduled for cancellation" },
+        { status: 400 }
+      );
+    }
+
+    // If subscription is fully cancelled, user needs to create a new subscription
+    if (isCancelled && !isScheduledForCancellation) {
+      return NextResponse.json(
+        {
+          error: "This subscription is fully cancelled and cannot be reactivated. Please create a new subscription.",
+          code: "FULLY_CANCELLED",
+          action: "create_new_subscription",
+        },
         { status: 400 }
       );
     }

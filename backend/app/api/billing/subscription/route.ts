@@ -177,6 +177,20 @@ export async function POST(request: Request) {
       );
     }
 
+    // Check if subscription is cancelled or scheduled for cancellation
+    if (user.subscriptionStatus === "canceled" || user.cancelAtPeriodEnd) {
+      return NextResponse.json(
+        {
+          error: "Cannot change plans on a cancelled subscription. Please reactivate your subscription first, then change plans.",
+          code: "SUBSCRIPTION_CANCELLED",
+          action: "reactivate_first",
+          currentPlan: user.planId,
+          subscriptionId: user.subscriptionId,
+        },
+        { status: 400 }
+      );
+    }
+
     // Parse and validate request body
     const body = await request.json();
 
