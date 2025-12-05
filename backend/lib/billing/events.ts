@@ -7,6 +7,7 @@
 
 import { PrismaClient } from "@prisma/client";
 import type { BillingEvent, PaymentData, SubscriptionData } from "./types";
+import { logBillingEvent } from "./audit";
 
 const prisma = new PrismaClient();
 
@@ -65,19 +66,37 @@ export async function handleSubscriptionCreated(
 
   console.log(`[Billing] Found user ${user.id} (${user.email}) for subscription ${data.id}`);
 
-  // Update user with subscription details
-  await prisma.user.update({
-    where: { id: user.id },
-    data: {
-      billingProvider: event.provider,
-      billingCustomerId: event.customerId,
-      subscriptionId: data.id,
-      planId: data.planId,
-      subscriptionStatus: data.status,
-      currentPeriodEnd: data.currentPeriodEnd,
-      billingInterval: data.interval,
-      cancelAtPeriodEnd: data.cancelAtPeriodEnd,
-    },
+  // Use transaction for atomic update + audit log
+  await prisma.$transaction(async (tx) => {
+    // Update user with subscription details
+    await tx.user.update({
+      where: { id: user.id },
+      data: {
+        billingProvider: event.provider,
+        billingCustomerId: event.customerId,
+        subscriptionId: data.id,
+        planId: data.planId,
+        subscriptionStatus: data.status,
+        currentPeriodEnd: data.currentPeriodEnd,
+        billingInterval: data.interval,
+        cancelAtPeriodEnd: data.cancelAtPeriodEnd,
+        version: { increment: 1 },
+      },
+    });
+
+    // Create audit log entry
+    await logBillingEvent(
+      user.id,
+      "subscription.created",
+      {
+        subscriptionId: data.id,
+        planId: data.planId,
+        interval: data.interval,
+        status: data.status,
+        customerId: event.customerId,
+      },
+      { tx }
+    );
   });
 
   console.log(
@@ -109,15 +128,31 @@ export async function handleSubscriptionUpdated(
     return;
   }
 
-  await prisma.user.update({
-    where: { id: user.id },
-    data: {
-      planId: data.planId,
-      subscriptionStatus: data.status,
-      currentPeriodEnd: data.currentPeriodEnd,
-      billingInterval: data.interval,
-      cancelAtPeriodEnd: data.cancelAtPeriodEnd,
-    },
+  // Use transaction for atomic update + audit log
+  await prisma.$transaction(async (tx) => {
+    await tx.user.update({
+      where: { id: user.id },
+      data: {
+        planId: data.planId,
+        subscriptionStatus: data.status,
+        currentPeriodEnd: data.currentPeriodEnd,
+        billingInterval: data.interval,
+        cancelAtPeriodEnd: data.cancelAtPeriodEnd,
+        version: { increment: 1 },
+      },
+    });
+
+    await logBillingEvent(
+      user.id,
+      "subscription.updated",
+      {
+        subscriptionId: data.id,
+        planId: data.planId,
+        interval: data.interval,
+        status: data.status,
+      },
+      { tx }
+    );
   });
 
   console.log(
@@ -159,25 +194,54 @@ export async function handleSubscriptionCanceled(
   const isImmediateCancellation = data.status === "canceled" && !data.cancelAtPeriodEnd;
 
   if (isImmediateCancellation) {
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        planId: "free",
-        subscriptionStatus: "canceled",
-        cancelAtPeriodEnd: false,
-        subscriptionId: null,
-      },
+    await prisma.$transaction(async (tx) => {
+      await tx.user.update({
+        where: { id: user.id },
+        data: {
+          planId: "free",
+          subscriptionStatus: "canceled",
+          cancelAtPeriodEnd: false,
+          subscriptionId: null,
+          version: { increment: 1 },
+        },
+      });
+
+      await logBillingEvent(
+        user.id,
+        "subscription.canceled_immediate",
+        {
+          subscriptionId: data.id,
+          previousPlan: user.planId,
+          reason: "immediate_cancellation",
+        },
+        { tx }
+      );
     });
 
     console.log(`[Billing] User ${user.id} immediately downgraded to free plan`);
   } else {
     // Scheduled cancellation - keep current plan until period end
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        subscriptionStatus: "canceled",
-        cancelAtPeriodEnd: true,
-      },
+    await prisma.$transaction(async (tx) => {
+      await tx.user.update({
+        where: { id: user.id },
+        data: {
+          subscriptionStatus: "canceled",
+          cancelAtPeriodEnd: true,
+          version: { increment: 1 },
+        },
+      });
+
+      await logBillingEvent(
+        user.id,
+        "subscription.canceled_scheduled",
+        {
+          subscriptionId: data.id,
+          currentPlan: user.planId,
+          endDate: data.currentPeriodEnd,
+          cancelAtPeriodEnd: true,
+        },
+        { tx }
+      );
     });
 
     console.log(
@@ -210,11 +274,25 @@ export async function handleSubscriptionPaused(
     return;
   }
 
-  await prisma.user.update({
-    where: { id: user.id },
-    data: {
-      subscriptionStatus: "past_due",
-    },
+  await prisma.$transaction(async (tx) => {
+    await tx.user.update({
+      where: { id: user.id },
+      data: {
+        subscriptionStatus: "past_due",
+        version: { increment: 1 },
+      },
+    });
+
+    await logBillingEvent(
+      user.id,
+      "subscription.paused",
+      {
+        subscriptionId: data.id,
+        status: "past_due",
+        planId: user.planId,
+      },
+      { tx }
+    );
   });
 
   console.log(
@@ -247,12 +325,26 @@ export async function handleSubscriptionResumed(
     return;
   }
 
-  await prisma.user.update({
-    where: { id: user.id },
-    data: {
-      subscriptionStatus: "active",
-      currentPeriodEnd: data.currentPeriodEnd,
-    },
+  await prisma.$transaction(async (tx) => {
+    await tx.user.update({
+      where: { id: user.id },
+      data: {
+        subscriptionStatus: "active",
+        currentPeriodEnd: data.currentPeriodEnd,
+        version: { increment: 1 },
+      },
+    });
+
+    await logBillingEvent(
+      user.id,
+      "subscription.resumed",
+      {
+        subscriptionId: data.id,
+        status: "active",
+        planId: user.planId,
+      },
+      { tx }
+    );
   });
 
   console.log(`[Billing] User ${user.id} subscription resumed successfully`);
@@ -304,11 +396,26 @@ export async function handlePaymentFailed(
   }
 
   // Mark subscription as past_due
-  await prisma.user.update({
-    where: { id: user.id },
-    data: {
-      subscriptionStatus: "past_due",
-    },
+  await prisma.$transaction(async (tx) => {
+    await tx.user.update({
+      where: { id: user.id },
+      data: {
+        subscriptionStatus: "past_due",
+        version: { increment: 1 },
+      },
+    });
+
+    await logBillingEvent(
+      user.id,
+      "payment.failed",
+      {
+        paymentId: data.id,
+        amount: data.amount,
+        currency: data.currency,
+        failureReason: data.failureReason || "Unknown",
+      },
+      { tx }
+    );
   });
 
   console.log(
@@ -365,18 +472,31 @@ export async function handleCustomerDeleted(
   }
 
   // Clear billing data but don't delete user account
-  await prisma.user.update({
-    where: { id: user.id },
-    data: {
-      billingProvider: null,
-      billingCustomerId: null,
-      subscriptionId: null,
-      planId: "free",
-      subscriptionStatus: null,
-      currentPeriodEnd: null,
-      billingInterval: null,
-      cancelAtPeriodEnd: false,
-    },
+  await prisma.$transaction(async (tx) => {
+    await tx.user.update({
+      where: { id: user.id },
+      data: {
+        billingProvider: null,
+        billingCustomerId: null,
+        subscriptionId: null,
+        planId: "free",
+        subscriptionStatus: null,
+        currentPeriodEnd: null,
+        billingInterval: null,
+        cancelAtPeriodEnd: false,
+        version: { increment: 1 },
+      },
+    });
+
+    await logBillingEvent(
+      user.id,
+      "customer.deleted",
+      {
+        customerId: event.customerId,
+        previousPlan: user.planId,
+      },
+      { tx }
+    );
   });
 
   console.log(`[Billing] User ${user.id} billing data cleared`);

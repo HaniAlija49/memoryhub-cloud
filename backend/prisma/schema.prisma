@@ -28,8 +28,13 @@ model User {
   billingInterval        String?   @map("billing_interval")
   cancelAtPeriodEnd      Boolean   @default(false) @map("cancel_at_period_end")
 
-  memories     Memory[]
-  usageRecords UsageRecord[]
+  // Security and concurrency control
+  version              Int               @default(0)
+  lastBillingSyncAt    DateTime?         @map("last_billing_sync_at")
+
+  memories         Memory[]
+  usageRecords     UsageRecord[]
+  billingAuditLogs BillingAuditLog[]
 
   @@index([apiKeyHash])
   @@index([billingCustomerId])
@@ -67,4 +72,36 @@ model Memory {
   @@index([userId])
   @@index([project])
   @@map("memories")
+}
+
+model WebhookEvent {
+  id          String   @id @default(cuid())
+  webhookId   String   @unique @map("webhook_id")
+  eventType   String   @map("event_type")
+  payload     Json?
+  processedAt DateTime @default(now()) @map("processed_at")
+  expiresAt   DateTime @map("expires_at")
+
+  @@index([webhookId])
+  @@index([expiresAt])
+  @@map("webhook_events")
+}
+
+model BillingAuditLog {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  eventType String   @map("event_type")
+  eventData Json     @map("event_data")
+  ipAddress String?  @map("ip_address")
+  userAgent String?  @map("user_agent")
+  errorId   String?  @map("error_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([eventType])
+  @@index([createdAt])
+  @@index([errorId])
+  @@map("billing_audit_logs")
 }

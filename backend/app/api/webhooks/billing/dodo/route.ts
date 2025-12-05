@@ -18,19 +18,6 @@ const prisma = new PrismaClient();
 // Next.js must not parse the body so we can verify the raw signature
 export const dynamic = 'force-dynamic';
 
-// Track processed webhook IDs to prevent duplicate processing
-const processedWebhooks = new Map<string, number>();
-
-// Clean up old webhook IDs (older than 24 hours)
-setInterval(() => {
-  const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
-  for (const [id, timestamp] of processedWebhooks.entries()) {
-    if (timestamp < oneDayAgo) {
-      processedWebhooks.delete(id);
-    }
-  }
-}, 60 * 60 * 1000); // Run every hour
-
 export async function POST(request: Request) {
   try {
     console.log("[Webhook] Received Dodo webhook request");
@@ -83,10 +70,17 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check if we've already processed this webhook (idempotency)
-    if (processedWebhooks.has(webhookId)) {
-      console.log(`[Webhook] Already processed webhook ${webhookId}, returning success`);
-      return NextResponse.json({ received: true, note: "Already processed" });
+    // Database-backed idempotency check
+    const existingWebhook = await prisma.webhookEvent.findUnique({
+      where: { webhookId },
+    });
+
+    if (existingWebhook) {
+      console.log(`[Webhook] Already processed ${webhookId} at ${existingWebhook.processedAt}`);
+      return NextResponse.json({
+        received: true,
+        note: "Already processed"
+      });
     }
 
     // Construct Standard Webhooks compatible headers object
@@ -143,8 +137,16 @@ export async function POST(request: Request) {
       `[Webhook] Received ${billingEvent.type} event from ${billingEvent.provider}`
     );
 
-    // Mark webhook as processed
-    processedWebhooks.set(webhookId, Date.now());
+    // Record webhook in database BEFORE processing (atomic guarantee)
+    await prisma.webhookEvent.create({
+      data: {
+        webhookId,
+        eventType: billingEvent.type,
+        payload: billingEvent.rawEvent,
+        processedAt: new Date(),
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+      },
+    });
 
     // Handle the event using provider-agnostic business logic
     try {
