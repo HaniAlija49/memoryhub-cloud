@@ -178,13 +178,22 @@ class DodoAPIClient {
     subscriptionId: string,
     newProductId: string
   ): Promise<any> {
+    console.log("[Dodo] Sending PATCH request to Dodo:", {
+      endpoint: `/subscriptions/${subscriptionId}`,
+      body: { product_id: newProductId },
+    });
+
     // Use PATCH on the subscription endpoint to update the product
-    return this.request(`/subscriptions/${subscriptionId}`, {
+    const response = await this.request(`/subscriptions/${subscriptionId}`, {
       method: "PATCH",
       body: JSON.stringify({
         product_id: newProductId,
       }),
     });
+
+    console.log("[Dodo] PATCH response from Dodo:", JSON.stringify(response, null, 2));
+
+    return response;
   }
 }
 
@@ -300,8 +309,22 @@ export class DodoProvider implements IBillingProvider {
       );
     }
 
-    await this.client.updateSubscription(subscriptionId, newProductId);
-    return this.getSubscription(subscriptionId);
+    console.log("[Dodo] Updating subscription with Dodo API:", {
+      subscriptionId,
+      newPlanId,
+      newInterval,
+      newProductId,
+    });
+
+    const updateResponse = await this.client.updateSubscription(subscriptionId, newProductId);
+
+    console.log("[Dodo] Dodo API update response:", JSON.stringify(updateResponse, null, 2));
+
+    const refreshedSub = await this.getSubscription(subscriptionId);
+
+    console.log("[Dodo] Fetched subscription after update, product_id:", refreshedSub.id);
+
+    return refreshedSub;
   }
 
   async verifyWebhook(
