@@ -204,7 +204,7 @@ export async function POST(request: Request) {
       cancelAtPeriodEnd: updatedSubscription.cancelAtPeriodEnd || false,
     });
 
-    await prisma.user.update({
+    const updatedUser = await prisma.user.update({
       where: { id: user.id },
       data: {
         planId: updatedSubscription.planId,
@@ -213,6 +213,13 @@ export async function POST(request: Request) {
         currentPeriodEnd: validPeriodEnd,
         cancelAtPeriodEnd: updatedSubscription.cancelAtPeriodEnd || false,
       },
+    });
+
+    console.log("[Billing] User updated successfully in database:", {
+      userId: updatedUser.id,
+      planId: updatedUser.planId,
+      billingInterval: updatedUser.billingInterval,
+      subscriptionStatus: updatedUser.subscriptionStatus,
     });
 
     // Return updated subscription
