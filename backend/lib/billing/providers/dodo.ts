@@ -62,7 +62,18 @@ class DodoAPIClient {
       );
     }
 
-    return response.json();
+    // Handle empty responses (204 No Content or empty body)
+    const text = await response.text();
+    if (!text || text.trim() === '') {
+      return {} as T;
+    }
+
+    try {
+      return JSON.parse(text);
+    } catch (error) {
+      console.error('[Dodo] Failed to parse response:', text);
+      throw new Error(`Invalid JSON response from Dodo API: ${text}`);
+    }
   }
 
   async createCheckoutSession(params: {
