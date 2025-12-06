@@ -1,4 +1,5 @@
 import { SignIn } from "@clerk/nextjs"
+import { dark } from "@clerk/themes"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -30,20 +31,36 @@ export default function LoginPage() {
           <SignIn
             routing="hash"
             appearance={{
+              baseTheme: dark,
+              variables: {
+                colorPrimary: '#00e0ff',
+                colorBackground: '#181818',
+                colorInputBackground: '#2a2a2a',
+                colorInputText: '#ffffff',
+                colorText: '#ffffff',
+                colorTextSecondary: '#a1a1aa',
+              },
               elements: {
                 rootBox: "w-full",
-                card: "bg-[#181818] border border-white/10 shadow-xl",
-                headerTitle: "text-white",
+                card: "bg-[#181818] border border-[#2a2a2a] shadow-xl",
+                headerTitle: "text-white font-semibold",
                 headerSubtitle: "text-gray-400",
-                socialButtonsBlockButton: "border-white/10 hover:bg-white/5",
-                formButtonPrimary: "bg-gradient-to-r from-[#00E0FF] to-[#8B5CF6] hover:opacity-90",
-                footerActionLink: "text-[#00E0FF] hover:text-[#00E0FF]/80",
+                socialButtonsBlockButton: "bg-[#2a2a2a] border-[#3a3a3a] hover:bg-[#1e1e1e] text-white",
+                socialButtonsBlockButtonText: "text-white font-medium",
+                formButtonPrimary: "bg-gradient-to-r from-[#00E0FF] to-[#8B5CF6] hover:opacity-90 text-white font-medium",
+                footerActionLink: "text-[#00E0FF] hover:text-[#00c8e6]",
                 identityPreviewText: "text-white",
                 identityPreviewEditButton: "text-[#00E0FF]",
                 formFieldLabel: "text-gray-300",
-                formFieldInput: "bg-[#0D0D0D] border-white/10 text-white",
-                dividerLine: "bg-white/10",
+                formFieldInput: "bg-[#2a2a2a] border-[#3a3a3a] text-white placeholder:text-gray-500",
+                formFieldInputShowPasswordButton: "text-gray-400 hover:text-white",
+                dividerLine: "bg-[#2a2a2a]",
                 dividerText: "text-gray-400",
+                formFieldSuccessText: "text-green-400",
+                formFieldErrorText: "text-red-400",
+                footer: "bg-[#181818] border-t border-[#2a2a2a]",
+                footerActionText: "text-gray-400",
+                otpCodeFieldInput: "bg-[#2a2a2a] border-[#3a3a3a] text-white",
               },
             }}
             redirectUrl="/dashboard"
