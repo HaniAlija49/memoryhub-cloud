@@ -39,6 +39,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user, isLoaded } = useUser()
   const { getToken } = useAuth()
   const [currentPlan, setCurrentPlan] = useState<string>("free")
+  const [apiStatus, setApiStatus] = useState<"ok" | "checking" | "error">("checking")
 
   // Identify user in Sentry when authenticated
   useEffect(() => {
@@ -65,6 +66,36 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
     fetchPlan()
   }, [isLoaded, user, getToken])
+
+  // Check API health
+  useEffect(() => {
+    const checkApiHealth = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/status`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+
+        if (response.ok) {
+          setApiStatus("ok")
+        } else {
+          setApiStatus("error")
+        }
+      } catch (error) {
+        setApiStatus("error")
+      }
+    }
+
+    // Check immediately
+    checkApiHealth()
+
+    // Check every 30 seconds
+    const interval = setInterval(checkApiHealth, 30000)
+
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <div className="min-h-screen bg-background">
@@ -227,9 +258,28 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="hidden items-center gap-2 rounded-md bg-accent-glow px-2.5 py-1 sm:flex">
-              <div className="h-1.5 w-1.5 rounded-full bg-accent-cyan" />
-              <span className="text-xs font-medium text-foreground">ALL OK</span>
+            <div className={cn(
+              "hidden items-center gap-2 rounded-md px-2.5 py-1 sm:flex",
+              apiStatus === "ok" && "bg-accent-glow",
+              apiStatus === "error" && "bg-red-500/10",
+              apiStatus === "checking" && "bg-yellow-500/10"
+            )}>
+              <div className={cn(
+                "h-1.5 w-1.5 rounded-full",
+                apiStatus === "ok" && "bg-accent-cyan",
+                apiStatus === "error" && "bg-red-500",
+                apiStatus === "checking" && "bg-yellow-500 animate-pulse"
+              )} />
+              <span className={cn(
+                "text-xs font-medium",
+                apiStatus === "ok" && "text-foreground",
+                apiStatus === "error" && "text-red-500",
+                apiStatus === "checking" && "text-yellow-500"
+              )}>
+                {apiStatus === "ok" && "All Systems OK"}
+                {apiStatus === "error" && "API Issues"}
+                {apiStatus === "checking" && "Checking..."}
+              </span>
             </div>
 
             <button className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-accent-hover hover:text-foreground transition-colors">
