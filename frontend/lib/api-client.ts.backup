@@ -1,28 +1,61 @@
 /**
- * PersistQ API Client
+ * Typed API Client for MemoryHub Backend
  *
- * Handles all communication with the PersistQ API backend.
+ * Handles all communication with the MemoryHub API backend.
  * Automatically manages API key authentication and error handling.
  */
 
-import type {
-  Memory,
-  MemoryStats,
-  SearchResult,
-  ApiResponse,
-  PaginatedResponse,
-  MemoryHubConfig,
-  CreateMemoryParams,
-  UpdateMemoryParams,
-  ListMemoriesParams,
-  SearchMemoriesParams,
-  CheckoutParams,
-  ApiKeyStatus,
-  GeneratedApiKey,
-  HealthCheckResponse,
-  PortalUrlResponse,
-  CheckoutResponse,
-} from './types'
+// Validate API URL is configured
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+
+if (!API_BASE_URL) {
+  throw new Error(
+    'NEXT_PUBLIC_API_URL environment variable is required. ' +
+    'Please set it in your .env.local file (e.g., https://your-backend.onrender.com)'
+  )
+}
+
+// Types
+export interface Memory {
+  id: string
+  userId: string
+  project: string | null
+  content: string
+  metadata: Record<string, any> | null
+  createdAt: string
+}
+
+export interface MemoryStats {
+  totalMemories: number
+  memoriesByProject: Record<string, number>
+  recentMemories: Memory[]
+}
+
+export interface SearchResult {
+  id: string
+  content: string
+  project: string | null
+  metadata: Record<string, any> | null
+  similarity: number
+  createdAt: string
+}
+
+export interface ApiResponse<T> {
+  status: 'success' | 'error'
+  data?: T
+  error?: string
+}
+
+export interface PaginatedResponse<T> {
+  status: 'success' | 'error'
+  data?: {
+    memories: T[]
+    total: number
+    offset: number
+    limit: number
+  }
+  error?: string
+}
 
 /**
  * API Client Class
@@ -31,12 +64,10 @@ import type {
 export class MemoryHubClient {
   private apiKey: string | null = null
   private clerkToken: string | null = null
-  private baseUrl: string
 
-  constructor(config: MemoryHubConfig) {
-    this.baseUrl = config.baseUrl
-    if (config.apiKey) {
-      this.apiKey = config.apiKey
+  constructor(apiKey?: string) {
+    if (apiKey) {
+      this.apiKey = apiKey
     }
   }
 
@@ -69,9 +100,9 @@ export class MemoryHubClient {
     options: RequestInit = {},
     useClerkAuth: boolean = false
   ): Promise<ApiResponse<T>> {
-    const headers: Record<string, string> = {
+    const headers: HeadersInit = {
       'Content-Type': 'application/json',
-      ...(options.headers as Record<string, string>),
+      ...options.headers,
     }
 
     // For Clerk-protected routes (like /api/auth/clerk-link), use Clerk token
@@ -84,7 +115,7 @@ export class MemoryHubClient {
     }
 
     try {
-      const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         ...options,
         headers,
         credentials: 'include', // Include cookies for cross-origin requests
@@ -112,7 +143,7 @@ export class MemoryHubClient {
   /**
    * Check if user has an API key (returns null if not generated yet)
    */
-  async getApiKeyStatus(): Promise<ApiResponse<ApiKeyStatus>> {
+  async getApiKeyStatus(): Promise<ApiResponse<{ hasApiKey: boolean; apiKey: string | null; userId?: string; email: string | null }>> {
     return this.request('/api/api-keys', {
       method: 'GET',
     }, true) // Use Clerk authentication
@@ -121,7 +152,7 @@ export class MemoryHubClient {
   /**
    * Generate API key for authenticated Clerk user (first time)
    */
-  async generateApiKey(): Promise<ApiResponse<GeneratedApiKey>> {
+  async generateApiKey(): Promise<ApiResponse<{ apiKey: string; userId: string; email: string }>> {
     return this.request('/api/api-keys', {
       method: 'POST',
     }, true) // Use Clerk authentication
@@ -130,7 +161,7 @@ export class MemoryHubClient {
   /**
    * Regenerate API key for authenticated Clerk user (replaces existing)
    */
-  async regenerateApiKey(): Promise<ApiResponse<GeneratedApiKey>> {
+  async regenerateApiKey(): Promise<ApiResponse<{ apiKey: string; userId: string; email: string }>> {
     return this.request('/api/api-keys', {
       method: 'PUT',
     }, true) // Use Clerk authentication
@@ -164,7 +195,11 @@ export class MemoryHubClient {
    */
   async updateMemory(
     id: string,
-    updates: UpdateMemoryParams
+    updates: {
+      content?: string
+      project?: string
+      metadata?: Record<string, any>
+    }
   ): Promise<ApiResponse<{ success: boolean }>> {
     return this.request(`/api/memory/${id}`, {
       method: 'PUT',
@@ -184,7 +219,11 @@ export class MemoryHubClient {
   /**
    * List memories with pagination
    */
-  async listMemories(params?: ListMemoriesParams): Promise<PaginatedResponse<Memory>> {
+  async listMemories(params?: {
+    offset?: number
+    limit?: number
+    project?: string
+  }): Promise<PaginatedResponse<Memory>> {
     const queryParams = new URLSearchParams()
     if (params?.offset) queryParams.append('offset', params.offset.toString())
     if (params?.limit) queryParams.append('limit', params.limit.toString())
@@ -201,7 +240,11 @@ export class MemoryHubClient {
    */
   async searchMemories(
     query: string,
-    options?: SearchMemoriesParams
+    options?: {
+      limit?: number
+      project?: string
+      threshold?: number
+    }
   ): Promise<ApiResponse<SearchResult[]>> {
     return this.request('/api/memory/search', {
       method: 'POST',
@@ -226,7 +269,12 @@ export class MemoryHubClient {
   /**
    * Check API health
    */
-  async healthCheck(): Promise<ApiResponse<HealthCheckResponse>> {
+  async healthCheck(): Promise<ApiResponse<{
+    status: string
+    database: string
+    redis: string
+    timestamp: string
+  }>> {
     return this.request('/api/status', {
       method: 'GET',
     })
@@ -247,7 +295,7 @@ export class MemoryHubClient {
   async createCheckout(
     planId: string,
     interval: 'monthly' | 'yearly'
-  ): Promise<ApiResponse<CheckoutResponse>> {
+  ): Promise<ApiResponse<{ url: string; sessionId: string }>> {
     return this.request('/api/billing/checkout', {
       method: 'POST',
       body: JSON.stringify({ planId, interval }),
@@ -292,7 +340,7 @@ export class MemoryHubClient {
   /**
    * Get customer portal URL
    */
-  async getPortalUrl(): Promise<ApiResponse<PortalUrlResponse>> {
+  async getPortalUrl(): Promise<ApiResponse<{ url: string }>> {
     return this.request('/api/billing/portal', {
       method: 'GET',
     }, true)
@@ -302,6 +350,12 @@ export class MemoryHubClient {
 /**
  * Create a new API client instance
  */
-export function createClient(config: MemoryHubConfig): MemoryHubClient {
-  return new MemoryHubClient(config)
+export function createClient(apiKey?: string): MemoryHubClient {
+  return new MemoryHubClient(apiKey)
 }
+
+/**
+ * Singleton client instance
+ * Can be used throughout the app after setting API key
+ */
+export const apiClient = new MemoryHubClient()

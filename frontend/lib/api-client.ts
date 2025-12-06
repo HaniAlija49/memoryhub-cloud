@@ -12,10 +12,10 @@ export type {
   SearchResult,
   ApiResponse,
   PaginatedResponse,
-} from '@memoryhub/sdk'
+} from 'persistq-sdk'
 
 // Re-export the client class
-export { MemoryHubClient } from '@memoryhub/sdk'
+export { MemoryHubClient } from 'persistq-sdk'
 
 // Validate API URL is configured (Next.js specific)
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
@@ -28,7 +28,7 @@ if (!API_BASE_URL) {
 }
 
 // Create and export configured client instances
-import { createClient as createSDKClient, MemoryHubClient } from '@memoryhub/sdk'
+import { createClient as createSDKClient, MemoryHubClient } from 'persistq-sdk'
 
 /**
  * Singleton client instance

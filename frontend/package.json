@@ -9,7 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@memoryhub/sdk": "file:../sdk",
+    "persistq-sdk": "file:../sdk",
     "@clerk/nextjs": "^6.34.1",
     "@clerk/themes": "^2.4.42",
     "@hookform/resolvers": "^3.10.0",

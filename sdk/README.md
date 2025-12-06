@@ -1,8 +1,8 @@
-# MemoryHub SDK
+# PersistQ SDK
 
-> Official TypeScript/JavaScript SDK for MemoryHub - AI-powered semantic memory storage
+> Official TypeScript/JavaScript SDK for PersistQ - AI-powered persistent memory storage
 
-[![npm version](https://img.shields.io/npm/v/@memoryhub/sdk.svg)](https://www.npmjs.com/package/@memoryhub/sdk)
+[![npm version](https://img.shields.io/npm/v/persistq-sdk.svg)](https://www.npmjs.com/package/persistq-sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
@@ -20,19 +20,19 @@
 ## Installation
 
 ```bash
-npm install @memoryhub/sdk
+npm install persistq-sdk
 ```
 
 Or with yarn:
 
 ```bash
-yarn add @memoryhub/sdk
+yarn add persistq-sdk
 ```
 
 Or with pnpm:
 
 ```bash
-pnpm add @memoryhub/sdk
+pnpm add persistq-sdk
 ```
 
 ## Quick Start
@@ -83,7 +83,7 @@ const memories = await client.listMemories({
 ### Creating a Client
 
 ```typescript
-import { createClient, MemoryHubClient } from '@memoryhub/sdk'
+import { createClient, MemoryHubClient } from 'persistq-sdk'
 
 // Option 1: With API key
 const client = createClient({
@@ -394,7 +394,7 @@ export async function GET() {
 
 ```typescript
 import { useEffect, useState } from 'react'
-import { createClient, Memory } from '@memoryhub/sdk'
+import { createClient, Memory } from 'persistq-sdk'
 
 const client = createClient({
   baseUrl: import.meta.env.VITE_API_URL,
@@ -427,7 +427,7 @@ export function MemoryList() {
 ### Node.js Backend
 
 ```typescript
-import { createClient } from '@memoryhub/sdk'
+import { createClient } from 'persistq-sdk'
 
 const client = createClient({
   baseUrl: process.env.MEMORYHUB_API_URL,
@@ -459,7 +459,7 @@ async function findPreferences(userId: string, query: string) {
 <html>
 <head>
   <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@memoryhub/sdk/+esm'
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/persistq-sdk/+esm'
 
     const client = createClient({
       baseUrl: 'https://your-backend.onrender.com',
@@ -472,7 +472,7 @@ async function findPreferences(userId: string, query: string) {
   </script>
 </head>
 <body>
-  <h1>MemoryHub SDK Demo</h1>
+  <h1>PersistQ SDK Demo</h1>
 </body>
 </html>
 ```
@@ -500,16 +500,16 @@ if (result.status === 'success') {
 ## Related Packages
 
 - **persistq** - MCP server for Claude Code and GitHub Copilot CLI integration
-- **MemoryHub API** - Backend API documentation
+- **PersistQ API** - Backend API documentation
 
 ## Support
 
 - [GitHub Issues](https://github.com/yourusername/memoryhub-monorepo/issues)
-- [Documentation](https://docs.memoryhub.com)
+- [Documentation](https://docs.persistq.com)
 
 ## License
 
-MIT © MemoryHub
+MIT © PersistQ
 
 ---
 

@@ -8,7 +8,14 @@
       "WebSearch",
       "Bash(git restore:*)",
       "Bash(tree:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(npm run build:*)",
+      "Bash(npm view:*)",
+      "Bash(node pq-mcp-server.js:*)",
+      "Bash(npm pack:*)",
+      "Bash(npm publish)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,5 +1,5 @@
 /**
- * TypeScript Type Definitions for MemoryHub SDK
+ * TypeScript Type Definitions for PersistQ SDK
  */
 
 export interface Memory {

@@ -1,7 +1,7 @@
 {
-  "name": "@memoryhub/sdk",
+  "name": "persistq-sdk",
   "version": "1.0.0",
-  "description": "TypeScript/JavaScript SDK for MemoryHub - AI-powered semantic memory storage",
+  "description": "TypeScript/JavaScript SDK for PersistQ - AI-powered persistent memory storage",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -30,8 +30,8 @@
     "typecheck": "tsc --noEmit"
   },
   "keywords": [
-    "memoryhub",
     "persistq",
+    "persistq-sdk",
     "memory",
     "semantic-search",
     "ai",

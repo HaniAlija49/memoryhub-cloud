@@ -1,11 +1,11 @@
 /**
- * MemoryHub SDK
+ * PersistQ SDK
  *
- * Official TypeScript/JavaScript SDK for MemoryHub - AI-powered semantic memory storage
+ * Official TypeScript/JavaScript SDK for PersistQ - AI-powered persistent memory storage
  *
  * @example
  * ```typescript
- * import { createClient } from '@memoryhub/sdk'
+ * import { createClient } from 'persistq-sdk'
  *
  * const client = createClient({
  *   baseUrl: 'https://your-backend.onrender.com',

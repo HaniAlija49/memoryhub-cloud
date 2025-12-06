@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-12-07
 
 ### Added
-- Initial release of MemoryHub SDK
+- Initial release of PersistQ SDK
 - Complete TypeScript API client with full type definitions
 - Memory CRUD operations (create, read, update, delete, list, search)
 - Semantic search with vector embeddings
