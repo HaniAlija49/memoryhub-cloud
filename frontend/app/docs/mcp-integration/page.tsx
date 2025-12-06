@@ -442,11 +442,15 @@ export default function MCPIntegrationPage() {
           <div className="p-6 rounded-lg border border-accent-cyan/30 bg-accent-cyan/5">
             <h3 className="font-semibold mb-2 text-accent-cyan">Need Help?</h3>
             <p className="text-sm text-muted-foreground">
-              Check out our{" "}
-              <Link href="/docs/examples" className="text-accent-cyan hover:underline">
-                examples
+              Check out the{" "}
+              <Link href="/docs/getting-started" className="text-accent-cyan hover:underline">
+                getting started guide
               </Link>{" "}
-              or contact support if you encounter any issues.
+              or{" "}
+              <Link href="/docs/api-reference" className="text-accent-cyan hover:underline">
+                API reference
+              </Link>{" "}
+              if you encounter any issues.
             </p>
           </div>
         </div>

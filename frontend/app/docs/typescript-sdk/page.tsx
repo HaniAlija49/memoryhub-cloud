@@ -384,11 +384,11 @@ if (results.status === 'success') {
                   <p className="text-sm text-muted-foreground">Complete HTTP API documentation</p>
                 </Link>
                 <Link
-                  href="/docs/examples"
+                  href="/docs/getting-started"
                   className="p-6 rounded-lg border border-border bg-surface hover:border-accent-purple transition-colors"
                 >
-                  <h3 className="font-semibold mb-2">Code Examples</h3>
-                  <p className="text-sm text-muted-foreground">Ready-to-use code snippets</p>
+                  <h3 className="font-semibold mb-2">Getting Started</h3>
+                  <p className="text-sm text-muted-foreground">Quick installation and setup guide</p>
                 </Link>
                 <Link
                   href="/docs/mcp-integration"
