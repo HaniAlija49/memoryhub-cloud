@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { BookOpen, Code2, Lightbulb, ArrowRight } from "lucide-react"
+import { BookOpen, Code2, Lightbulb, ArrowRight, Terminal, Puzzle } from "lucide-react"
 
 export default function DocsPage() {
   return (
@@ -83,6 +83,40 @@ export default function DocsPage() {
             </p>
             <div className="flex items-center gap-2 text-accent-cyan font-medium">
               Start learning
+              <ArrowRight className="w-4 h-4" />
+            </div>
+          </Link>
+
+          <Link
+            href="/docs/typescript-sdk"
+            className="p-8 rounded-lg border border-border bg-surface hover:border-accent-purple transition-colors group"
+          >
+            <div className="w-12 h-12 rounded-lg bg-accent-purple/10 flex items-center justify-center mb-4 group-hover:bg-accent-purple/20 transition-colors">
+              <Terminal className="w-6 h-6 text-accent-purple" />
+            </div>
+            <h3 className="text-2xl font-bold mb-2">TypeScript SDK</h3>
+            <p className="text-muted-foreground mb-4">
+              Official TypeScript/JavaScript SDK for web apps, Node.js, and serverless
+            </p>
+            <div className="flex items-center gap-2 text-accent-purple font-medium">
+              View SDK docs
+              <ArrowRight className="w-4 h-4" />
+            </div>
+          </Link>
+
+          <Link
+            href="/docs/mcp-integration"
+            className="p-8 rounded-lg border border-border bg-surface hover:border-accent-cyan transition-colors group"
+          >
+            <div className="w-12 h-12 rounded-lg bg-accent-cyan/10 flex items-center justify-center mb-4 group-hover:bg-accent-cyan/20 transition-colors">
+              <Puzzle className="w-6 h-6 text-accent-cyan" />
+            </div>
+            <h3 className="text-2xl font-bold mb-2">MCP Integration</h3>
+            <p className="text-muted-foreground mb-4">
+              Integrate with Claude Code and GitHub Copilot CLI via Model Context Protocol
+            </p>
+            <div className="flex items-center gap-2 text-accent-cyan font-medium">
+              Setup MCP
               <ArrowRight className="w-4 h-4" />
             </div>
           </Link>

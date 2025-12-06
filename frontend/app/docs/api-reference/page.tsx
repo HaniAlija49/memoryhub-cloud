@@ -74,6 +74,16 @@ export default function APIReferencePage() {
                     </a>
                   </li>
                   <li>
+                    <a href="#search-memories" className="text-muted-foreground hover:text-foreground">
+                      Search Memories
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#get-stats" className="text-muted-foreground hover:text-foreground">
+                      Get Memory Stats
+                    </a>
+                  </li>
+                  <li>
                     <a href="#get-memory" className="text-muted-foreground hover:text-foreground">
                       Get Memory
                     </a>
@@ -86,11 +96,6 @@ export default function APIReferencePage() {
                   <li>
                     <a href="#delete-memory" className="text-muted-foreground hover:text-foreground">
                       Delete Memory
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#search-memories" className="text-muted-foreground hover:text-foreground">
-                      Search Memories
                     </a>
                   </li>
                 </ul>
@@ -107,7 +112,25 @@ export default function APIReferencePage() {
               {/* Base URL */}
               <div className="p-6 rounded-lg border border-border bg-surface">
                 <h3 className="font-semibold mb-2">Base URL</h3>
-                <code className="text-accent-cyan">https://api.persistq.dev/v1</code>
+                <code className="text-accent-cyan">https://memoryhub-cloud.onrender.com</code>
+              </div>
+
+              {/* Authentication */}
+              <div className="p-6 rounded-lg border border-accent-cyan/30 bg-accent-cyan/5">
+                <h3 className="font-semibold mb-3">Authentication</h3>
+                <p className="text-sm text-muted-foreground mb-3">
+                  All API requests require an API key in the Authorization header:
+                </p>
+                <div className="rounded bg-background p-3">
+                  <code className="text-sm">Authorization: Bearer YOUR_API_KEY</code>
+                </div>
+                <p className="text-sm text-muted-foreground mt-3">
+                  Get your API key from the{" "}
+                  <Link href="/dashboard" className="text-accent-cyan hover:underline">
+                    dashboard
+                  </Link>
+                  . Your API key starts with <code className="bg-background px-2 py-1 rounded">mh_</code>
+                </p>
               </div>
 
               {/* Create Memory */}
@@ -119,7 +142,7 @@ export default function APIReferencePage() {
                 <p className="text-muted-foreground">Store a new memory in your account</p>
 
                 <div className="rounded-lg border border-border bg-surface p-4">
-                  <code className="text-sm">POST /memories</code>
+                  <code className="text-sm">POST /api/memory</code>
                 </div>
 
                 <div>
@@ -140,14 +163,14 @@ export default function APIReferencePage() {
                           <td className="p-3 text-muted-foreground">The memory content (required)</td>
                         </tr>
                         <tr className="border-b border-border/50">
-                          <td className="p-3 font-mono">group</td>
+                          <td className="p-3 font-mono">project</td>
                           <td className="p-3 text-muted-foreground">string</td>
-                          <td className="p-3 text-muted-foreground">Memory group name (optional)</td>
+                          <td className="p-3 text-muted-foreground">Project/group name (optional)</td>
                         </tr>
                         <tr>
-                          <td className="p-3 font-mono">tags</td>
-                          <td className="p-3 text-muted-foreground">array</td>
-                          <td className="p-3 text-muted-foreground">Array of tag strings (optional)</td>
+                          <td className="p-3 font-mono">metadata</td>
+                          <td className="p-3 text-muted-foreground">object</td>
+                          <td className="p-3 text-muted-foreground">Additional metadata including tags (optional)</td>
                         </tr>
                       </tbody>
                     </table>
@@ -158,14 +181,33 @@ export default function APIReferencePage() {
                   <h3 className="font-semibold mb-3">Example Request</h3>
                   <div className="rounded-lg border border-border bg-surface p-4">
                     <pre className="text-sm overflow-x-auto">
-                      <code>{`curl -X POST https://api.persistq.dev/v1/memories \\
+                      <code>{`curl -X POST https://memoryhub-cloud.onrender.com/api/memory \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
     "content": "User prefers dark mode",
-    "group": "preferences",
-    "tags": ["ui", "settings"]
+    "project": "preferences",
+    "metadata": {
+      "tags": ["ui", "settings"]
+    }
   }'`}</code>
+                    </pre>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Response</h3>
+                  <div className="rounded-lg border border-border bg-surface p-4">
+                    <pre className="text-sm overflow-x-auto">
+                      <code>{`{
+  "status": "success",
+  "data": {
+    "memoryId": "cm123456789",
+    "content": "User prefers dark mode",
+    "project": "preferences",
+    "createdAt": "2025-12-07T..."
+  }
+}`}</code>
                     </pre>
                   </div>
                 </div>
@@ -182,7 +224,7 @@ export default function APIReferencePage() {
                 <p className="text-muted-foreground">Retrieve a list of memories with optional filtering</p>
 
                 <div className="rounded-lg border border-border bg-surface p-4">
-                  <code className="text-sm">GET /memories</code>
+                  <code className="text-sm">GET /api/memory/list</code>
                 </div>
 
                 <div>
@@ -198,14 +240,14 @@ export default function APIReferencePage() {
                       </thead>
                       <tbody className="text-sm">
                         <tr className="border-b border-border/50">
-                          <td className="p-3 font-mono">group</td>
+                          <td className="p-3 font-mono">project</td>
                           <td className="p-3 text-muted-foreground">string</td>
-                          <td className="p-3 text-muted-foreground">Filter by group name</td>
+                          <td className="p-3 text-muted-foreground">Filter by project name (optional)</td>
                         </tr>
                         <tr className="border-b border-border/50">
                           <td className="p-3 font-mono">limit</td>
                           <td className="p-3 text-muted-foreground">integer</td>
-                          <td className="p-3 text-muted-foreground">Number of results (default: 20, max: 100)</td>
+                          <td className="p-3 text-muted-foreground">Number of results (default: 10)</td>
                         </tr>
                         <tr>
                           <td className="p-3 font-mono">offset</td>
@@ -216,6 +258,41 @@ export default function APIReferencePage() {
                     </table>
                   </div>
                 </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Example Request</h3>
+                  <div className="rounded-lg border border-border bg-surface p-4">
+                    <pre className="text-sm overflow-x-auto">
+                      <code>{`curl -X GET "https://memoryhub-cloud.onrender.com/api/memory/list?limit=10&offset=0" \\
+  -H "Authorization: Bearer YOUR_API_KEY"`}</code>
+                    </pre>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Response</h3>
+                  <div className="rounded-lg border border-border bg-surface p-4">
+                    <pre className="text-sm overflow-x-auto">
+                      <code>{`{
+  "status": "success",
+  "data": {
+    "memories": [
+      {
+        "id": "cm123456789",
+        "content": "User prefers dark mode",
+        "project": "preferences",
+        "createdAt": "2025-12-07T...",
+        "updatedAt": "2025-12-07T..."
+      }
+    ],
+    "total": 1,
+    "limit": 10,
+    "offset": 0
+  }
+}`}</code>
+                    </pre>
+                  </div>
+                </div>
               </div>
 
               {/* Search Memories */}
@@ -224,10 +301,10 @@ export default function APIReferencePage() {
                   <span className="px-3 py-1 rounded bg-accent-cyan/10 text-accent-cyan text-sm font-mono">POST</span>
                   <h2 className="text-2xl font-bold">Search Memories</h2>
                 </div>
-                <p className="text-muted-foreground">Perform semantic search across your memories</p>
+                <p className="text-muted-foreground">Perform semantic search across your memories using vector similarity</p>
 
                 <div className="rounded-lg border border-border bg-surface p-4">
-                  <code className="text-sm">POST /memories/search</code>
+                  <code className="text-sm">POST /api/memory/search</code>
                 </div>
 
                 <div>
@@ -247,13 +324,240 @@ export default function APIReferencePage() {
                           <td className="p-3 text-muted-foreground">string</td>
                           <td className="p-3 text-muted-foreground">Search query (required)</td>
                         </tr>
-                        <tr>
+                        <tr className="border-b border-border/50">
                           <td className="p-3 font-mono">limit</td>
                           <td className="p-3 text-muted-foreground">integer</td>
-                          <td className="p-3 text-muted-foreground">Number of results (default: 10, max: 50)</td>
+                          <td className="p-3 text-muted-foreground">Number of results (default: 10)</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3 font-mono">threshold</td>
+                          <td className="p-3 text-muted-foreground">number</td>
+                          <td className="p-3 text-muted-foreground">Minimum similarity score 0-1 (default: 0.7)</td>
                         </tr>
                       </tbody>
                     </table>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Example Request</h3>
+                  <div className="rounded-lg border border-border bg-surface p-4">
+                    <pre className="text-sm overflow-x-auto">
+                      <code>{`curl -X POST https://memoryhub-cloud.onrender.com/api/memory/search \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "query": "user interface preferences",
+    "limit": 10,
+    "threshold": 0.7
+  }'`}</code>
+                    </pre>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Response</h3>
+                  <div className="rounded-lg border border-border bg-surface p-4">
+                    <pre className="text-sm overflow-x-auto">
+                      <code>{`{
+  "status": "success",
+  "data": [
+    {
+      "id": "cm123456789",
+      "content": "User prefers dark mode",
+      "project": "preferences",
+      "similarity": 0.89,
+      "createdAt": "2025-12-07T..."
+    }
+  ]
+}`}</code>
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              {/* Get Memory Stats */}
+              <div id="get-stats" className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <span className="px-3 py-1 rounded bg-accent-purple/10 text-accent-purple text-sm font-mono">
+                    GET
+                  </span>
+                  <h2 className="text-2xl font-bold">Get Memory Stats</h2>
+                </div>
+                <p className="text-muted-foreground">Get statistics about your stored memories</p>
+
+                <div className="rounded-lg border border-border bg-surface p-4">
+                  <code className="text-sm">GET /api/memory/stats</code>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Example Request</h3>
+                  <div className="rounded-lg border border-border bg-surface p-4">
+                    <pre className="text-sm overflow-x-auto">
+                      <code>{`curl -X GET https://memoryhub-cloud.onrender.com/api/memory/stats \\
+  -H "Authorization: Bearer YOUR_API_KEY"`}</code>
+                    </pre>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Response</h3>
+                  <div className="rounded-lg border border-border bg-surface p-4">
+                    <pre className="text-sm overflow-x-auto">
+                      <code>{`{
+  "status": "success",
+  "data": {
+    "total": 42,
+    "byProject": {
+      "preferences": 10,
+      "code-snippets": 15,
+      "notes": 17
+    }
+  }
+}`}</code>
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              {/* Get Memory */}
+              <div id="get-memory" className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <span className="px-3 py-1 rounded bg-accent-purple/10 text-accent-purple text-sm font-mono">
+                    GET
+                  </span>
+                  <h2 className="text-2xl font-bold">Get Memory</h2>
+                </div>
+                <p className="text-muted-foreground">Retrieve a specific memory by ID</p>
+
+                <div className="rounded-lg border border-border bg-surface p-4">
+                  <code className="text-sm">GET /api/memory/:id</code>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Example Request</h3>
+                  <div className="rounded-lg border border-border bg-surface p-4">
+                    <pre className="text-sm overflow-x-auto">
+                      <code>{`curl -X GET https://memoryhub-cloud.onrender.com/api/memory/cm123456789 \\
+  -H "Authorization: Bearer YOUR_API_KEY"`}</code>
+                    </pre>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Response</h3>
+                  <div className="rounded-lg border border-border bg-surface p-4">
+                    <pre className="text-sm overflow-x-auto">
+                      <code>{`{
+  "status": "success",
+  "data": {
+    "id": "cm123456789",
+    "content": "User prefers dark mode",
+    "project": "preferences",
+    "metadata": {
+      "tags": ["ui", "settings"]
+    },
+    "createdAt": "2025-12-07T...",
+    "updatedAt": "2025-12-07T..."
+  }
+}`}</code>
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              {/* Update Memory */}
+              <div id="update-memory" className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <span className="px-3 py-1 rounded bg-accent-cyan/10 text-accent-cyan text-sm font-mono">PUT</span>
+                  <h2 className="text-2xl font-bold">Update Memory</h2>
+                </div>
+                <p className="text-muted-foreground">Update an existing memory</p>
+
+                <div className="rounded-lg border border-border bg-surface p-4">
+                  <code className="text-sm">PUT /api/memory/:id</code>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Request Body</h3>
+                  <div className="rounded-lg border border-border bg-surface overflow-hidden">
+                    <table className="w-full">
+                      <thead className="border-b border-border">
+                        <tr>
+                          <th className="text-left p-3 text-sm font-medium">Parameter</th>
+                          <th className="text-left p-3 text-sm font-medium">Type</th>
+                          <th className="text-left p-3 text-sm font-medium">Description</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-sm">
+                        <tr className="border-b border-border/50">
+                          <td className="p-3 font-mono">content</td>
+                          <td className="p-3 text-muted-foreground">string</td>
+                          <td className="p-3 text-muted-foreground">Updated memory content (optional)</td>
+                        </tr>
+                        <tr className="border-b border-border/50">
+                          <td className="p-3 font-mono">project</td>
+                          <td className="p-3 text-muted-foreground">string</td>
+                          <td className="p-3 text-muted-foreground">Updated project name (optional)</td>
+                        </tr>
+                        <tr>
+                          <td className="p-3 font-mono">metadata</td>
+                          <td className="p-3 text-muted-foreground">object</td>
+                          <td className="p-3 text-muted-foreground">Updated metadata (optional)</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Example Request</h3>
+                  <div className="rounded-lg border border-border bg-surface p-4">
+                    <pre className="text-sm overflow-x-auto">
+                      <code>{`curl -X PUT https://memoryhub-cloud.onrender.com/api/memory/cm123456789 \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "content": "User prefers dark mode and compact layouts"
+  }'`}</code>
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              {/* Delete Memory */}
+              <div id="delete-memory" className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <span className="px-3 py-1 rounded bg-red-500/10 text-red-500 text-sm font-mono">DELETE</span>
+                  <h2 className="text-2xl font-bold">Delete Memory</h2>
+                </div>
+                <p className="text-muted-foreground">Permanently delete a memory</p>
+
+                <div className="rounded-lg border border-border bg-surface p-4">
+                  <code className="text-sm">DELETE /api/memory/:id</code>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Example Request</h3>
+                  <div className="rounded-lg border border-border bg-surface p-4">
+                    <pre className="text-sm overflow-x-auto">
+                      <code>{`curl -X DELETE https://memoryhub-cloud.onrender.com/api/memory/cm123456789 \\
+  -H "Authorization: Bearer YOUR_API_KEY"`}</code>
+                    </pre>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-3">Response</h3>
+                  <div className="rounded-lg border border-border bg-surface p-4">
+                    <pre className="text-sm overflow-x-auto">
+                      <code>{`{
+  "status": "success",
+  "data": {
+    "deleted": true
+  }
+}`}</code>
+                    </pre>
                   </div>
                 </div>
               </div>
