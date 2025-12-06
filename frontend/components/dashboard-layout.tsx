@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import { useUser, SignOutButton } from "@clerk/nextjs"
+import { useUser, SignOutButton, useAuth } from "@clerk/nextjs"
 import * as Sentry from '@sentry/nextjs'
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -20,6 +20,7 @@ import { LayoutDashboard, Key, Brain, Settings, Menu, X, CreditCard } from "luci
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
+import { BillingService } from "@/services/billing.service"
 
 const projectNav = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -36,6 +37,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { user, isLoaded } = useUser()
+  const { getToken } = useAuth()
+  const [currentPlan, setCurrentPlan] = useState<string>("free")
 
   // Identify user in Sentry when authenticated
   useEffect(() => {
@@ -48,6 +51,20 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       })
     }
   }, [isLoaded, user])
+
+  // Fetch current plan
+  useEffect(() => {
+    const fetchPlan = async () => {
+      if (!isLoaded || !user) return
+
+      const billingData = await BillingService.getSubscriptionData(getToken)
+      if (billingData?.subscription?.planId) {
+        setCurrentPlan(billingData.subscription.planId)
+      }
+    }
+
+    fetchPlan()
+  }, [isLoaded, user, getToken])
 
   return (
     <div className="min-h-screen bg-background">
@@ -66,8 +83,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               />
             </div>
             <span className="text-base font-semibold text-foreground">PersistQ</span>
-            <span className="ml-auto rounded bg-accent-glow px-1.5 py-0.5 text-xs font-medium text-accent-cyan">
-              FREE
+            <span className={cn(
+              "ml-auto rounded px-1.5 py-0.5 text-xs font-medium uppercase",
+              currentPlan === "free" && "bg-accent-glow text-accent-cyan",
+              currentPlan === "starter" && "bg-blue-500/10 text-blue-500",
+              currentPlan === "pro" && "bg-purple-500/10 text-purple-500",
+              currentPlan === "premium" && "bg-amber-500/10 text-amber-500"
+            )}>
+              {currentPlan}
             </span>
           </div>
 
