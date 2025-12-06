@@ -194,11 +194,9 @@ export default function BillingPage() {
           : "Your subscription will be canceled at the end of the billing period.",
       })
 
-      // Wait a moment for webhook to process, then refresh
-      setTimeout(async () => {
-        await loadBillingData()
-        setIsActionLoading(false)
-      }, 2000)
+      // Refresh immediately - backend updates cancelAtPeriodEnd flag right away
+      await loadBillingData()
+      setIsActionLoading(false)
     } else {
       toast({
         title: "Cancellation Failed",
