@@ -93,8 +93,16 @@ export default function BillingPage() {
   const handleChangePlan = async (planId: string, interval: 'monthly' | 'yearly') => {
     setIsActionLoading(true)
 
-    // If user is on free plan, redirect to checkout instead of updating
-    if (billingData?.subscription.planId === 'free') {
+    // If user is on free plan OR has a fully cancelled subscription, redirect to checkout
+    const isFullyCancelled = billingData?.subscription.status === 'canceled'
+    if (billingData?.subscription.planId === 'free' || isFullyCancelled) {
+      if (isFullyCancelled) {
+        toast({
+          title: "Creating New Subscription",
+          description: "Your previous subscription was cancelled. Creating a new one...",
+        })
+      }
+
       const checkout = await BillingService.createCheckout(planId, interval, getToken)
 
       if (checkout?.url) {
@@ -111,16 +119,55 @@ export default function BillingPage() {
       return
     }
 
-    // For existing subscribers, update the plan
+    // Check if subscription is scheduled for cancellation
+    if (billingData?.subscription.cancelAtPeriodEnd) {
+      toast({
+        title: "Reactivation Required",
+        description: "Please reactivate your subscription first, then change plans.",
+        variant: "destructive",
+      })
+      setIsActionLoading(false)
+      setShowChangePlanDialog(false)
+      return
+    }
+
+    // For existing active subscribers, update the plan
     const result = await BillingService.updatePlan(planId, interval, getToken)
 
     if (result.success) {
       toast({
-        title: "Plan Updated",
-        description: `Your subscription has been changed successfully.`,
+        title: "Plan Change Initiated",
+        description: "Your plan is being updated. This may take a few moments...",
       })
-      await loadBillingData() // Refresh data
-      setIsActionLoading(false)
+      setShowChangePlanDialog(false)
+
+      // Poll for updates (webhook processing)
+      let attempts = 0
+      const maxAttempts = 10
+      const pollInterval = setInterval(async () => {
+        attempts++
+        await loadBillingData()
+
+        // Check if plan has changed
+        if (billingData?.subscription.planId === planId && billingData?.subscription.interval === interval) {
+          clearInterval(pollInterval)
+          setIsActionLoading(false)
+          toast({
+            title: "Plan Updated Successfully",
+            description: `You're now on the ${planId} plan!`,
+          })
+        }
+
+        // Stop polling after max attempts
+        if (attempts >= maxAttempts) {
+          clearInterval(pollInterval)
+          setIsActionLoading(false)
+          toast({
+            title: "Plan Update In Progress",
+            description: "Your plan is being updated. Please refresh in a moment to see changes.",
+          })
+        }
+      }, 2000) // Poll every 2 seconds
     } else {
       toast({
         title: "Update Failed",
@@ -177,6 +224,36 @@ export default function BillingPage() {
   const handleReactivate = async () => {
     setIsActionLoading(true)
 
+    // Check if subscription is fully cancelled
+    const isFullyCancelled = billingData?.subscription.status === 'canceled'
+
+    if (isFullyCancelled) {
+      // For fully cancelled subscriptions, redirect to checkout to create new subscription
+      toast({
+        title: "Subscription Fully Cancelled",
+        description: "Creating a new subscription for you...",
+      })
+
+      // Redirect to checkout with current plan
+      const currentPlanId = billingData?.subscription.planId || 'starter'
+      const currentInterval = billingData?.subscription.interval || 'monthly'
+
+      const checkout = await BillingService.createCheckout(currentPlanId, currentInterval, getToken)
+
+      if (checkout?.url) {
+        window.location.href = checkout.url
+      } else {
+        toast({
+          title: "Checkout Failed",
+          description: "Failed to create checkout session. Please try again.",
+          variant: "destructive",
+        })
+        setIsActionLoading(false)
+      }
+      return
+    }
+
+    // For scheduled-for-cancellation subscriptions, reactivate normally
     const result = await BillingService.reactivateSubscription(getToken)
 
     if (result.success) {
@@ -184,16 +261,20 @@ export default function BillingPage() {
         title: "Subscription Reactivated",
         description: "Your subscription has been reactivated successfully.",
       })
-      await loadBillingData()
+
+      // Poll for updates
+      setTimeout(async () => {
+        await loadBillingData()
+        setIsActionLoading(false)
+      }, 2000)
     } else {
       toast({
         title: "Reactivation Failed",
         description: result.error || "Failed to reactivate subscription. Please try again.",
         variant: "destructive",
       })
+      setIsActionLoading(false)
     }
-
-    setIsActionLoading(false)
   }
 
   // Loading state

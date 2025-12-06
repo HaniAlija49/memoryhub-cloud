@@ -48,7 +48,9 @@ export function SubscriptionCard({
   }
 
   const isFree = plan.id === 'free'
-  const isCanceled = subscription.status === 'canceled' || subscription.cancelAtPeriodEnd
+  const isFullyCancelled = subscription.status === 'canceled'
+  const isScheduledForCancellation = subscription.cancelAtPeriodEnd && subscription.status !== 'canceled'
+  const isCanceled = isFullyCancelled || isScheduledForCancellation
 
   return (
     <Card>
@@ -98,53 +100,93 @@ export function SubscriptionCard({
           </div>
         )}
 
-        {/* Cancellation Notice */}
-        {subscription.cancelAtPeriodEnd && subscription.currentPeriodEnd && (
+        {/* Scheduled Cancellation Notice */}
+        {isScheduledForCancellation && subscription.currentPeriodEnd && (
           <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-            <p className="text-sm text-yellow-600 dark:text-yellow-400">
+            <p className="text-sm text-yellow-600 dark:text-yellow-400 font-medium">
+              ⏰ Scheduled for Cancellation
+            </p>
+            <p className="text-xs text-yellow-600/80 dark:text-yellow-400/80 mt-1">
               Your subscription will end on {new Date(subscription.currentPeriodEnd).toLocaleDateString()}
+            </p>
+          </div>
+        )}
+
+        {/* Fully Cancelled Notice */}
+        {isFullyCancelled && (
+          <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+            <p className="text-sm text-red-600 dark:text-red-400 font-medium">
+              🚫 Subscription Cancelled
+            </p>
+            <p className="text-xs text-red-600/80 dark:text-red-400/80 mt-1">
+              Click "Renew Subscription" below to create a new subscription
             </p>
           </div>
         )}
 
         {/* Actions */}
         <div className="flex gap-2 pt-2">
-          <Button
-            onClick={onChangePlan}
-            disabled={isLoading}
-            className="flex-1"
-          >
-            {isFree ? 'Upgrade Plan' : 'Change Plan'}
-          </Button>
-
-          {!isFree && !isCanceled && (
-            <Button
-              onClick={onCancel}
-              variant="outline"
-              disabled={isLoading}
-            >
-              Cancel
-            </Button>
-          )}
-
-          {!isFree && isCanceled && (
+          {/* Fully Cancelled: Show "Renew Subscription" button */}
+          {isFullyCancelled && (
             <Button
               onClick={onReactivate}
-              variant="default"
+              className="flex-1"
               disabled={isLoading}
             >
-              Reactivate
+              Renew Subscription
             </Button>
           )}
 
-          {!isFree && !isCanceled && (
-            <Button
-              onClick={onManagePortal}
-              variant="outline"
-              disabled={isLoading}
-            >
-              Manage
-            </Button>
+          {/* Scheduled for Cancellation: Show "Reactivate" button */}
+          {isScheduledForCancellation && (
+            <>
+              <Button
+                onClick={onReactivate}
+                className="flex-1"
+                disabled={isLoading}
+              >
+                Reactivate
+              </Button>
+              <Button
+                onClick={onManagePortal}
+                variant="outline"
+                disabled={isLoading}
+              >
+                Manage
+              </Button>
+            </>
+          )}
+
+          {/* Active Subscription: Show normal controls */}
+          {!isCanceled && (
+            <>
+              <Button
+                onClick={onChangePlan}
+                disabled={isLoading}
+                className="flex-1"
+              >
+                {isFree ? 'Upgrade Plan' : 'Change Plan'}
+              </Button>
+
+              {!isFree && (
+                <>
+                  <Button
+                    onClick={onCancel}
+                    variant="outline"
+                    disabled={isLoading}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={onManagePortal}
+                    variant="outline"
+                    disabled={isLoading}
+                  >
+                    Manage
+                  </Button>
+                </>
+              )}
+            </>
           )}
         </div>
       </CardContent>
