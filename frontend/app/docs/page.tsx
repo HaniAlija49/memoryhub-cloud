@@ -48,14 +48,6 @@ export default function DocsPage() {
         </div>
       </header>
 
-      <div className="border-b border-border/40 bg-accent-cyan/5">
-        <div className="container mx-auto px-4 py-3">
-          <p className="text-sm text-center">
-            <span className="font-semibold text-accent-cyan">Preview Documentation</span> - API endpoints and SDK
-            packages are currently in development
-          </p>
-        </div>
-      </div>
 
       {/* Hero */}
       <section className="container mx-auto px-4 pt-20 pb-12">
@@ -138,35 +130,6 @@ export default function DocsPage() {
             </div>
           </Link>
 
-          <Link
-            href="/docs/guides"
-            className="p-8 rounded-lg border border-border bg-surface hover:border-accent-cyan transition-colors group"
-          >
-            <div className="w-12 h-12 rounded-lg bg-accent-cyan/10 flex items-center justify-center mb-4 group-hover:bg-accent-cyan/20 transition-colors">
-              <Lightbulb className="w-6 h-6 text-accent-cyan" />
-            </div>
-            <h3 className="text-2xl font-bold mb-2">Guides & Tutorials</h3>
-            <p className="text-muted-foreground mb-4">Step-by-step guides for common use cases and best practices</p>
-            <div className="flex items-center gap-2 text-accent-cyan font-medium">
-              Browse guides
-              <ArrowRight className="w-4 h-4" />
-            </div>
-          </Link>
-
-          <Link
-            href="/docs/examples"
-            className="p-8 rounded-lg border border-border bg-surface hover:border-accent-purple transition-colors group"
-          >
-            <div className="w-12 h-12 rounded-lg bg-accent-purple/10 flex items-center justify-center mb-4 group-hover:bg-accent-purple/20 transition-colors">
-              <Code2 className="w-6 h-6 text-accent-purple" />
-            </div>
-            <h3 className="text-2xl font-bold mb-2">Code Examples</h3>
-            <p className="text-muted-foreground mb-4">Ready-to-use code snippets in Python, Node.js, and more</p>
-            <div className="flex items-center gap-2 text-accent-purple font-medium">
-              View examples
-              <ArrowRight className="w-4 h-4" />
-            </div>
-          </Link>
         </div>
       </section>
 
@@ -176,61 +139,61 @@ export default function DocsPage() {
           <h2 className="text-3xl font-bold mb-8">Popular topics</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="space-y-3">
-              <h3 className="font-semibold text-lg">Quick Start</h3>
+              <h3 className="font-semibold text-lg">TypeScript SDK</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link href="/docs/getting-started#installation" className="hover:text-foreground">
+                  <Link href="/docs/typescript-sdk#installation" className="hover:text-foreground">
                     Installation
                   </Link>
                 </li>
                 <li>
-                  <Link href="/docs/getting-started#authentication" className="hover:text-foreground">
-                    Authentication
+                  <Link href="/docs/typescript-sdk#quick-start" className="hover:text-foreground">
+                    Quick Start
                   </Link>
                 </li>
                 <li>
-                  <Link href="/docs/getting-started#first-request" className="hover:text-foreground">
-                    Making your first request
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div className="space-y-3">
-              <h3 className="font-semibold text-lg">Core Concepts</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <Link href="/docs/guides#memories" className="hover:text-foreground">
-                    Understanding memories
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/docs/guides#groups" className="hover:text-foreground">
-                    Memory groups
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/docs/guides#search" className="hover:text-foreground">
-                    Semantic search
+                  <Link href="/docs/typescript-sdk#api-methods" className="hover:text-foreground">
+                    API Methods
                   </Link>
                 </li>
               </ul>
             </div>
             <div className="space-y-3">
-              <h3 className="font-semibold text-lg">Advanced</h3>
+              <h3 className="font-semibold text-lg">MCP Integration</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link href="/docs/guides#webhooks" className="hover:text-foreground">
-                    Webhooks
+                  <Link href="/docs/mcp-integration#installation" className="hover:text-foreground">
+                    Installation
                   </Link>
                 </li>
                 <li>
-                  <Link href="/docs/guides#rate-limits" className="hover:text-foreground">
-                    Rate limiting
+                  <Link href="/docs/mcp-integration#setup-for-claude-code" className="hover:text-foreground">
+                    Claude Code Setup
                   </Link>
                 </li>
                 <li>
-                  <Link href="/docs/guides#best-practices" className="hover:text-foreground">
-                    Best practices
+                  <Link href="/docs/mcp-integration#available-mcp-tools" className="hover:text-foreground">
+                    Available Tools
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div className="space-y-3">
+              <h3 className="font-semibold text-lg">API Reference</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>
+                  <Link href="/docs/api-reference#create-memory" className="hover:text-foreground">
+                    Create Memory
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/docs/api-reference#search-memories" className="hover:text-foreground">
+                    Search Memories
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/docs/api-reference#list-memories" className="hover:text-foreground">
+                    List Memories
                   </Link>
                 </li>
               </ul>

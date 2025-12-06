@@ -37,15 +37,6 @@ export default function APIReferencePage() {
         </div>
       </header>
 
-      <div className="border-b border-border/40 bg-accent-cyan/5">
-        <div className="container mx-auto px-4 py-3">
-          <p className="text-sm text-center">
-            <span className="font-semibold text-accent-cyan">Preview API Reference</span> - Endpoints and parameters
-            subject to change during beta
-          </p>
-        </div>
-      </div>
-
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-6xl mx-auto">
           {/* Breadcrumb */}

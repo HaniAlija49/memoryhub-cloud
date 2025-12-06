@@ -358,29 +358,29 @@ if (memories.status === 'success' && memories.data) {
             <h2 className="text-2xl font-bold mt-12 mb-4">Next Steps</h2>
             <div className="grid md:grid-cols-2 gap-4 mt-6">
               <Link
-                href="/docs/api-reference"
+                href="/docs/typescript-sdk"
                 className="p-6 rounded-lg border border-border bg-surface hover:border-accent-cyan transition-colors"
               >
-                <h3 className="font-semibold mb-2">API Reference</h3>
-                <p className="text-sm text-muted-foreground">Explore all available endpoints and SDK methods</p>
+                <h3 className="font-semibold mb-2">TypeScript SDK</h3>
+                <p className="text-sm text-muted-foreground">Explore the complete SDK documentation and API methods</p>
               </Link>
               <Link
-                href="/docs/guides"
+                href="/docs/mcp-integration"
                 className="p-6 rounded-lg border border-border bg-surface hover:border-accent-purple transition-colors"
               >
-                <h3 className="font-semibold mb-2">Guides</h3>
-                <p className="text-sm text-muted-foreground">Learn best practices and advanced patterns</p>
+                <h3 className="font-semibold mb-2">MCP Integration</h3>
+                <p className="text-sm text-muted-foreground">Set up PersistQ with Claude Code or GitHub Copilot CLI</p>
               </Link>
             </div>
 
             <div className="p-6 rounded-lg border border-accent-cyan/30 bg-accent-cyan/5 mt-8">
               <h3 className="font-semibold mb-2 text-accent-cyan">Need Help?</h3>
               <p className="text-sm text-muted-foreground">
-                Check out our{" "}
-                <Link href="/docs/examples" className="text-accent-cyan hover:underline">
-                  code examples
+                Check out the{" "}
+                <Link href="/docs/api-reference" className="text-accent-cyan hover:underline">
+                  API reference
                 </Link>{" "}
-                or reach out to support.
+                for detailed endpoint documentation.
               </p>
             </div>
           </article>
