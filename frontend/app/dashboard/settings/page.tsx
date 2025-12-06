@@ -5,14 +5,7 @@ import { dark } from "@clerk/themes"
 
 export default function SettingsPage() {
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-foreground">Account Settings</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Manage your account profile, security, and preferences
-        </p>
-      </div>
-
+    <div>
       <UserProfile
         appearance={{
           baseTheme: dark,

@@ -7,8 +7,8 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0D0D0D] to-[#1E1E1E] p-4">
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-4">
+        <div className="text-center mb-6">
+          <Link href="/" className="inline-flex items-center gap-2">
             <div className="relative w-10 h-10">
               <Image
                 src="/logo-small.png"
@@ -23,8 +23,6 @@ export default function LoginPage() {
               PersistQ
             </span>
           </Link>
-          <h1 className="text-2xl font-bold text-white mb-2">Welcome back</h1>
-          <p className="text-gray-400">Sign in to your account to continue</p>
         </div>
 
         <div className="flex justify-center">
