@@ -277,20 +277,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               </span>
             </div>
 
-            <button className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-accent-hover hover:text-foreground transition-colors">
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                />
-              </svg>
-            </button>
-
-            <button className="rounded-md bg-foreground px-3 py-1.5 text-sm font-medium text-background hover:bg-foreground/90 transition-colors">
-              Upgrade
-            </button>
+            {/* Only show Upgrade button if user is on free plan */}
+            {currentPlan === "free" && (
+              <Link href="/dashboard/billing">
+                <Button className="rounded-md bg-foreground px-3 py-1.5 text-sm font-medium text-background hover:bg-foreground/90">
+                  Upgrade
+                </Button>
+              </Link>
+            )}
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
