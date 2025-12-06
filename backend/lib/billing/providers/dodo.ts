@@ -323,13 +323,20 @@ export class DodoProvider implements IBillingProvider {
       throw new Error(`Unknown Dodo product ID: ${sub.product_id}. Cannot determine plan.`);
     }
 
+    // For subscription renewal date, use expires_at for yearly subscriptions
+    // For monthly subscriptions, next_billing_date is correct
+    const isYearly = planInfo.interval === "yearly";
+    const renewalDate = isYearly
+      ? (sub.expires_at || sub.next_billing_date)
+      : sub.next_billing_date;
+
     return {
       id: sub.subscription_id,
       customerId: sub.customer.customer_id,
       planId: planInfo.planId,
       status: this.normalizeDodoStatus(sub.status),
       currentPeriodStart: parseDate(sub.previous_billing_date),
-      currentPeriodEnd: parseDate(sub.next_billing_date),
+      currentPeriodEnd: parseDate(renewalDate),
       cancelAtPeriodEnd: sub.cancel_at_next_billing_date,
       interval: (planInfo.interval || "monthly") as "monthly" | "yearly",
       amount: sub.recurring_pre_tax_amount,
@@ -682,13 +689,20 @@ export class DodoProvider implements IBillingProvider {
       throw new Error(`Unknown Dodo product ID: ${dodoSub.product_id}. Cannot determine plan.`);
     }
 
+    // For subscription renewal date, use expires_at for yearly subscriptions
+    // For monthly subscriptions, next_billing_date is correct
+    const isYearly = planInfo.interval === "yearly";
+    const renewalDate = isYearly
+      ? (dodoSub.expires_at || dodoSub.next_billing_date || dodoSub.current_period_end)
+      : (dodoSub.next_billing_date || dodoSub.current_period_end);
+
     return {
       id: subscriptionId,
       customerId: dodoSub.customer?.customer_id || dodoSub.customer_id,
       planId: planInfo.planId,
       status: this.normalizeDodoStatus(dodoSub.status),
       currentPeriodStart: parseDate(dodoSub.previous_billing_date || dodoSub.current_period_start),
-      currentPeriodEnd: parseDate(dodoSub.next_billing_date || dodoSub.current_period_end),
+      currentPeriodEnd: parseDate(renewalDate),
       cancelAtPeriodEnd: dodoSub.cancel_at_next_billing_date || dodoSub.cancel_at_period_end || false,
       interval: (planInfo.interval || "monthly") as "monthly" | "yearly",
       amount: dodoSub.recurring_pre_tax_amount || dodoSub.amount || 0,
