@@ -5,7 +5,7 @@ import { dark } from "@clerk/themes"
 
 export default function SettingsPage() {
   return (
-    <div>
+    <div className="-m-6 lg:-m-8">
       <UserProfile
         appearance={{
           baseTheme: dark,
@@ -18,8 +18,8 @@ export default function SettingsPage() {
             colorTextSecondary: '#a1a1aa',
           },
           elements: {
-            rootBox: 'w-full',
-            card: 'bg-[#181818] border border-[#2a2a2a] shadow-sm w-full',
+            rootBox: 'w-full min-h-screen',
+            card: 'bg-[#0d0d0d] border-0 shadow-none w-full min-h-screen rounded-none',
             navbar: 'bg-[#181818] border-b border-[#2a2a2a]',
             navbarButton: 'hover:bg-[#1e1e1e] text-white data-[active]:bg-[#2a2a2a] data-[active]:text-[#00e0ff]',
             navbarButtonIcon: 'text-gray-400 data-[active]:text-[#00e0ff]',
