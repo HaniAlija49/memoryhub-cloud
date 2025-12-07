@@ -4,10 +4,25 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Check, Shield, Lock } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 
 export default function LandingPage() {
   const [activeTab, setActiveTab] = useState("node")
+  const [showStickyCTA, setShowStickyCTA] = useState(false)
+  const heroRef = useRef<HTMLDivElement>(null)
+
+  // Sticky CTA on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (heroRef.current) {
+        const heroBottom = heroRef.current.getBoundingClientRect().bottom
+        setShowStickyCTA(heroBottom < 0)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   const codeExamples = {
     node: `import { createClient } from 'persistq-sdk';
@@ -70,9 +85,31 @@ npm install -g persistq
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background scroll-smooth">
+      {/* Sticky CTA */}
+      <div
+        className={`fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur border-b border-border/40 transition-all duration-300 ${
+          showStickyCTA ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+        }`}
+      >
+        <div className="container mx-auto px-4 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="relative w-6 h-6">
+              <Image src="/logo-small.png" alt="PersistQ" width={24} height={24} className="object-contain" priority />
+            </div>
+            <span className="font-semibold">PersistQ</span>
+          </div>
+          <Link href="/signup">
+            <Button size="sm" className="bg-accent-cyan hover:bg-accent-cyan/90 text-black animate-pulse-subtle">
+              Start for Free
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </Link>
+        </div>
+      </div>
+
       {/* Header */}
-      <header className="border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+      <header className="border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-40">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <div className="relative w-8 h-8">
@@ -112,7 +149,7 @@ npm install -g persistq
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 pt-24 pb-32 md:pt-40 md:pb-48">
+      <section ref={heroRef} className="container mx-auto px-4 pt-24 pb-32 md:pt-40 md:pb-48 animate-fade-in">
         <div className="max-w-5xl mx-auto text-center space-y-8">
           <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-none">
             Build smarter AI with{" "}
@@ -130,14 +167,18 @@ npm install -g persistq
             <Link href="/signup">
               <Button
                 size="lg"
-                className="bg-accent-cyan hover:bg-accent-cyan/90 text-black font-medium text-base h-12 px-8"
+                className="bg-accent-cyan hover:bg-accent-cyan/90 hover:scale-105 text-black font-medium text-base h-12 px-8 transition-transform duration-200 shadow-lg hover:shadow-xl"
               >
                 Start for Free
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
             <Link href="/docs">
-              <Button size="lg" variant="outline" className="text-base h-12 px-8 bg-transparent">
+              <Button
+                size="lg"
+                variant="outline"
+                className="text-base h-12 px-8 bg-transparent hover:bg-surface transition-colors duration-200"
+              >
                 Read Docs
               </Button>
             </Link>
