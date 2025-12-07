@@ -24,6 +24,26 @@ export default function LandingPage() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-fade-in-up")
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -100px 0px" }
+    )
+
+    const elements = document.querySelectorAll(".animate-on-scroll")
+    elements.forEach((el) => observer.observe(el))
+
+    return () => observer.disconnect()
+  }, [])
+
   const codeExamples = {
     node: `import { createClient } from 'persistq-sdk';
 
@@ -187,7 +207,7 @@ npm install -g persistq
       </section>
 
       {/* Stats Bar */}
-      <section className="border-y border-border/40 bg-surface/30 py-12">
+      <section className="border-y border-border/40 bg-surface/30 py-12 animate-on-scroll">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
             <div className="text-center">
@@ -211,7 +231,7 @@ npm install -g persistq
       </section>
 
       {/* Instant Setup Section */}
-      <section className="container mx-auto px-4 py-32">
+      <section className="container mx-auto px-4 py-32 animate-on-scroll">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <div>
             <h2 className="text-5xl font-bold mb-6 leading-tight">
@@ -255,7 +275,7 @@ npm install -g persistq
       </section>
 
       {/* Zero Embedding Costs Section */}
-      <section className="container mx-auto px-4 py-32 bg-surface/30">
+      <section className="container mx-auto px-4 py-32 bg-surface/30 animate-on-scroll">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <div>
             <h2 className="text-5xl font-bold mb-6 leading-tight">
@@ -318,7 +338,7 @@ npm install -g persistq
       </section>
 
       {/* MCP Integration Section */}
-      <section className="container mx-auto px-4 py-32">
+      <section className="container mx-auto px-4 py-32 animate-on-scroll">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <div className="order-2 md:order-1 rounded-lg border border-border bg-surface p-8">
             <div className="space-y-4">
@@ -382,7 +402,7 @@ npm install -g persistq
       </section>
 
       {/* Integration Options */}
-      <section className="container mx-auto px-4 py-32 bg-surface/30">
+      <section className="container mx-auto px-4 py-32 bg-surface/30 animate-on-scroll">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold mb-6">Three ways to integrate</h2>
@@ -430,7 +450,7 @@ npm install -g persistq
       </section>
 
       {/* Feature Sections */}
-      <section id="features" className="container mx-auto px-4 py-32">
+      <section id="features" className="container mx-auto px-4 py-32 animate-on-scroll">
         <div className="max-w-6xl mx-auto space-y-32">
           {/* Semantic Search */}
           <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -572,7 +592,7 @@ npm install -g persistq
       </section>
 
       {/* Pricing Preview */}
-      <section className="container mx-auto px-4 py-32 bg-surface/30">
+      <section className="container mx-auto px-4 py-32 bg-surface/30 animate-on-scroll">
         <div className="max-w-6xl mx-auto text-center space-y-12">
           <div>
             <h2 className="text-5xl font-bold mb-6">Simple, transparent pricing</h2>
@@ -643,7 +663,7 @@ npm install -g persistq
       </section>
 
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-32">
+      <section className="container mx-auto px-4 py-32 animate-on-scroll">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <h2 className="text-5xl md:text-6xl font-bold leading-tight">Ready to build smarter AI?</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
