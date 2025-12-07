@@ -81,7 +81,12 @@ export default function RootLayout({
   }
 
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      signInUrl="/login"
+      signUpUrl="/signup"
+      afterSignInUrl="/dashboard"
+      afterSignUpUrl="/dashboard"
+    >
         <html lang="en" className="dark">
           <head>
             <link rel="icon" href="/favicon.ico" sizes="any" />
