@@ -147,8 +147,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Invalidate old API key cache
-    await invalidateApiKeyCache(existingUser.apiKey)
+    // Invalidate old API key cache if it exists
+    if (existingUser.apiKey) {
+      await invalidateApiKeyCache(existingUser.apiKey)
+    }
 
     // Generate new API key
     const newApiKey = generateApiKey()
