@@ -10,51 +10,63 @@ export default function LandingPage() {
   const [activeTab, setActiveTab] = useState("node")
 
   const codeExamples = {
-    node: `import { PersistQ } from '@persistq/sdk';
+    node: `import { createClient } from 'persistq-sdk';
 
-const memory = new PersistQ(process.env.MEMORY_API_KEY);
-
-// Store a memory
-await memory.store({
-  content: 'User prefers dark mode',
-  group: 'preferences',
-  tags: ['ui', 'settings']
+const client = createClient({
+  baseUrl: 'https://memoryhub-cloud.onrender.com',
+  apiKey: process.env.PERSISTQ_API_KEY,
 });
 
-// Retrieve memories
-const memories = await memory.search({
-  query: 'user preferences',
-  group: 'preferences'
-});`,
-    python: `from persistq import PersistQ
+// Store a memory
+await client.createMemory(
+  'User prefers dark mode',
+  'preferences',
+  { tags: ['ui', 'settings'] }
+);
 
-memory = PersistQ(api_key=os.getenv('MEMORY_API_KEY'))
-
-# Store a memory
-memory.store(
-    content='User prefers dark mode',
-    group='preferences',
-    tags=['ui', 'settings']
-)
-
-# Retrieve memories
-memories = memory.search(
-    query='user preferences',
-    group='preferences'
-)`,
+// Search memories
+const results = await client.searchMemories(
+  'user preferences',
+  { limit: 10 }
+);`,
     curl: `# Store a memory
-curl -X POST https://api.persistq.dev/v1/memories \\
+curl -X POST https://memoryhub-cloud.onrender.com/api/memory \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
     "content": "User prefers dark mode",
-    "group": "preferences",
-    "tags": ["ui", "settings"]
+    "project": "preferences",
+    "metadata": {
+      "tags": ["ui", "settings"]
+    }
   }'
 
-# Retrieve memories
-curl https://api.persistq.dev/v1/memories?group=preferences \\
-  -H "Authorization: Bearer YOUR_API_KEY"`,
+# Search memories
+curl -X POST https://memoryhub-cloud.onrender.com/api/memory/search \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "query": "user preferences",
+    "limit": 10
+  }'`,
+    mcp: `# Install MCP server globally
+npm install -g persistq
+
+# Configure for Claude Code (~/.claude/mcp.json)
+{
+  "mcpServers": {
+    "persistq": {
+      "command": "persistq",
+      "env": {
+        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_API_KEY": "your-api-key"
+      }
+    }
+  }
+}
+
+# Then use naturally in Claude Code:
+# "Remember: user prefers TypeScript and Next.js"`,
   }
 
   return (
@@ -167,13 +179,21 @@ curl https://api.persistq.dev/v1/memories?group=preferences \\
               <span className="text-muted-foreground">No config.</span>
             </h2>
             <p className="text-xl text-muted-foreground mb-8">
-              Get started in seconds with our simple REST API. No complex setup, no infrastructure to manage.
+              Get started in seconds with our TypeScript SDK or REST API. No complex setup, no infrastructure to
+              manage.
             </p>
-            <Link href="/docs/getting-started">
-              <Button variant="link" className="text-accent-cyan p-0 h-auto text-lg">
-                View quickstart guide →
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link href="/docs/typescript-sdk">
+                <Button variant="link" className="text-accent-cyan p-0 h-auto text-lg">
+                  TypeScript SDK docs →
+                </Button>
+              </Link>
+              <Link href="/docs/getting-started">
+                <Button variant="link" className="text-accent-purple p-0 h-auto text-lg">
+                  Quickstart guide →
+                </Button>
+              </Link>
+            </div>
           </div>
           <div className="rounded-lg border border-border bg-surface p-6">
             <div className="flex items-center gap-2 mb-4 text-sm text-muted-foreground">
@@ -184,7 +204,7 @@ curl https://api.persistq.dev/v1/memories?group=preferences \\
             </div>
             <pre className="text-sm overflow-x-auto">
               <code className="text-accent-cyan">$ </code>
-              <code className="text-foreground">npm install @persistq/sdk</code>
+              <code className="text-foreground">npm install persistq-sdk</code>
               <br />
               <br />
               <code className="text-muted-foreground"># Ready to use in 2 seconds</code>
@@ -280,50 +300,62 @@ curl https://api.persistq.dev/v1/memories?group=preferences \\
           </div>
           <div className="order-1 md:order-2">
             <h2 className="text-5xl font-bold mb-6 leading-tight">
-              Works with Claude Code.
+              Works with AI tools.
               <br />
               <span className="text-muted-foreground">MCP ready.</span>
             </h2>
             <p className="text-xl text-muted-foreground mb-8">
-              One prompt and Claude Code sets up PersistQ via MCP (Model Context Protocol). No manual configuration
-              needed.
+              Integrates seamlessly with Claude Code and GitHub Copilot CLI via Model Context Protocol. Simple setup,
+              powerful memory.
             </p>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <Check className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
                 <div>
-                  <div className="font-medium mb-1">MCP integration</div>
-                  <div className="text-sm text-muted-foreground">Automatic setup with Claude Code</div>
+                  <div className="font-medium mb-1">Claude Code integration</div>
+                  <div className="text-sm text-muted-foreground">Full MCP support with tools and resources</div>
                 </div>
               </li>
               <li className="flex items-start gap-3">
                 <Check className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
                 <div>
-                  <div className="font-medium mb-1">Zero config</div>
-                  <div className="text-sm text-muted-foreground">Claude handles all the setup for you</div>
+                  <div className="font-medium mb-1">GitHub Copilot CLI</div>
+                  <div className="text-sm text-muted-foreground">MCP tools integration available</div>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <Check className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
+                <div>
+                  <div className="font-medium mb-1">Quick setup</div>
+                  <div className="text-sm text-muted-foreground">Install globally and configure in minutes</div>
                 </div>
               </li>
             </ul>
+            <Link href="/docs/mcp-integration" className="inline-block mt-6">
+              <Button variant="link" className="text-accent-cyan p-0 h-auto text-lg">
+                View MCP setup guide →
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Works with your stack */}
+      {/* Integration Options */}
       <section className="container mx-auto px-4 py-32 bg-surface/30">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold mb-6">Works with your stack</h2>
+            <h2 className="text-5xl font-bold mb-6">Three ways to integrate</h2>
             <p className="text-xl text-muted-foreground">
-              Integrate PersistQ into any language or framework within minutes
+              Choose the integration that works best for your workflow
             </p>
           </div>
 
           {/* Language Tabs */}
           <div className="flex items-center justify-center gap-2 mb-8 flex-wrap">
             {[
-              { id: "node", label: "Node.js" },
-              { id: "python", label: "Python" },
-              { id: "curl", label: "cURL" },
+              { id: "node", label: "TypeScript SDK" },
+              { id: "mcp", label: "MCP Server" },
+              { id: "curl", label: "REST API" },
             ].map((tab) => (
               <button
                 key={tab.id}
