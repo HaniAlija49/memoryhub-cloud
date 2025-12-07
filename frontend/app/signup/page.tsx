@@ -41,6 +41,9 @@ export default function SignUpPage() {
               footer: "bg-[#181818] border-t border-[#2a2a2a]",
               footerActionText: "text-gray-400",
               otpCodeFieldInput: "bg-[#2a2a2a] border-[#3a3a3a] text-white",
+              // Hide "Secured by Clerk" badge
+              logoBox: "display: none;",
+              footerPagesLink: "display: none;",
             },
           }}
           redirectUrl="/dashboard"
