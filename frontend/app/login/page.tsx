@@ -38,16 +38,10 @@ export default function LoginPage() {
               dividerText: "text-gray-400",
               formFieldSuccessText: "text-green-400",
               formFieldErrorText: "text-red-400",
-              footer: "bg-[#181818] border-t border-[#2a2a2a]",
               footerActionText: "text-gray-400",
               otpCodeFieldInput: "bg-[#2a2a2a] border-[#3a3a3a] text-white",
-              // Hide "Secured by Clerk" badge - target all possible elements
-              logoBox: "display: none !important;",
-              footerPagesLink: "display: none !important;",
-              badge: "display: none !important;",
-              footerPages: "display: none !important;",
-              // Target the specific internal Clerk classes from HTML
-              __experimental_ClerkBadge: "display: none !important;",
+              // Hide "Secured by Clerk" badge using the footer element
+              footer: "hidden",
             },
           }}
           redirectUrl="/dashboard"
