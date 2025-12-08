@@ -28,18 +28,22 @@ export default function BackToTop() {
     })
   }
 
-  if (!isVisible) {
-    return null
-  }
-
   return (
-    <Button
-      onClick={scrollToTop}
-      size="sm"
-      className="fixed bottom-8 right-8 z-40 bg-accent-cyan hover:bg-accent-cyan/90 text-black shadow-lg hover:shadow-xl transition-all duration-300 rounded-full w-12 h-12 flex items-center justify-center p-0"
-      aria-label="Back to top"
+    <div
+      className={`fixed bottom-8 right-8 z-40 transition-all duration-300 ease-out ${
+        isVisible
+          ? 'opacity-100 translate-y-0'
+          : 'opacity-0 translate-y-4 pointer-events-none'
+      }`}
     >
-      <ArrowUp className="w-5 h-5" />
-    </Button>
+      <Button
+        onClick={scrollToTop}
+        size="sm"
+        className="bg-accent-cyan hover:bg-accent-cyan/90 text-black shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 rounded-full w-12 h-12 flex items-center justify-center p-0 group"
+        aria-label="Back to top"
+      >
+        <ArrowUp className="w-5 h-5 transition-transform duration-300 group-hover:-translate-y-1" />
+      </Button>
+    </div>
   )
 }
