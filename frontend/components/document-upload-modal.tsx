@@ -179,7 +179,7 @@ export function DocumentUploadModal({ open, onOpenChange, onSuccess }: DocumentU
         });
         onSuccess?.(savedCount);
         onOpenChange(false);
-        resetModal();
+        resetForm();
       } else {
         toast({
           title: "Partial Success",
@@ -288,7 +288,7 @@ export function DocumentUploadModal({ open, onOpenChange, onSuccess }: DocumentU
                       <Badge variant="secondary">
                         {file.name.toLowerCase().endsWith('.pdf') ? 'PDF' : 'DOCX'}
                       </Badge>
-                      <Button variant="outline" size="sm" onClick={resetModal}>
+                      <Button variant="outline" size="sm" onClick={resetForm}>
                         Clear
                       </Button>
                     </div>
@@ -474,7 +474,7 @@ export function DocumentUploadModal({ open, onOpenChange, onSuccess }: DocumentU
         {/* Fixed action buttons at the bottom */}
         {activeTab === 'preview' && (
           <div className="flex justify-between gap-2 pt-4 pb-6 px-6 border-t bg-background">
-            <Button variant="outline" onClick={resetModal} className="min-w-24">
+            <Button variant="outline" onClick={resetForm} className="min-w-24">
               <Upload className="h-4 w-4 mr-2" />
               Upload New
             </Button>
