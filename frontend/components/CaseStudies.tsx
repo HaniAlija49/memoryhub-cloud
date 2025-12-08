@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -182,11 +183,13 @@ export default function CaseStudies() {
               Join hundreds of companies saving thousands on embedding costs while building smarter AI applications.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" className="bg-accent-cyan hover:bg-accent-cyan/90 text-black">
-                Start Your Free Trial
-              </Button>
-              <Button variant="outline" size="lg">
-                Read More Case Studies
+              <Link href="/signup">
+                <Button size="lg" className="bg-accent-cyan hover:bg-accent-cyan/90 text-black">
+                  Start Your Free Trial
+                </Button>
+              </Link>
+              <Button variant="outline" size="lg" disabled>
+                Coming Soon
               </Button>
             </div>
           </div>

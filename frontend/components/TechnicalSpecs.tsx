@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -179,10 +180,12 @@ export default function TechnicalSpecs() {
                 <span className="text-sm">Scale from startup to enterprise</span>
               </div>
             </div>
-            <Button size="lg" className="w-full mt-6 bg-accent-cyan hover:bg-accent-cyan/90 text-black">
-              Get Started Free
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
+            <Link href="/signup">
+              <Button size="lg" className="w-full mt-6 bg-accent-cyan hover:bg-accent-cyan/90 text-black">
+                Get Started Free
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            </Link>
           </div>
         </div>
 
@@ -192,12 +195,16 @@ export default function TechnicalSpecs() {
             Ready to deploy at enterprise scale?
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" className="bg-accent-cyan hover:bg-accent-cyan/90 text-black">
-              Schedule a Demo
-            </Button>
-            <Button variant="outline" size="lg">
-              Download Technical Whitepaper
-            </Button>
+            <Link href="/signup">
+              <Button size="lg" className="bg-accent-cyan hover:bg-accent-cyan/90 text-black">
+                Start Building Free
+              </Button>
+            </Link>
+            <Link href="/docs">
+              <Button variant="outline" size="lg">
+                View Documentation
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
