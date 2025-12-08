@@ -399,48 +399,27 @@ export function DocumentUploadModal({ open, onOpenChange, onSuccess }: DocumentU
           <TabsContent value="preview" className="mt-4 space-y-4">
             <div className="space-y-4">
               {stats && (
-                <Card className="border-cyan-200 dark:border-cyan-800">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
-                      <h3 className="font-semibold text-cyan-900 dark:text-cyan-100">Processing Results</h3>
+                <div className="mb-4">
+                  <h3 className="font-medium mb-2">Processing Results</h3>
+                  <div className="grid grid-cols-4 gap-4 text-sm">
+                    <div>
+                      <p className="text-gray-500">Chunks</p>
+                      <p className="font-medium">{stats.totalChunks}</p>
                     </div>
-                    <div className="grid grid-cols-4 gap-4 text-sm">
-                      <div className="text-center p-3 bg-cyan-50 dark:bg-cyan-950/30 rounded border border-cyan-100 dark:border-cyan-900">
-                        <div className="text-xl font-bold text-cyan-600 dark:text-cyan-400">
-                          {stats.totalChunks}
-                        </div>
-                        <div className="text-xs text-cyan-700 dark:text-cyan-300">
-                          Chunks
-                        </div>
-                      </div>
-                      <div className="text-center p-3 bg-cyan-50 dark:bg-cyan-950/30 rounded border border-cyan-100 dark:border-cyan-900">
-                        <div className="text-xl font-bold text-cyan-600 dark:text-cyan-400">
-                          {stats.totalCharacters.toLocaleString()}
-                        </div>
-                        <div className="text-xs text-cyan-700 dark:text-cyan-300">
-                          Characters
-                        </div>
-                      </div>
-                      <div className="text-center p-3 bg-cyan-50 dark:bg-cyan-950/30 rounded border border-cyan-100 dark:border-cyan-900">
-                        <div className="text-xl font-bold text-cyan-600 dark:text-cyan-400">
-                          {formatProcessingTime(stats.processingTime)}
-                        </div>
-                        <div className="text-xs text-cyan-700 dark:text-cyan-300">
-                          Processing Time
-                        </div>
-                      </div>
-                      <div className="text-center p-3 bg-cyan-50 dark:bg-cyan-950/30 rounded border border-cyan-100 dark:border-cyan-900">
-                        <div className="text-xl font-bold text-cyan-600 dark:text-cyan-400 uppercase">
-                          {stats.fileType}
-                        </div>
-                        <div className="text-xs text-cyan-700 dark:text-cyan-300">
-                          File Type
-                        </div>
-                      </div>
+                    <div>
+                      <p className="text-gray-500">Characters</p>
+                      <p className="font-medium">{stats.totalCharacters.toLocaleString()}</p>
                     </div>
-                  </CardContent>
-                </Card>
+                    <div>
+                      <p className="text-gray-500">Processing Time</p>
+                      <p className="font-medium">{formatProcessingTime(stats.processingTime)}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-500">File Type</p>
+                      <p className="font-medium uppercase">{stats.fileType}</p>
+                    </div>
+                  </div>
+                </div>
               )}
 
               <Card>
