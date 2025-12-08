@@ -69,31 +69,43 @@ export default function InteractiveDemo() {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 800))
 
-    // Simulate semantic search with fuzzy matching
+    // Simulate semantic search with realistic scoring (0.3 to 0.9 range)
     const queryTerms = searchQuery.toLowerCase().split(' ')
 
     const scored = sampleMemories.map(memory => {
       let score = 0
 
-      // Exact matches get higher scores
+      // Start with lower base score
       queryTerms.forEach(term => {
-        if (memory.content.toLowerCase().includes(term)) score += 3
-        if (memory.project.toLowerCase().includes(term)) score += 2
-        if (memory.tags.some(tag => tag.toLowerCase().includes(term))) score += 2
-
-        // Partial matches
-        if (memory.content.toLowerCase().includes(term.substring(0, 3))) score += 1
+        if (memory.content.toLowerCase().includes(term)) {
+          score += 0.3 // Exact content match
+        }
+        if (memory.project.toLowerCase().includes(term)) {
+          score += 0.2 // Project match
+        }
+        if (memory.tags.some(tag => tag.toLowerCase().includes(term))) {
+          score += 0.15 // Tag match
+        }
+        // Partial match gives small boost
+        if (memory.content.toLowerCase().includes(term.substring(0, 3))) {
+          score += 0.05
+        }
       })
 
-      // Add some randomness to simulate semantic similarity
-      score += Math.random() * 0.5
+      // Normalize score to 0.3-0.9 range (30%-90% match)
+      score = Math.min(score, 0.9) // Max 90% match
+      if (score > 0 && score < 0.3) score = 0.3 // Min 30% match if any match found
 
-      return { ...memory, score }
+      // Add small semantic variation
+      score += (Math.random() - 0.5) * 0.1
+      score = Math.max(0, Math.min(score, 0.9))
+
+      return { ...memory, similarity: score }
     })
 
     const filtered = scored
-      .filter(memory => memory.score > 0)
-      .sort((a, b) => b.score - a.score)
+      .filter(memory => memory.similarity > 0.25) // Only show results with 25%+ match
+      .sort((a, b) => b.similarity - a.similarity)
       .slice(0, 3)
 
     setResults(filtered)
@@ -107,8 +119,8 @@ export default function InteractiveDemo() {
   }
 
   const getSimilarityColor = (similarity: number) => {
-    if (similarity >= 0.9) return "text-green-500"
-    if (similarity >= 0.8) return "text-yellow-500"
+    if (similarity >= 0.6) return "text-green-500"
+    if (similarity >= 0.4) return "text-yellow-500"
     return "text-orange-500"
   }
 

@@ -654,7 +654,7 @@ npm install -g persistq
       {/* Case Studies Section */}
       <CaseStudies />
 
-      {/* Technical Specifications Section */}
+      {/* Powerful Features Section */}
       <TechnicalSpecs />
 
       {/* Interactive Demo Section */}

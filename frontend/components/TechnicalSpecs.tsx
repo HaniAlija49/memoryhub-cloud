@@ -27,82 +27,60 @@ interface SpecCategory {
 
 const specCategories: SpecCategory[] = [
   {
-    title: "Infrastructure",
-    icon: Server,
-    description: "Modern, reliable infrastructure built for developers",
-    specs: [
-      { label: "Database", value: "PostgreSQL 15+", detail: "With pgvector extension" },
-      { label: "Vector Engine", value: "Transformers.js", detail: "Local embeddings (all-MiniLM-L6-v2)" },
-      { label: "Deployment", value: "Render (Vercel)", detail: "Managed infrastructure" },
-      { label: "Monitoring", value: "Highlight.io", detail: "Real-time error tracking" }
-    ]
-  },
-  {
     title: "Performance",
     icon: Zap,
-    description: "Optimized for real-time AI applications",
+    description: "Fast and reliable for real-time applications",
     specs: [
-      { label: "Search Latency", value: "~200ms", detail: "Average response time" },
-      { label: "API Throughput", value: "Rate Limited", detail: "By plan tier" },
-      { label: "Embedding Speed", value: "<50ms", detail: "Local generation" },
-      { label: "Search Quality", value: "Semantic", detail: "Vector-based similarity" }
+      { label: "Search Speed", value: "~200ms", detail: "Average search response" },
+      { label: "Scalability", value: "Millions", detail: "Memories per project" },
+      { label: "Availability", value: "99.9%", detail: "Uptime guarantee" },
+      { label: "Processing", value: "Local", detail: "No external dependencies" }
     ]
   },
   {
-    title: "Security & Compliance",
-    icon: Shield,
-    description: "Privacy-first with enterprise-grade security",
-    specs: [
-      { label: "Data Encryption", value: "AES-256", detail: "At rest and in transit" },
-      { label: "Compliance", value: "GDPR, CCPA", detail: "Privacy by design" },
-      { label: "Authentication", value: "API Key / Clerk", detail: "Secure key management" },
-      { label: "Data Privacy", value: "Local Processing", detail: "Embeddings never leave" }
-    ]
-  },
-  {
-    title: "API Capabilities",
+    title: "Memory Features",
     icon: Database,
-    description: "Comprehensive REST API for memory operations",
+    description: "Powerful capabilities for AI applications",
     specs: [
-      { label: "Memory Storage", value: "JSON Metadata", detail: "Flexible schema" },
-      { label: "Search", value: "Semantic + Keyword", detail: "Hybrid search" },
-      { label: "Operations", value: "CRUD", detail: "Create, Read, Search, Delete" },
-      { label: "Usage Tracking", value: "Built-in", detail: "API call and memory quotas" }
+      { label: "Storage", value: "Flexible", detail: "JSON metadata support" },
+      { label: "Search", value: "Semantic", detail: "Understands meaning and context" },
+      { label: "Operations", value: "Full CRUD", detail: "Create, read, update, delete" },
+      { label: "Projects", value: "Unlimited", detail: "Organize by topic/use case" }
     ]
   },
   {
-    title: "Integrations",
+    title: "Privacy & Security",
+    icon: Shield,
+    description: "Your data stays private and secure",
+    specs: [
+      { label: "Encryption", value: "AES-256", detail: "Data protection at rest" },
+      { label: "Processing", value: "Local", detail: "Embeddings never leave your system" },
+      { label: "Compliance", value: "GDPR Ready", detail: "Privacy by design" },
+      { label: "Control", value: "Full", detail: "Your data, your rules" }
+    ]
+  },
+  {
+    title: "Developer Tools",
     icon: Globe,
-    description: "Works with your existing development stack",
+    description: "Everything you need to get started quickly",
     specs: [
-      { label: "TypeScript SDK", value: "@persistq/sdk", detail: "Full type safety" },
-      { label: "MCP Support", value: "Yes", detail: "Claude Code integration" },
-      { label: "REST API", value: "OpenAPI", detail: "Standard HTTP endpoints" },
-      { label: "Billing", value: "Dodo Payments", detail: "Subscription management" }
-    ]
-  },
-  {
-    title: "Developer Experience",
-    icon: Lock,
-    description: "Built by developers, for developers",
-    specs: [
-      { label: "Documentation", value: "Comprehensive", detail: "API reference + guides" },
-      { label: "SDK Support", value: "TypeScript", detail: "Full IntelliSense" },
-      { label: "Error Handling", value: "Detailed", detail: "Clear error messages" },
-      { label: "Monitoring", value: "Usage Stats", detail: "Real-time metrics" }
+      { label: "TypeScript SDK", value: "Included", detail: "Full type support" },
+      { label: "REST API", value: "Simple", detail: "Standard HTTP endpoints" },
+      { label: "Documentation", value: "Complete", detail: "Guides and examples" },
+      { label: "Integration", value: "Easy", detail: "Works with any tech stack" }
     ]
   }
 ]
 
 const developerFeatures = [
-  "Comprehensive TypeScript SDK",
-  "RESTful API with OpenAPI docs",
-  "Real-time usage monitoring",
-  "Flexible JSON metadata schema",
-  "Semantic search capabilities",
-  "Local embedding processing",
-  "Privacy-first design",
-  "Simple pricing structure"
+  "Simple TypeScript SDK",
+  "Easy REST API integration",
+  "Real-time usage analytics",
+  "Flexible metadata support",
+  "Smart semantic search",
+  "Zero embedding costs",
+  "Privacy by design",
+  "Predictable pricing"
 ]
 
 export default function TechnicalSpecs() {
@@ -112,13 +90,13 @@ export default function TechnicalSpecs() {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 bg-accent-cyan/10 px-4 py-2 rounded-full mb-6">
             <Server className="w-4 h-4 text-accent-cyan" />
-            <span className="text-sm text-accent-cyan font-medium">Enterprise Ready</span>
+            <span className="text-sm text-accent-cyan font-medium">Built for Scale</span>
           </div>
           <h2 className="text-5xl font-bold mb-6">
-            Technical Specifications
+            Powerful Features
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Built for enterprise scale with performance, security, and reliability at the core
+            Everything you need to build AI applications with persistent memory
           </p>
         </div>
 
