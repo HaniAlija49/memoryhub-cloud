@@ -22,6 +22,10 @@ import type {
   HealthCheckResponse,
   PortalUrlResponse,
   CheckoutResponse,
+  DocumentChunk,
+  ProcessingStats,
+  ProcessDocumentParams,
+  ProcessDocumentResponse,
 } from './types'
 
 /**
@@ -296,6 +300,38 @@ export class MemoryHubClient {
     return this.request('/api/billing/portal', {
       method: 'GET',
     }, true)
+  }
+
+  /**
+   * Process document and extract text chunks
+   */
+  async processDocument(
+    params: ProcessDocumentParams
+  ): Promise<ApiResponse<ProcessDocumentResponse>> {
+    const formData = new FormData()
+    formData.append('file', params.file)
+    
+    if (params.chunkSize) {
+      formData.append('chunkSize', params.chunkSize.toString())
+    }
+    
+    if (params.chunkOverlap) {
+      formData.append('chunkOverlap', params.chunkOverlap.toString())
+    }
+    
+    if (params.processingMethod) {
+      formData.append('processingMethod', params.processingMethod)
+    }
+    
+    if (params.project) {
+      formData.append('project', params.project)
+    }
+
+    return this.request('/api/memory/process-document', {
+      method: 'POST',
+      body: formData,
+      headers: {}, // Let browser set Content-Type for FormData
+    })
   }
 }
 

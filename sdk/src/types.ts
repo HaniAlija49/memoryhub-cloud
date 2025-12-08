@@ -105,3 +105,42 @@ export interface CheckoutResponse {
   url: string
   sessionId: string
 }
+
+export interface DocumentChunk {
+  content: string;
+  metadata: {
+    source: string;
+    fileName: string;
+    fileType: 'pdf' | 'docx';
+    originalSize: number;
+    chunkIndex: number;
+    totalChunks: number;
+    processingMethod: 'recursive' | 'semantic' | 'fixed';
+    extractedAt: string;
+    documentTitle?: string;
+    author?: string;
+    project?: string;
+  };
+}
+
+export interface ProcessingStats {
+  totalChunks: number;
+  totalCharacters: number;
+  processingTime: number;
+  fileType: string;
+  fileName: string;
+}
+
+export interface ProcessDocumentParams {
+  file: File;
+  chunkSize?: number;
+  chunkOverlap?: number;
+  processingMethod?: 'recursive' | 'semantic' | 'fixed';
+  project?: string;
+}
+
+export interface ProcessDocumentResponse {
+  success: boolean;
+  chunks: DocumentChunk[];
+  stats: ProcessingStats;
+}
