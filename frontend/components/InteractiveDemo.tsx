@@ -207,8 +207,8 @@ export default function InteractiveDemo() {
                           <p className="text-foreground leading-relaxed">
                             {memory.content}
                           </p>
-                          <div className={`text-sm font-medium ${getSimilarityColor(memory.score || memory.similarity)}`}>
-                            {Math.round((memory.score || memory.similarity) * 100)}% match
+                          <div className={`text-sm font-medium ${getSimilarityColor(memory.similarity)}`}>
+                            {Math.round(memory.similarity * 100)}% match
                           </div>
                         </div>
                         <div className="flex items-center justify-between">
