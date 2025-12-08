@@ -7,12 +7,15 @@ import { Button } from "@/components/ui/button"
 import { Check, X, ArrowRight } from "lucide-react"
 import { useAuth } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
+import { BillingService } from "@/services/billing.service"
+import { useToast } from "@/hooks/use-toast"
 
 export default function PricingPage() {
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">("monthly")
   const [isLoading, setIsLoading] = useState<string | null>(null)
-  const { isSignedIn } = useAuth()
+  const { isSignedIn, getToken } = useAuth()
   const router = useRouter()
+  const { toast } = useToast()
 
   const handleCheckout = async (planId: string, interval: "monthly" | "yearly") => {
     // Redirect to signup if not authenticated
@@ -24,23 +27,21 @@ export default function PricingPage() {
     setIsLoading(`${planId}-${interval}`)
 
     try {
-      const response = await fetch("/api/billing/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ planId, interval }),
-      })
+      const checkoutSession = await BillingService.createCheckout(planId, interval, getToken)
 
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to create checkout session")
+      if (!checkoutSession || !checkoutSession.url) {
+        throw new Error("Failed to create checkout session")
       }
 
       // Redirect to Dodo checkout
-      window.location.href = data.url
+      window.location.href = checkoutSession.url
     } catch (error) {
       console.error("Checkout error:", error)
-      alert(error instanceof Error ? error.message : "Failed to start checkout. Please try again.")
+      toast({
+        title: "Checkout Failed",
+        description: error instanceof Error ? error.message : "Failed to start checkout. Please try again.",
+        variant: "destructive",
+      })
       setIsLoading(null)
     }
   }
