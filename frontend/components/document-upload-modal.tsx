@@ -215,7 +215,7 @@ export function DocumentUploadModal({ open, onOpenChange, onSuccess }: DocumentU
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-7xl h-[85vh] flex flex-col p-0">
+      <DialogContent className="max-w-screen-2xl h-[85vh] flex flex-col p-0">
         <DialogHeader className="px-6 pt-6 pb-4">
           <DialogTitle className="flex items-center gap-2">
             <Upload className="h-5 w-5" />
