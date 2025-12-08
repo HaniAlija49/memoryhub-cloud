@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ExternalLink, Activity, Clock, CheckCircle } from "lucide-react"
@@ -101,14 +102,16 @@ export default function StatusBanner() {
           </div>
 
           {/* Status Page Link */}
+          <Link href="/docs" target="_blank" rel="noopener noreferrer">
           <Button
             variant="ghost"
             size="sm"
             className="text-accent-cyan hover:text-accent-cyan/80 hover:bg-accent-cyan/10"
           >
             <ExternalLink className="w-4 h-4 mr-2" />
-            View Status Page
+            View Documentation
           </Button>
+        </Link>
         </div>
 
         {/* Mobile Metrics */}
