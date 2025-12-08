@@ -12,6 +12,7 @@ import PricingToggle from "@/components/PricingToggle"
 import CaseStudies from "@/components/CaseStudies"
 import TechnicalSpecs from "@/components/TechnicalSpecs"
 import WhatsNew from "@/components/WhatsNew"
+import BackToTop from "@/components/BackToTop"
 
 export default function LandingPage() {
   const [activeTab, setActiveTab] = useState("node")
@@ -787,6 +788,9 @@ npm install -g persistq
           </div>
         </div>
       </footer>
+
+      {/* Back to Top Button */}
+      <BackToTop />
     </div>
   )
 }
