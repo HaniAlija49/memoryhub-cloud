@@ -5,6 +5,11 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Check, Shield, Lock, Menu, X } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
+import InteractiveDemo from "@/components/InteractiveDemo"
+import CostCalculator from "@/components/CostCalculator"
+import CodeBlock from "@/components/CodeBlock"
+import PricingToggle from "@/components/PricingToggle"
+import CaseStudies from "@/components/CaseStudies"
 
 export default function LandingPage() {
   const [activeTab, setActiveTab] = useState("node")
@@ -226,7 +231,7 @@ npm install -g persistq
         <div className="max-w-5xl mx-auto text-center space-y-8">
           <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-none">
             Build smarter AI with{" "}
-            <span className="bg-gradient-to-r from-accent-cyan via-accent-purple to-accent-cyan bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-accent-cyan via-accent-purple to-accent-cyan bg-clip-text text-transparent animated-gradient">
               persistent memory
             </span>
           </h1>
@@ -264,19 +269,19 @@ npm install -g persistq
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent-cyan mb-2">~200ms</div>
+              <div className="text-4xl md:text-5xl font-bold text-accent-cyan mb-2 floating-icon">~200ms</div>
               <div className="text-sm text-muted-foreground">Avg response time</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent-purple mb-2">99.9%</div>
+              <div className="text-4xl md:text-5xl font-bold text-accent-purple mb-2 floating-icon-delayed">99.9%</div>
               <div className="text-sm text-muted-foreground">Uptime SLA (Pro+)</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent-cyan mb-2">$0</div>
+              <div className="text-4xl md:text-5xl font-bold text-accent-cyan mb-2 floating">$0</div>
               <div className="text-sm text-muted-foreground">Embedding costs</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent-purple mb-2">GDPR</div>
+              <div className="text-4xl md:text-5xl font-bold text-accent-purple mb-2 floating-icon">GDPR</div>
               <div className="text-sm text-muted-foreground">Compliant</div>
             </div>
           </div>
@@ -309,21 +314,13 @@ npm install -g persistq
               </Link>
             </div>
           </div>
-          <div className="rounded-lg border border-border bg-surface p-6">
-            <div className="flex items-center gap-2 mb-4 text-sm text-muted-foreground">
-              <div className="w-3 h-3 rounded-full bg-red-500" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500" />
-              <div className="w-3 h-3 rounded-full bg-green-500" />
-              <span className="ml-2">terminal</span>
-            </div>
-            <pre className="text-sm overflow-x-auto">
-              <code className="text-accent-cyan">$ </code>
-              <code className="text-foreground">npm install persistq-sdk</code>
-              <br />
-              <br />
-              <code className="text-muted-foreground"># Ready to use in 2 seconds</code>
-            </pre>
-          </div>
+          <CodeBlock
+            code={`$ npm install persistq-sdk
+
+# Ready to use in 2 seconds`}
+            language="bash"
+            title="terminal"
+          />
         </div>
       </section>
 
@@ -486,10 +483,12 @@ npm install -g persistq
           </div>
 
           {/* Code Example */}
-          <div className="rounded-lg border border-border bg-background p-6 max-w-3xl mx-auto">
-            <pre className="text-sm overflow-x-auto">
-              <code className="text-foreground">{codeExamples[activeTab as keyof typeof codeExamples]}</code>
-            </pre>
+          <div className="max-w-3xl mx-auto">
+            <CodeBlock
+              code={codeExamples[activeTab as keyof typeof codeExamples]}
+              language={activeTab === "curl" ? "bash" : activeTab === "mcp" ? "json" : "javascript"}
+              title={activeTab === "node" ? "TypeScript" : activeTab === "curl" ? "REST API" : "MCP Configuration"}
+            />
           </div>
 
           <div className="text-center mt-8">
@@ -644,76 +643,14 @@ npm install -g persistq
         </div>
       </section>
 
-      {/* Pricing Preview */}
-      <section className="container mx-auto px-4 py-32 bg-surface/30 animate-on-scroll">
-        <div className="max-w-6xl mx-auto text-center space-y-12">
-          <div>
-            <h2 className="text-5xl font-bold mb-6">Simple, transparent pricing</h2>
-            <p className="text-xl text-muted-foreground">Start free. Scale as you grow. No hidden fees.</p>
-          </div>
+      {/* Pricing Section */}
+      <PricingToggle />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 pt-8">
-            {/* Free */}
-            <div className="p-6 rounded-lg border border-border bg-surface text-left">
-              <h3 className="text-2xl font-bold mb-2">Free</h3>
-              <div className="text-4xl font-bold mb-4">$0</div>
-              <ul className="space-y-3 text-sm text-muted-foreground">
-                <li>5,000 API calls/mo</li>
-                <li>250 memories</li>
-                <li>12.5MB storage</li>
-              </ul>
-            </div>
+      {/* Interactive Demo Section */}
+      <InteractiveDemo />
 
-            {/* Starter */}
-            <div className="p-6 rounded-lg border border-border bg-surface text-left">
-              <h3 className="text-2xl font-bold mb-2">Starter</h3>
-              <div className="text-4xl font-bold mb-4">
-                $5<span className="text-lg text-muted-foreground">/mo</span>
-              </div>
-              <ul className="space-y-3 text-sm text-muted-foreground">
-                <li>50K API calls/mo</li>
-                <li>2,500 memories</li>
-                <li>250MB storage</li>
-              </ul>
-            </div>
-
-            {/* Pro */}
-            <div className="p-6 rounded-lg border-2 border-accent-cyan bg-surface text-left relative">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-accent-cyan text-black text-xs font-medium rounded-full">
-                Popular
-              </div>
-              <h3 className="text-2xl font-bold mb-2">Pro</h3>
-              <div className="text-4xl font-bold mb-4">
-                $12<span className="text-lg text-muted-foreground">/mo</span>
-              </div>
-              <ul className="space-y-3 text-sm text-muted-foreground">
-                <li>500K API calls/mo</li>
-                <li>25,000 memories</li>
-                <li>5GB storage</li>
-              </ul>
-            </div>
-
-            {/* Premium */}
-            <div className="p-6 rounded-lg border border-border bg-surface text-left">
-              <h3 className="text-2xl font-bold mb-2">Premium</h3>
-              <div className="text-4xl font-bold mb-4">
-                $29<span className="text-lg text-muted-foreground">/mo</span>
-              </div>
-              <ul className="space-y-3 text-sm text-muted-foreground">
-                <li>2M API calls/mo</li>
-                <li>100K memories</li>
-                <li>50GB storage</li>
-              </ul>
-            </div>
-          </div>
-
-          <Link href="/pricing">
-            <Button variant="outline" className="mt-8 bg-transparent">
-              View detailed pricing →
-            </Button>
-          </Link>
-        </div>
-      </section>
+      {/* Cost Calculator Section */}
+      <CostCalculator />
 
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-32 animate-on-scroll">
@@ -722,15 +659,29 @@ npm install -g persistq
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Start building with PersistQ today. No credit card required.
           </p>
-          <Link href="/signup">
-            <Button
-              size="lg"
-              className="bg-accent-cyan hover:bg-accent-cyan/90 text-black font-medium text-base h-14 px-10"
-            >
-              Get Started Free
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link href="/signup">
+              <Button
+                size="lg"
+                className="bg-accent-cyan hover:bg-accent-cyan/90 text-black font-medium text-base h-14 px-10"
+              >
+                Get Started Free
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </Link>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Check className="w-4 h-4 text-green-500" />
+              <span>No credit card required</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Check className="w-4 h-4 text-green-500" />
+              <span>Setup in 30 seconds</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Check className="w-4 h-4 text-green-500" />
+              <span>Cancel anytime</span>
+            </div>
+          </div>
         </div>
       </section>
 

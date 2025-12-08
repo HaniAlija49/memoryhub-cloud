@@ -1,0 +1,80 @@
+{
+    # Global options
+    email your-email@example.com  # CHANGE THIS: For Let's Encrypt notifications
+    admin off  # Disable admin API for security
+}
+
+# CHANGE THIS: Replace with your actual domain
+api.memoryhub.com {
+    # Enable compression
+    encode gzip zstd
+
+    # Security headers
+    header {
+        # Prevent clickjacking
+        X-Frame-Options "DENY"
+
+        # Prevent MIME sniffing
+        X-Content-Type-Options "nosniff"
+
+        # XSS Protection
+        X-XSS-Protection "1; mode=block"
+
+        # Referrer policy
+        Referrer-Policy "strict-origin-when-cross-origin"
+
+        # Permissions policy
+        Permissions-Policy "geolocation=(), microphone=(), camera=()"
+
+        # HSTS (31536000 seconds = 1 year)
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+        # Remove server header
+        -Server
+    }
+
+    # Reverse proxy to backend
+    reverse_proxy backend:3000 {
+        # Health check
+        health_uri /api/status
+        health_interval 30s
+        health_timeout 10s
+        health_status 200
+
+        # Load balancing (for future horizontal scaling)
+        lb_policy round_robin
+
+        # Connection settings
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+
+        # Timeouts
+        transport http {
+            read_timeout 30s
+            write_timeout 30s
+        }
+    }
+
+    # Access logging
+    log {
+        output file /var/log/caddy/access.log {
+            roll_size 100mb
+            roll_keep 5
+            roll_keep_for 720h  # 30 days
+        }
+        format json
+        level INFO
+    }
+
+    # Error handling
+    handle_errors {
+        respond "{err.status_code} {err.status_text}"
+    }
+}
+
+# Health check endpoint (for external monitoring without hitting backend)
+# This responds directly from Caddy without proxying to backend
+http://api.memoryhub.com {
+    respond /health "OK" 200
+}

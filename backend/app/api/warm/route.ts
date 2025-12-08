@@ -17,8 +17,16 @@ export const dynamic = 'force-dynamic'
  * - External cron service (e.g., cron-job.org, EasyCron)
  * - API call from your monitoring service
  */
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    // Security: Verify cron secret to prevent unauthorized access
+    const authHeader = request.headers.get("authorization");
+    const cronSecret = process.env.CRON_SECRET;
+
+    if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const startTime = Date.now()
 
     // Generate a dummy embedding to load the model
