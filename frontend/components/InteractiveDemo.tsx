@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -284,12 +285,16 @@ export default function InteractiveDemo() {
         <div className="text-center mt-12">
           <p className="text-muted-foreground mb-4">Ready to add semantic search to your AI?</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" className="bg-accent-cyan hover:bg-accent-cyan/90 text-black">
-              Get Started Free
-            </Button>
-            <Button variant="outline" size="lg">
-              View API Docs
-            </Button>
+            <Link href="/signup">
+              <Button size="lg" className="bg-accent-cyan hover:bg-accent-cyan/90 text-black">
+                Get Started Free
+              </Button>
+            </Link>
+            <Link href="/docs">
+              <Button variant="outline" size="lg">
+                View API Docs
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
