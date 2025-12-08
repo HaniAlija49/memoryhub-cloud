@@ -244,9 +244,11 @@ export default function PricingToggle() {
             All plans include zero embedding costs and local processing
           </p>
           <div className="pt-4">
-            <Button variant="outline" size="lg">
-              View detailed comparison
-            </Button>
+            <Link href="/pricing">
+              <Button variant="outline" size="lg">
+                View detailed comparison
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
