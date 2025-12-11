@@ -49,7 +49,7 @@ export default function RefundPolicyPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">How to Request a Refund</h2>
             <p className="text-muted-foreground">
-              Email <a href="mailto:support@persistq.dev" className="text-accent-cyan hover:underline">support@persistq.dev</a> with subject 'Refund Request' including account email, date of purchase, and reason. We may request verification and will respond within 10 business days. Approved refunds are processed to the original payment method within 10 business days of approval, though your financial institution may take an additional 5-10 business days to post the credit.
+              Email <a href="mailto:support@persistq.com" className="text-accent-cyan hover:underline">support@persistq.com</a> with subject 'Refund Request' including account email, date of purchase, and reason. We may request verification and will respond within 10 business days. Approved refunds are processed to the original payment method within 10 business days of approval, though your financial institution may take an additional 5-10 business days to post the credit.
             </p>
           </section>
 

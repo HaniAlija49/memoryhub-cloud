@@ -142,7 +142,7 @@ export default function PricingToggle() {
           {plans.map((plan) => (
             <Card
               key={plan.name}
-              className={`relative bg-background/50 border-border/50 transition-all duration-200 hover:shadow-lg hover:-translate-y-1 ${
+              className={`relative bg-background/50 border-border/50 transition-all duration-200 hover:shadow-lg hover:-translate-y-1 flex flex-col ${
                 plan.highlighted
                   ? "border-2 border-accent-cyan ring-2 ring-accent-cyan/20"
                   : "hover:border-border"
@@ -178,7 +178,7 @@ export default function PricingToggle() {
                 </div>
               </CardHeader>
 
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 flex-grow">
                 {/* Key Metrics */}
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
@@ -206,7 +206,7 @@ export default function PricingToggle() {
                 </div>
               </CardContent>
 
-              <CardFooter>
+              <CardFooter className="mt-auto">
                 <Link href="/signup" className="w-full">
                   <Button
                     className={`w-full h-11 ${

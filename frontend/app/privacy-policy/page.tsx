@@ -23,8 +23,8 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">Controller</h2>
             <p className="text-muted-foreground">
-              PersistQ (the operator of persistq.dev) is the data controller for personal data collected in connection with
-              this Service unless otherwise specified. Contact: support@persistq.dev.
+              PersistQ (the operator of persistq.com) is the data controller for personal data collected in connection with
+              this Service unless otherwise specified. Contact: support@persistq.com.
             </p>
           </section>
 
