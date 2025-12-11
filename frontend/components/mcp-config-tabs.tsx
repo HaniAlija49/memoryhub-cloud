@@ -13,6 +13,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog"
 import { Check, Copy, Terminal, ExternalLink } from "lucide-react"
+import Link from "next/link"
 
 // Claude MCP Prompt
 const getClaudeMcpPrompt = (apiKey?: string | null, apiUrl?: string) => {
@@ -167,10 +168,10 @@ The PersistQ MCP Server is automatically installed via \`npx\` when configured. 
 
 Add the following to your Cursor MCP configuration file:
 
-**Windows:** \`%USERPROFILE%\\.cursor\\mcp.json\`  
+**Windows:** \`%USERPROFILE%\\.cursor\\mcp.json\`
 **macOS/Linux:** \`~/.cursor/mcp.json\`
 
-```json
+\`\`\`json
 {
   "mcpServers": {
     "persistq": {
@@ -183,11 +184,11 @@ Add the following to your Cursor MCP configuration file:
     }
   }
 }
-```
+\`\`\`
 
 **Alternative (if persistq is installed globally):**
 
-```json
+\`\`\`json
 {
   "mcpServers": {
     "persistq": {
@@ -199,7 +200,7 @@ Add the following to your Cursor MCP configuration file:
     }
   }
 }
-```
+\`\`\`
 
 ## Using PersistQ in Cursor
 
@@ -697,7 +698,6 @@ export function McpConfigTabs({ apiKey, apiUrl }: McpConfigTabsProps = {}) {
   const claudePrompt = getClaudeMcpPrompt(apiKey, apiUrl)
   const copilotPrompt = getCopilotPrompt(apiKey, apiUrl)
   const cursorPrompt = getCursorPrompt(apiKey, apiUrl)
-  const cursorPrompt = getCursorPrompt(apiKey, apiUrl)
 
   const handleCopy = async (type: 'claude' | 'copilot' | 'cursor') => {
     const prompt = type === 'claude' ? claudePrompt : type === 'copilot' ? copilotPrompt : cursorPrompt
@@ -757,19 +757,6 @@ export function McpConfigTabs({ apiKey, apiUrl }: McpConfigTabsProps = {}) {
                 GitHub Copilot CLI & VS Code
                 {activeTab === "copilot" && (
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-accent-cyan to-accent-purple" />
-                )}
-              </button>
-              <button
-                onClick={() => setActiveTab("cursor")}
-                className={`relative px-4 py-2.5 text-sm font-medium transition-all ${
-                  activeTab === "cursor"
-                    ? "text-green-600"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                Cursor IDE
-                {activeTab === "cursor" && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-green-600" />
                 )}
               </button>
               <button
@@ -893,6 +880,111 @@ export function McpConfigTabs({ apiKey, apiUrl }: McpConfigTabsProps = {}) {
           </div>
         </TabsContent>
 
+        <TabsContent value="copilot" className="space-y-4 mt-0 pb-6">
+          <div className="flex items-center gap-3">
+            <Button
+              onClick={() => handleCopy('copilot')}
+              size="sm"
+              variant="outline"
+              className="flex-1 bg-gradient-to-r from-accent-cyan/10 to-accent-cyan/5 hover:from-accent-cyan/20 hover:to-accent-cyan/10 text-accent-cyan border-accent-cyan/30 font-medium"
+            >
+              {copilotCopied ? (
+                <>
+                  <Check className="h-4 w-4 mr-2" />
+                  Copied!
+                </>
+              ) : (
+                <>
+                  <Copy className="h-4 w-4 mr-2" />
+                  Copy Prompt
+                </>
+              )}
+            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="flex-1 bg-gradient-to-r from-accent-cyan/10 to-accent-cyan/5 hover:from-accent-cyan/20 hover:to-accent-cyan/10 text-accent-cyan border-accent-cyan/30 font-medium"
+                >
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  View Full Prompt
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-3xl max-h-[85vh] flex flex-col bg-surface border-border">
+                <DialogHeader>
+                  <DialogTitle className="text-foreground">GitHub Copilot MCP Integration</DialogTitle>
+                  <DialogDescription className="text-muted-foreground">
+                    Copy this prompt to enable PersistQ for GitHub Copilot CLI and VS Code.
+                  </DialogDescription>
+                </DialogHeader>
+
+                <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+                  <div className="rounded-lg border border-border bg-background p-4 overflow-x-auto">
+                    <pre className="text-xs text-muted-foreground leading-relaxed whitespace-pre-wrap font-mono">
+                      {copilotPrompt}
+                    </pre>
+                  </div>
+
+                  <div className="flex items-start gap-2 rounded-lg bg-accent-cyan/5 border border-accent-cyan/20 p-3">
+                    <svg
+                      className="h-5 w-5 text-accent-cyan flex-shrink-0 mt-0.5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <p className="text-xs text-foreground leading-relaxed">
+                      {apiKey ? (
+                        <>
+                          This prompt is ready to use! Your API key and endpoint are already included.{" "}
+                          <Link href="/docs/mcp-integration#copilot" className="text-accent-cyan hover:underline">
+                            View detailed setup guide →
+                          </Link>
+                        </>
+                      ) : (
+                        <>
+                          Follow the instructions in the prompt to configure PersistQ. Replace{" "}
+                          <code className="px-1.5 py-0.5 rounded bg-background text-accent-cyan">YOUR_API_KEY</code> with your
+                          actual API key from the API Keys section.{" "}
+                          <Link href="/docs/manual-setup" className="text-accent-cyan hover:underline">
+                            Need help? View manual setup guide →
+                          </Link>
+                        </>
+                      )}
+                    </p>
+                  </div>
+                </div>
+
+                <DialogFooter className="mt-4">
+                  <Button
+                    onClick={() => handleCopy('copilot')}
+                    className="w-full bg-accent-cyan/10 hover:bg-accent-cyan/20 text-accent-cyan border-accent-cyan/30"
+                  >
+                    {copilotCopied ? (
+                      <>
+                        <Check className="h-4 w-4 mr-2" />
+                        Copied to clipboard!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-4 w-4 mr-2" />
+                        Copy prompt to clipboard
+                      </>
+                    )}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </TabsContent>
+
         <TabsContent value="cursor" className="space-y-4 mt-0 pb-6">
           <div className="flex items-center gap-3">
             <Button
@@ -969,105 +1061,6 @@ export function McpConfigTabs({ apiKey, apiUrl }: McpConfigTabsProps = {}) {
                           <Link href="/docs/manual-setup" className="text-green-600 hover:underline">
                             Need help? View manual setup guide →
                           </Link>
-                        </>
-                      )}
-                    </p>
-                  </div>
-                </div>
-
-                <DialogFooter className="mt-4">
-                  <Button
-                    onClick={() => handleCopy('cursor')}
-                    className="w-full bg-green-600/10 hover:bg-green-600/20 text-green-600 border-green-600/30"
-                  >
-                    {cursorCopied ? (
-                      <>
-                        <Check className="h-4 w-4 mr-2" />
-                        Copied to clipboard!
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="h-4 w-4 mr-2" />
-                        Copy configuration to clipboard
-                      </>
-                    )}
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="cursor" className="space-y-4 mt-0 pb-6">
-          <div className="flex items-center gap-3">
-            <Button
-              onClick={() => handleCopy('cursor')}
-              size="sm"
-              variant="outline"
-              className="flex-1 bg-gradient-to-r from-green-600/10 to-green-600/5 hover:from-green-600/20 hover:to-green-600/10 text-green-600 border-green-600/30 font-medium"
-            >
-              {cursorCopied ? (
-                <>
-                  <Check className="h-4 w-4 mr-2" />
-                  Copied!
-                </>
-              ) : (
-                <>
-                  <Copy className="h-4 w-4 mr-2" />
-                  Copy Config
-                </>
-              )}
-            </Button>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="flex-1 bg-gradient-to-r from-green-600/10 to-green-600/5 hover:from-green-600/20 hover:to-green-600/10 text-green-600 border-green-600/30 font-medium"
-                >
-                  <ExternalLink className="h-4 w-4 mr-2" />
-                  View Setup Guide
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-3xl max-h-[85vh] flex flex-col bg-surface border-border">
-                <DialogHeader>
-                  <DialogTitle className="text-foreground">Cursor IDE MCP Integration</DialogTitle>
-                  <DialogDescription className="text-muted-foreground">
-                    Configure PersistQ for Cursor IDE to enable persistent memory across sessions.
-                  </DialogDescription>
-                </DialogHeader>
-
-                <div className="flex-1 overflow-y-auto space-y-4 pr-2">
-                  <div className="rounded-lg border border-border bg-background p-4 overflow-x-auto">
-                    <pre className="text-xs text-muted-foreground leading-relaxed whitespace-pre-wrap font-mono">
-                      {cursorPrompt}
-                    </pre>
-                  </div>
-
-                  <div className="flex items-start gap-2 rounded-lg bg-green-600/5 border border-green-600/20 p-3">
-                    <svg
-                      className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <p className="text-xs text-foreground leading-relaxed">
-                      {apiKey ? (
-                        <>
-                          Add this configuration to <code className="px-1.5 py-0.5 rounded bg-background text-green-600">~/.cursor/mcp.json</code> (macOS/Linux) or <code className="px-1.5 py-0.5 rounded bg-background text-green-600">%USERPROFILE%\.cursor\mcp.json</code> (Windows). Your API key and endpoint are already included.
-                        </>
-                      ) : (
-                        <>
-                          Add this configuration to your Cursor MCP config file. Replace{" "}
-                          <code className="px-1.5 py-0.5 rounded bg-background text-green-600">YOUR_API_KEY</code> with your
-                          actual API key from the API Keys section.
                         </>
                       )}
                     </p>
