@@ -239,7 +239,11 @@ npm install -g persistq
           </h1>
 
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Local embeddings, fast semantic search, and Claude MCP support. Build smarter AI agents in minutes — without sending your data to OpenAI or paying embedding fees.
+            Build smarter AI agents in minutes — with full privacy and zero embedding fees.
+          </p>
+
+          <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
+            MCP-ready for Claude, GPT, and local LLM agents.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
