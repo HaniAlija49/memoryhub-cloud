@@ -229,17 +229,21 @@ npm install -g persistq
       </header>
 
       {/* Hero Section */}
-      <section ref={heroRef} className="container mx-auto px-4 pt-24 pb-32 md:pt-40 md:pb-48 animate-fade-in">
-        <div className="max-w-5xl mx-auto text-center space-y-8">
-          <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-none">
-            Build smarter AI with{" "}
+      <section ref={heroRef} className="container mx-auto px-4 pt-20 pb-16 md:pt-24 md:pb-20 animate-fade-in">
+        <div className="max-w-4xl mx-auto text-center space-y-6">
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight">
+            Add persistent, private memory to your AI — with{" "}
             <span className="bg-gradient-to-r from-accent-cyan via-accent-purple to-accent-cyan bg-clip-text text-transparent animated-gradient">
-              persistent memory
+              ZERO embedding cost
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            The semantic memory API for AI applications. Store, search, and retrieve context with zero embedding costs and local processing for maximum privacy.
+          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Build smarter AI agents in minutes — with full privacy and zero embedding fees.
+          </p>
+
+          <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
+            MCP-ready for Claude, GPT, and local LLM agents.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -248,7 +252,7 @@ npm install -g persistq
                 size="lg"
                 className="bg-accent-cyan hover:bg-accent-cyan/90 hover:scale-105 text-black font-medium text-base h-12 px-8 transition-transform duration-200 shadow-lg hover:shadow-xl cta-glow"
               >
-                Start Building Free
+                Start Free
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
@@ -258,136 +262,132 @@ npm install -g persistq
                 variant="outline"
                 className="text-base h-12 px-8 bg-transparent hover:bg-surface transition-colors duration-200"
               >
-                Read Docs
+                View Docs
               </Button>
             </Link>
           </div>
+
+          <p className="text-sm text-muted-foreground pt-2">No credit card required.</p>
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <section className="border-y border-border/40 bg-surface/30 py-12 animate-on-scroll">
+      {/* Value Props - Above the Fold */}
+      <section className="border-y border-border/40 bg-surface/30 py-16 animate-on-scroll">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent-cyan mb-2 floating-icon">~200ms</div>
-              <div className="text-sm text-muted-foreground">Avg response time</div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            <div className="text-center space-y-3">
+              <div className="text-3xl md:text-4xl font-bold text-accent-cyan mb-2">$0</div>
+              <div className="font-semibold text-base">Zero Embedding Cost</div>
+              <div className="text-sm text-muted-foreground leading-relaxed">
+                Never pay OpenAI embedding fees again. Local Transformers.js embeddings included.
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent-purple mb-2 floating-icon-delayed">99.9%</div>
-              <div className="text-sm text-muted-foreground">Uptime SLA (Pro+)</div>
+            <div className="text-center space-y-3">
+              <div className="text-3xl md:text-4xl font-bold text-accent-purple mb-2">
+                <Shield className="w-10 h-10 mx-auto" />
+              </div>
+              <div className="font-semibold text-base">Privacy-First Architecture</div>
+              <div className="text-sm text-muted-foreground leading-relaxed">
+                Your data never touches OpenAI, Anthropic, or third-party AI services.
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent-cyan mb-2 floating">$0</div>
-              <div className="text-sm text-muted-foreground">Embedding costs</div>
+            <div className="text-center space-y-3">
+              <div className="text-3xl md:text-4xl font-bold text-accent-cyan mb-2">~200ms</div>
+              <div className="font-semibold text-base">Built for AI Agents</div>
+              <div className="text-sm text-muted-foreground leading-relaxed">
+                Fast semantic search optimized for real-time agent loops (~200ms).
+              </div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-accent-purple mb-2 floating-icon">GDPR</div>
-              <div className="text-sm text-muted-foreground">Compliant</div>
+            <div className="text-center space-y-3">
+              <div className="text-3xl md:text-4xl font-bold text-accent-purple mb-2">
+                <Check className="w-10 h-10 mx-auto" />
+              </div>
+              <div className="font-semibold text-base">Claude MCP Ready</div>
+              <div className="text-sm text-muted-foreground leading-relaxed">
+                Plug PersistQ into Claude Code with a single configuration.
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Instant Setup Section */}
-      <section className="container mx-auto px-4 py-32 animate-on-scroll">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="text-5xl font-bold mb-6 leading-tight">
-              Instant setup.
-              <br />
-              <span className="text-muted-foreground">No config.</span>
-            </h2>
-            <p className="text-xl text-muted-foreground mb-8">
-              Get started in seconds with our TypeScript SDK or REST API. No complex setup, no infrastructure to
-              manage.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/docs/typescript-sdk">
-                <Button variant="link" className="text-accent-cyan p-0 h-auto text-lg">
-                  TypeScript SDK docs →
-                </Button>
-              </Link>
-              <Link href="/docs/getting-started">
-                <Button variant="link" className="text-accent-purple p-0 h-auto text-lg">
-                  Quickstart guide →
-                </Button>
-              </Link>
+      {/* Demo GIF Placeholder Section */}
+      <section className="container mx-auto px-4 py-16 animate-on-scroll">
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          <h2 className="text-4xl md:text-5xl font-bold">See PersistQ in Action</h2>
+          <p className="text-lg text-muted-foreground">30-second demo</p>
+
+          {/* Demo GIF Placeholder */}
+          <div className="rounded-lg border-2 border-dashed border-border bg-surface/50 aspect-video flex items-center justify-center">
+            <div className="text-center space-y-4 p-8">
+              <div className="text-6xl">🎬</div>
+              <div className="text-lg font-medium text-muted-foreground">
+                Your demo video or GIF will go here
+              </div>
+              <div className="text-sm text-muted-foreground max-w-md mx-auto">
+                Example: store → search → retrieve
+              </div>
             </div>
           </div>
-          <CodeBlock
-            code={`$ npm install persistq-sdk`}
-            language="bash"
-            title="terminal"
-          />
         </div>
       </section>
 
-      {/* Zero Embedding Costs Section */}
-      <section className="container mx-auto px-4 py-32 bg-surface/30 animate-on-scroll">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="text-5xl font-bold mb-6 leading-tight">
-              Zero embedding costs.
-              <br />
-              <span className="text-muted-foreground">Save thousands.</span>
-            </h2>
-            <p className="text-xl text-muted-foreground mb-8">
-              Unlike competitors who charge for OpenAI embeddings, we generate vectors locally using open-source models.
-              No per-token fees. No surprise bills.
+      {/* Features Section - Benefit Driven */}
+      <section id="features" className="container mx-auto px-4 py-16 animate-on-scroll">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Built for Developers, Optimized for AI</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Everything you need to add semantic memory to your AI agents.
             </p>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <Check className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
-                <div>
-                  <div className="font-medium mb-1">Free embeddings forever</div>
-                  <div className="text-sm text-muted-foreground">Transformers.js runs locally - no API costs</div>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
-                <div>
-                  <div className="font-medium mb-1">Privacy-first</div>
-                  <div className="text-sm text-muted-foreground">
-                    Your data never leaves your infrastructure for embeddings
-                  </div>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <Check className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
-                <div>
-                  <div className="font-medium mb-1">Transparent pricing</div>
-                  <div className="text-sm text-muted-foreground">Flat rates based on storage, not usage</div>
-                </div>
-              </li>
-            </ul>
           </div>
-          <div className="rounded-lg border border-border bg-surface p-8">
-            <h3 className="font-semibold mb-6 text-lg">Cost Comparison</h3>
-            <div className="space-y-4">
-              <div className="p-4 rounded bg-red-500/10 border border-red-500/20">
-                <div className="text-sm font-medium mb-2 text-red-400">Competitor (OpenAI embeddings)</div>
-                <div className="text-xs text-muted-foreground">
-                  1M memories × $0.0001/embedding = <strong className="text-foreground">$100+/month</strong>
-                </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="p-6 rounded-lg border border-border bg-surface/50">
+              <div className="text-accent-cyan mb-4">
+                <Check className="w-8 h-8" />
               </div>
-              <div className="p-4 rounded bg-accent-cyan/10 border border-accent-cyan/20">
-                <div className="text-sm font-medium mb-2 text-accent-cyan">PersistQ (local embeddings)</div>
-                <div className="text-xs text-muted-foreground">
-                  1M memories = <strong className="text-foreground">$0 embedding costs</strong>
-                </div>
+              <h3 className="text-xl font-semibold mb-3">Save money and increase privacy with local embedding generation</h3>
+              <p className="text-muted-foreground">
+                Generate embeddings locally with Transformers.js (384d). Never pay OpenAI or Anthropic for embeddings again.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-lg border border-border bg-surface/50">
+              <div className="text-accent-purple mb-4">
+                <Check className="w-8 h-8" />
               </div>
-              <div className="pt-4 text-center">
-                <div className="text-2xl font-bold text-accent-cyan">Save $100+/month</div>
-                <div className="text-xs text-muted-foreground mt-1">on every million memories</div>
+              <h3 className="text-xl font-semibold mb-3">Find the right memory instantly with lightning-fast semantic search</h3>
+              <p className="text-muted-foreground">
+                Powered by pgvector with cosine similarity. Query your memories naturally and get relevant results every time.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-lg border border-border bg-surface/50">
+              <div className="text-accent-cyan mb-4">
+                <Check className="w-8 h-8" />
               </div>
+              <h3 className="text-xl font-semibold mb-3">Combine semantic and exact matching for the most relevant results</h3>
+              <p className="text-muted-foreground">
+                Hybrid keyword + vector search ensures you never miss important memories, whether the query is fuzzy or exact.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-lg border border-border bg-surface/50">
+              <div className="text-accent-purple mb-4">
+                <Check className="w-8 h-8" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Fast enough for real-time agent loops</h3>
+              <p className="text-muted-foreground">
+                Average latency of ~200ms means your AI agents never wait. Optimized for production workloads at scale.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* MCP Integration Section */}
-      <section className="container mx-auto px-4 py-32 animate-on-scroll">
+      <section className="container mx-auto px-4 py-16 animate-on-scroll">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <div className="order-2 md:order-1 rounded-lg border border-border bg-surface p-8">
             <div className="space-y-4">
@@ -451,7 +451,7 @@ npm install -g persistq
       </section>
 
       {/* Integration Options */}
-      <section className="container mx-auto px-4 py-32 bg-surface/30 animate-on-scroll">
+      <section className="container mx-auto px-4 py-16 bg-surface/30 animate-on-scroll">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold mb-6">Three ways to integrate</h2>
@@ -500,143 +500,70 @@ npm install -g persistq
         </div>
       </section>
 
-      {/* Feature Sections */}
-      <section id="features" className="container mx-auto px-4 py-32 animate-on-scroll">
-        <div className="max-w-6xl mx-auto space-y-32">
-          {/* Semantic Search */}
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-5xl font-bold mb-6 leading-tight">
-                Semantic search.
-                <br />
-                <span className="text-muted-foreground">Built-in.</span>
-              </h2>
-              <p className="text-xl text-muted-foreground mb-8">
-                Vector-based search finds relevant memories even with fuzzy queries. No need to remember exact phrases.
-              </p>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-3">
-                  <Check className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
-                  <div>
-                    <div className="font-medium mb-1">Automatic embeddings</div>
-                    <div className="text-sm text-muted-foreground">We handle vector generation for you</div>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
-                  <div>
-                    <div className="font-medium mb-1">Hybrid search</div>
-                    <div className="text-sm text-muted-foreground">Combines semantic and keyword search</div>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <Check className="w-6 h-6 text-accent-cyan shrink-0 mt-1" />
-                  <div>
-                    <div className="font-medium mb-1">Zero embedding costs</div>
-                    <div className="text-sm text-muted-foreground">Local Transformers.js - no per-token charges</div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div className="rounded-lg border border-border bg-surface p-8">
-              <div className="space-y-4">
-                <div className="p-4 rounded bg-accent-cyan/10 border border-accent-cyan/20">
-                  <div className="text-sm font-medium mb-2">Query: "user color preferences"</div>
-                  <div className="text-xs text-muted-foreground">Finds: "User prefers dark mode"</div>
-                </div>
-                <div className="p-4 rounded bg-accent-purple/10 border border-accent-purple/20">
-                  <div className="text-sm font-medium mb-2">Query: "what does the user like"</div>
-                  <div className="text-xs text-muted-foreground">Finds: "User enjoys sci-fi movies"</div>
-                </div>
-              </div>
-            </div>
+      {/* Use Cases Section (Renamed from Success Stories) */}
+      <section className="container mx-auto px-4 py-16 bg-surface/30 animate-on-scroll">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Use Cases</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Add persistent memory to any AI application
+            </p>
           </div>
 
-          {/* Global Scale */}
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="order-2 md:order-1 rounded-lg border border-border bg-surface p-8">
-              <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">North America</span>
-                  <span className="text-accent-cyan font-medium">12ms</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Europe</span>
-                  <span className="text-accent-cyan font-medium">18ms</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Asia Pacific</span>
-                  <span className="text-accent-cyan font-medium">24ms</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">South America</span>
-                  <span className="text-accent-cyan font-medium">31ms</span>
-                </div>
-              </div>
-            </div>
-            <div className="order-1 md:order-2">
-              <h2 className="text-5xl font-bold mb-6 leading-tight">
-                Lightning fast.
-                <br />
-                <span className="text-muted-foreground">Built for scale.</span>
-              </h2>
-              <p className="text-xl text-muted-foreground mb-8">
-                PostgreSQL with pgvector extension ensures sub-200ms semantic search across millions of memories.
-                Optimized for real-time applications.
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="p-6 rounded-lg border border-border bg-surface hover:border-accent-cyan/50 transition-colors">
+              <div className="text-3xl mb-4">🤖</div>
+              <h3 className="text-lg font-semibold mb-3">AI Assistants</h3>
+              <p className="text-sm text-muted-foreground">
+                Give your assistant long-term memory of preferences, tasks, and interactions.
               </p>
-              <Link href="/docs">
-                <Button variant="link" className="text-accent-cyan p-0 h-auto text-lg">
-                  Learn about our infrastructure →
-                </Button>
-              </Link>
+            </div>
+
+            <div className="p-6 rounded-lg border border-border bg-surface hover:border-accent-purple/50 transition-colors">
+              <div className="text-3xl mb-4">⚙️</div>
+              <h3 className="text-lg font-semibold mb-3">Agent Frameworks</h3>
+              <p className="text-sm text-muted-foreground">
+                Add a persistent knowledge layer to multi-step agents.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-lg border border-border bg-surface hover:border-accent-cyan/50 transition-colors">
+              <div className="text-3xl mb-4">💡</div>
+              <h3 className="text-lg font-semibold mb-3">Custom AI Apps</h3>
+              <p className="text-sm text-muted-foreground">
+                Store contextual data, notes, summaries, and conversation history.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-lg border border-border bg-surface hover:border-accent-purple/50 transition-colors">
+              <div className="text-3xl mb-4">🔍</div>
+              <h3 className="text-lg font-semibold mb-3">RAG Enhancements</h3>
+              <p className="text-sm text-muted-foreground">
+                Improve retrieval quality with structured semantic memory.
+              </p>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Security */}
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-5xl font-bold mb-6 leading-tight">
-                Security first.
-                <br />
-                <span className="text-muted-foreground">Privacy built-in.</span>
-              </h2>
-              <p className="text-xl text-muted-foreground mb-8">
-                GDPR compliant with secure authentication. Your data stays private with local embedding generation.
+      {/* Founder's Note Section */}
+      <section className="container mx-auto px-4 py-16 animate-on-scroll">
+        <div className="max-w-3xl mx-auto">
+          <div className="rounded-lg border border-border bg-surface p-8 md:p-12">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6">From the Founder</h2>
+            <div className="prose prose-invert max-w-none">
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                PersistQ is new — but it was built from real frustration with expensive embeddings, privacy concerns, and overly complex vector databases.
               </p>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-lg border border-border bg-surface">
-                  <Lock className="w-8 h-8 text-accent-cyan mb-2" />
-                  <div className="font-medium">Encrypted storage</div>
-                </div>
-                <div className="p-4 rounded-lg border border-border bg-surface">
-                  <Shield className="w-8 h-8 text-accent-purple mb-2" />
-                  <div className="font-medium">GDPR compliant</div>
-                </div>
-              </div>
-            </div>
-            <div className="rounded-lg border border-border bg-surface p-8">
-              <div className="space-y-4 text-sm">
-                <div className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-accent-cyan shrink-0" />
-                  <span>Secure API key authentication</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-accent-cyan shrink-0" />
-                  <span>Local embedding generation</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-accent-cyan shrink-0" />
-                  <span>GDPR compliant data handling</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-accent-cyan shrink-0" />
-                  <span>User data deletion on request</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Check className="w-5 h-5 text-accent-cyan shrink-0" />
-                  <span>No third-party AI dependencies</span>
-                </div>
-              </div>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                Developers deserve a memory layer that is fast, private, affordable, and easy to integrate.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mb-4">
+                PersistQ gives you semantic memory with zero embedding cost, no vendor lock-in, and full Claude MCP support.
+              </p>
+              <p className="text-muted-foreground leading-relaxed font-medium">
+                If you're building an AI agent, PersistQ is designed for you.
+              </p>
             </div>
           </div>
         </div>
@@ -644,9 +571,6 @@ npm install -g persistq
 
       {/* Pricing Section */}
       <PricingToggle />
-
-      {/* Case Studies Section */}
-      <CaseStudies />
 
       {/* Powerful Features Section */}
       <TechnicalSpecs />
@@ -659,33 +583,35 @@ npm install -g persistq
 
   
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-32 animate-on-scroll">
+      <section className="container mx-auto px-4 py-16 animate-on-scroll">
         <div className="max-w-4xl mx-auto text-center space-y-8">
-          <h2 className="text-5xl md:text-6xl font-bold leading-tight">Ready to add memory to your AI?</h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Start building with PersistQ today. Zero embedding costs, privacy-first design, and simple pricing.
+          <h2 className="text-4xl md:text-5xl font-bold leading-tight">Ready to add memory to your AI?</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Start building with PersistQ today. No credit card required.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col items-center justify-center gap-6">
             <Link href="/signup">
               <Button
                 size="lg"
                 className="bg-accent-cyan hover:bg-accent-cyan/90 text-black font-medium text-base h-14 px-10"
               >
-                Start Building Free
+                Start Free
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Check className="w-4 h-4 text-green-500" />
-              <span>Zero embedding costs</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Check className="w-4 h-4 text-green-500" />
-              <span>Local processing</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Check className="w-4 h-4 text-green-500" />
-              <span>Simple pricing</span>
+            <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-accent-cyan" />
+                <span>Zero embedding costs</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-accent-cyan" />
+                <span>Privacy-first</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-accent-cyan" />
+                <span>Claude MCP ready</span>
+              </div>
             </div>
           </div>
         </div>
