@@ -41,8 +41,6 @@ export async function GET() {
 
     return NextResponse.json({
       status: isHealthy ? 'healthy' : 'degraded',
-      service: 'MemoryHub API',
-      version: '1.0.0',
       timestamp: new Date().toISOString(),
       checks,
     }, { status: isHealthy ? 200 : 503 })
@@ -54,11 +52,8 @@ export async function GET() {
     return NextResponse.json(
       {
         status: 'unhealthy',
-        service: 'MemoryHub API',
-        version: '1.0.0',
         timestamp: new Date().toISOString(),
         checks,
-        error: 'Database connection failed',
       },
       { status: 503 }
     )
