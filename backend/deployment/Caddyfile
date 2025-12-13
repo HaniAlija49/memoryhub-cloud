@@ -1,6 +1,6 @@
 {
     # Global options
-    email support@persistq.com
+    email admin@persistq.com
     admin off  # Disable admin API for security
 }
 
