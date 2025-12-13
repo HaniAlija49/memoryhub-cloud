@@ -1,11 +1,10 @@
 {
     # Global options
-    email your-email@example.com  # CHANGE THIS: For Let's Encrypt notifications
+    email support@persistq.com
     admin off  # Disable admin API for security
 }
 
-# CHANGE THIS: Replace with your actual domain
-api.memoryhub.com {
+api.persistq.com {
     # Enable compression
     encode gzip zstd
 
@@ -75,6 +74,6 @@ api.memoryhub.com {
 
 # Health check endpoint (for external monitoring without hitting backend)
 # This responds directly from Caddy without proxying to backend
-http://api.memoryhub.com {
+http://api.persistq.com {
     respond /health "OK" 200
 }
