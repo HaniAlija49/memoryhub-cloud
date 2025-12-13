@@ -66,6 +66,8 @@ async function validatePlanConfig() {
     process.exit(1);
   }
 
+  const mode = (env.DODO_MODE || "test") as "test" | "live";
+
   for (const [planId, plan] of Object.entries(PLANS)) {
     if (planId === "free") {
       console.log(`✓ ${plan.name} (free plan - no validation needed)`);
@@ -74,9 +76,12 @@ async function validatePlanConfig() {
 
     console.log(`\n📦 Validating plan: ${plan.name} (${planId})`);
 
+    // Get the mode-specific product IDs
+    const modeProducts = plan.providers.dodo?.[mode];
+
     // Validate monthly product
-    if (plan.providers.dodo?.monthly) {
-      const productId = plan.providers.dodo.monthly;
+    if (modeProducts?.monthly) {
+      const productId = modeProducts.monthly;
       console.log(`  Checking monthly product: ${productId}`);
 
       const product = await fetchDodoProduct(productId);
@@ -109,8 +114,8 @@ async function validatePlanConfig() {
     }
 
     // Validate yearly product
-    if (plan.providers.dodo?.yearly) {
-      const productId = plan.providers.dodo.yearly;
+    if (modeProducts?.yearly) {
+      const productId = modeProducts.yearly;
       console.log(`  Checking yearly product: ${productId}`);
 
       const product = await fetchDodoProduct(productId);

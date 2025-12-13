@@ -232,10 +232,12 @@ export class DodoProvider implements IBillingProvider {
   readonly name = "dodo";
   private client: DodoAPIClient;
   private webhookSecret: string;
+  private mode: "test" | "live";
 
   constructor(config: DodoConfig) {
     this.client = new DodoAPIClient(config.apiKey, config.mode);
     this.webhookSecret = config.webhookSecret;
+    this.mode = config.mode;
   }
 
   async createCheckoutSession(
@@ -245,12 +247,13 @@ export class DodoProvider implements IBillingProvider {
     const productId = getProviderProductId(
       params.planId,
       "dodo",
-      params.interval
+      params.interval,
+      this.mode
     );
 
     if (!productId) {
       throw new Error(
-        `No Dodo product ID configured for plan ${params.planId} with interval ${params.interval}`
+        `No Dodo product ID configured for plan ${params.planId} with interval ${params.interval} in ${this.mode} mode`
       );
     }
 
@@ -357,11 +360,11 @@ export class DodoProvider implements IBillingProvider {
     newPlanId: string,
     newInterval: "monthly" | "yearly"
   ): Promise<SubscriptionData> {
-    const newProductId = getProviderProductId(newPlanId, "dodo", newInterval);
+    const newProductId = getProviderProductId(newPlanId, "dodo", newInterval, this.mode);
 
     if (!newProductId) {
       throw new Error(
-        `No Dodo product ID configured for plan ${newPlanId} with interval ${newInterval}`
+        `No Dodo product ID configured for plan ${newPlanId} with interval ${newInterval} in ${this.mode} mode`
       );
     }
 

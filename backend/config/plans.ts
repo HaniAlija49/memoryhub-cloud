@@ -38,12 +38,24 @@ export interface PlanMetadata {
   recommended?: boolean;
   providers: {
     dodo?: {
-      monthly?: string; // Dodo product ID for monthly billing
-      yearly?: string; // Dodo product ID for yearly billing
+      test?: {
+        monthly?: string; // Dodo test product ID for monthly billing
+        yearly?: string; // Dodo test product ID for yearly billing
+      };
+      live?: {
+        monthly?: string; // Dodo live product ID for monthly billing
+        yearly?: string; // Dodo live product ID for yearly billing
+      };
     };
     stripe?: {
-      monthly?: string; // Stripe price ID for monthly billing
-      yearly?: string; // Stripe price ID for yearly billing
+      test?: {
+        monthly?: string; // Stripe test price ID for monthly billing
+        yearly?: string; // Stripe test price ID for yearly billing
+      };
+      live?: {
+        monthly?: string; // Stripe live price ID for monthly billing
+        yearly?: string; // Stripe live price ID for yearly billing
+      };
     };
   };
 }
@@ -109,12 +121,24 @@ export const PLANS: Record<string, PlanMetadata> = {
     ],
     providers: {
       dodo: {
-        monthly: "pdt_LEfuxMLpqXftMdl2jXL4d",
-        yearly: "pdt_hqU4rsdHUNC1WQXu8zv84",
+        test: {
+          monthly: "pdt_LEfuxMLpqXftMdl2jXL4d",
+          yearly: "pdt_hqU4rsdHUNC1WQXu8zv84",
+        },
+        live: {
+          monthly: "", // TODO: Add live product ID from Dodo dashboard
+          yearly: "", // TODO: Add live product ID from Dodo dashboard
+        },
       },
       // stripe: {
-      //   monthly: "price_xxx",
-      //   yearly: "price_yyy",
+      //   test: {
+      //     monthly: "price_xxx",
+      //     yearly: "price_yyy",
+      //   },
+      //   live: {
+      //     monthly: "price_xxx",
+      //     yearly: "price_yyy",
+      //   },
       // },
     },
   },
@@ -148,8 +172,14 @@ export const PLANS: Record<string, PlanMetadata> = {
     recommended: true,
     providers: {
       dodo: {
-        monthly: "pdt_vHY6aM1pRkyaWlOpa7jXm",
-        yearly: "pdt_6t2RgwiZIj66AhODVInwa",
+        test: {
+          monthly: "pdt_vHY6aM1pRkyaWlOpa7jXm",
+          yearly: "pdt_6t2RgwiZIj66AhODVInwa",
+        },
+        live: {
+          monthly: "", // TODO: Add live product ID from Dodo dashboard
+          yearly: "", // TODO: Add live product ID from Dodo dashboard
+        },
       },
     },
   },
@@ -184,8 +214,14 @@ export const PLANS: Record<string, PlanMetadata> = {
     ],
     providers: {
       dodo: {
-        monthly: "pdt_gVSrgAFcOWaErAvdQglFr",
-        yearly: "pdt_NUWmE7JuWEo4TUykkaic4",
+        test: {
+          monthly: "pdt_gVSrgAFcOWaErAvdQglFr",
+          yearly: "pdt_NUWmE7JuWEo4TUykkaic4",
+        },
+        live: {
+          monthly: "", // TODO: Add live product ID from Dodo dashboard
+          yearly: "", // TODO: Add live product ID from Dodo dashboard
+        },
       },
     },
   },
@@ -208,7 +244,8 @@ export function getPlan(planId: string): PlanMetadata | undefined {
 export function getProviderProductId(
   planId: string,
   provider: string,
-  interval: BillingInterval
+  interval: BillingInterval,
+  mode?: "test" | "live"
 ): string | undefined {
   const plan = PLANS[planId];
   if (!plan) return undefined;
@@ -216,11 +253,25 @@ export function getProviderProductId(
   const providerConfig = plan.providers[provider as keyof typeof plan.providers];
   if (!providerConfig) return undefined;
 
-  return providerConfig[interval];
+  // If mode is specified, use mode-specific product ID
+  if (mode && typeof providerConfig === 'object' && mode in providerConfig) {
+    const modeConfig = providerConfig[mode as keyof typeof providerConfig];
+    if (modeConfig && typeof modeConfig === 'object') {
+      return modeConfig[interval];
+    }
+  }
+
+  // Fallback: if no mode specified or mode not found, try direct access (backward compatibility)
+  if (typeof providerConfig === 'object' && interval in providerConfig) {
+    return (providerConfig as any)[interval];
+  }
+
+  return undefined;
 }
 
 /**
  * Get plan ID from provider product ID
+ * Searches across both test and live product IDs
  */
 export function getPlanIdFromProductId(
   provider: string,
@@ -230,11 +281,35 @@ export function getPlanIdFromProductId(
     const providerConfig = plan.providers[provider as keyof typeof plan.providers];
     if (!providerConfig) continue;
 
-    if (providerConfig.monthly === productId) {
-      return { planId, interval: "monthly" };
-    }
-    if (providerConfig.yearly === productId) {
-      return { planId, interval: "yearly" };
+    // Check if providerConfig has test/live structure
+    if (typeof providerConfig === 'object') {
+      // Check test mode products
+      if ('test' in providerConfig && providerConfig.test) {
+        if (providerConfig.test.monthly === productId) {
+          return { planId, interval: "monthly" };
+        }
+        if (providerConfig.test.yearly === productId) {
+          return { planId, interval: "yearly" };
+        }
+      }
+
+      // Check live mode products
+      if ('live' in providerConfig && providerConfig.live) {
+        if (providerConfig.live.monthly === productId) {
+          return { planId, interval: "monthly" };
+        }
+        if (providerConfig.live.yearly === productId) {
+          return { planId, interval: "yearly" };
+        }
+      }
+
+      // Backward compatibility: check direct monthly/yearly properties
+      if ('monthly' in providerConfig && (providerConfig as any).monthly === productId) {
+        return { planId, interval: "monthly" };
+      }
+      if ('yearly' in providerConfig && (providerConfig as any).yearly === productId) {
+        return { planId, interval: "yearly" };
+      }
     }
   }
   return undefined;
