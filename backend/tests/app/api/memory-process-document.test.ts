@@ -22,6 +22,7 @@ describe('process-document route', () => {
     vi.resetModules()
     validateFileMock.mockReset()
     processDocumentMock.mockReset()
+    vi.spyOn(console, 'error').mockImplementation(() => {})
   })
 
   it('returns 400 when schema validation fails', async () => {

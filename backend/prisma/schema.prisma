@@ -108,3 +108,18 @@ model BillingAuditLog {
   @@index([errorId])
   @@map("billing_audit_logs")
 }
+
+model Feedback {
+  id               String   @id @default(cuid())
+  userId           String   @map("user_id")
+  userEmail        String?  @map("user_email")
+  content          String
+  category         String   @default("feedback")
+  technicalContext Json?    @map("technical_context")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([category])
+  @@index([createdAt])
+  @@map("feedback")
+}

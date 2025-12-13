@@ -17,7 +17,8 @@
       "Bash(npm publish)",
       "Bash(cat:*)",
       "mcp__persistq__add_memory",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(npx prisma migrate:*)"
     ],
     "deny": [],
     "ask": []

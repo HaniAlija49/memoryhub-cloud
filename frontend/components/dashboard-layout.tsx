@@ -13,6 +13,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { BillingService } from "@/services/billing.service"
+import { FeedbackButton } from "./FeedbackButton"
 
 const projectNav = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -334,7 +335,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </header>
 
         {/* Page content */}
-        <main className="p-6 lg:p-8">{children}</main>
+        <main className="p-6 lg:p-8 relative">
+  {children}
+  <FeedbackButton />
+</main>
       </div>
     </div>
   )
