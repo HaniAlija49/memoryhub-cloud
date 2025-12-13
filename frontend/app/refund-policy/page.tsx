@@ -23,7 +23,7 @@ export default function RefundPolicyPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">14-Day Money-Back Guarantee (EU Right of Withdrawal)</h2>
             <p className="text-muted-foreground">
-              We offer a 14-day money-back guarantee from the date of the initial paid purchase for first-time subscribers to paid plans, consistent with the EU Consumer Rights Directive. For EU customers, this serves as your statutory right of withdrawal. To request a refund within this window, contact support@persistq.dev with your account details and reason. If you have actively used the Service during the withdrawal period, you may be asked to acknowledge that you requested immediate performance, but refunds will still be honored within the 14-day window for first-time purchases.
+              We offer a 14-day money-back guarantee from the date of the initial paid purchase for first-time subscribers to paid plans, consistent with the EU Consumer Rights Directive. For EU customers, this serves as your statutory right of withdrawal. To request a refund within this window, contact support@persistq.com with your account details and reason. If you have actively used the Service during the withdrawal period, you may be asked to acknowledge that you requested immediate performance, but refunds will still be honored within the 14-day window for first-time purchases.
             </p>
           </section>
 
@@ -81,7 +81,7 @@ export default function RefundPolicyPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">Contact</h2>
             <p className="text-muted-foreground">
-              <a href="mailto:support@persistq.dev" className="text-accent-cyan hover:underline">support@persistq.dev</a>
+              <a href="mailto:support@persistq.com" className="text-accent-cyan hover:underline">support@persistq.com</a>
             </p>
           </section>
         </div>

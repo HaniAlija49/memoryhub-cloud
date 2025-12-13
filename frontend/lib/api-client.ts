@@ -15,7 +15,7 @@ export type {
 } from 'persistq-sdk'
 
 // Re-export the client class
-export { MemoryHubClient } from 'persistq-sdk'
+export { PersistQClient } from 'persistq-sdk'
 
 // Validate API URL is configured (Next.js specific)
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
@@ -28,7 +28,7 @@ if (!API_BASE_URL) {
 }
 
 // Create and export configured client instances
-import { createClient as createSDKClient, MemoryHubClient } from 'persistq-sdk'
+import { createClient as createSDKClient, PersistQClient } from 'persistq-sdk'
 
 /**
  * Singleton client instance
@@ -41,7 +41,7 @@ export const apiClient = createSDKClient({
 /**
  * Create a new API client instance
  */
-export function createClient(apiKey?: string): MemoryHubClient {
+export function createClient(apiKey?: string): PersistQClient {
   if (!API_BASE_URL) {
     throw new Error('API_BASE_URL is not configured')
   }

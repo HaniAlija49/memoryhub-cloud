@@ -154,7 +154,7 @@ Error responses return:
 // Cursor IDE Prompt
 const getCursorPrompt = (apiKey?: string | null, apiUrl?: string) => {
   const key = apiKey || 'mh_b9c2d595c1ec089aa0362313cd75f6d9d1463526c5e2d5ee6b19d1912c54dc35'
-  const baseUrl = apiUrl || 'https://memoryhub-cloud.onrender.com'
+  const baseUrl = apiUrl || 'https://api.persistq.com'
 
   return `# PersistQ MCP Integration for Cursor IDE
 
@@ -429,7 +429,7 @@ For more information about Cursor's MCP integration, visit: https://cursor.sh/do
 // GitHub Copilot CLI Prompt
 const getCopilotPrompt = (apiKey?: string | null, apiUrl?: string) => {
   const key = apiKey || 'mh_b9c2d595c1ec089aa0362313cd75f6d9d1463526c5e2d5ee6b19d1912c54dc35'
-  const baseUrl = apiUrl || 'https://memoryhub-cloud.onrender.com'
+  const baseUrl = apiUrl || 'https://api.persistq.com'
 
   return `# PersistQ MCP Self-Setup Guide for GitHub Copilot
 

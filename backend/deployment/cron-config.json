@@ -1,11 +1,11 @@
 {
   "service": "cron-job.org",
-  "description": "External cron service configuration for MemoryHub backend",
+  "description": "External cron service configuration for PersistQ backend",
   "setup_url": "https://cron-job.org/en/",
   "jobs": [
     {
-      "name": "MemoryHub - Model Warming",
-      "url": "https://api.memoryhub.com/api/warm",
+      "name": "PersistQ - Model Warming",
+      "url": "https://api.persistq.com/api/warm",
       "schedule": "*/5 * * * *",
       "schedule_description": "Every 5 minutes",
       "method": "GET",
@@ -21,8 +21,8 @@
       "notes": "Keeps the ML embedding model warm in memory to avoid cold start delays. Critical for performance."
     },
     {
-      "name": "MemoryHub - Cleanup Webhooks",
-      "url": "https://api.memoryhub.com/api/cron/cleanup-webhooks",
+      "name": "PersistQ - Cleanup Webhooks",
+      "url": "https://api.persistq.com/api/cron/cleanup-webhooks",
       "schedule": "0 2 * * *",
       "schedule_description": "Daily at 2:00 AM UTC",
       "method": "GET",
@@ -38,8 +38,8 @@
       "notes": "Deletes expired webhook events to prevent database bloat."
     },
     {
-      "name": "MemoryHub - Expire Subscriptions",
-      "url": "https://api.memoryhub.com/api/cron/expire-subscriptions",
+      "name": "PersistQ - Expire Subscriptions",
+      "url": "https://api.persistq.com/api/cron/expire-subscriptions",
       "schedule": "0 3 * * *",
       "schedule_description": "Daily at 3:00 AM UTC",
       "method": "GET",
@@ -61,20 +61,20 @@
     "2. Generate CRON_SECRET: openssl rand -base64 32",
     "3. Add CRON_SECRET to .env.production file",
     "4. Create each job in cron-job.org dashboard with the configuration above",
-    "5. Replace 'api.memoryhub.com' with your actual domain",
+    "5. Replace 'api.persistq.com' with your actual domain",
     "6. Replace '${CRON_SECRET}' with your actual secret",
     "7. Replace 'your-email@example.com' with your email",
     "8. Test each endpoint manually first before enabling",
     "9. Monitor execution history for failures"
   ],
   "testing": {
-    "model_warming": "curl -H 'Authorization: Bearer YOUR_SECRET' https://api.memoryhub.com/api/warm",
-    "cleanup_webhooks": "curl -H 'Authorization: Bearer YOUR_SECRET' https://api.memoryhub.com/api/cron/cleanup-webhooks",
-    "expire_subscriptions": "curl -H 'Authorization: Bearer YOUR_SECRET' https://api.memoryhub.com/api/cron/expire-subscriptions"
+    "model_warming": "curl -H 'Authorization: Bearer YOUR_SECRET' https://api.persistq.com/api/warm",
+    "cleanup_webhooks": "curl -H 'Authorization: Bearer YOUR_SECRET' https://api.persistq.com/api/cron/cleanup-webhooks",
+    "expire_subscriptions": "curl -H 'Authorization: Bearer YOUR_SECRET' https://api.persistq.com/api/cron/expire-subscriptions"
   },
   "monitoring": {
     "cron_job_org": "Built-in execution history and failure notifications",
     "backend_logs": "docker compose -f deployment/docker-compose.yml logs -f backend",
-    "health_check": "curl https://api.memoryhub.com/api/status"
+    "health_check": "curl https://api.persistq.com/api/status"
   }
 }

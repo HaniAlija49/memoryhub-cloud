@@ -129,7 +129,7 @@ export default function ManualSetupPage() {
       "command": "npx",
       "args": ["-y", "persistq"],
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -153,7 +153,7 @@ export default function ManualSetupPage() {
       "command": "npx",
       "args": ["-y", "persistq"],
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -218,7 +218,7 @@ export default function ManualSetupPage() {
       "command": "npx",
       "args": ["-y", "persistq"],
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -242,7 +242,7 @@ export default function ManualSetupPage() {
       "command": "npx",
       "args": ["-y", "persistq"],
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -299,7 +299,7 @@ export default function ManualSetupPage() {
       "command": "npx",
       "args": ["-y", "persistq"],
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -323,7 +323,7 @@ export default function ManualSetupPage() {
       "command": "npx",
       "args": ["-y", "persistq"],
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -380,7 +380,7 @@ export default function ManualSetupPage() {
       "command": "npx",
       "args": ["-y", "persistq"],
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -404,7 +404,7 @@ export default function ManualSetupPage() {
       "command": "npx",
       "args": ["-y", "persistq"],
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -528,7 +528,7 @@ export default function ManualSetupPage() {
                         The base URL for your PersistQ server
                       </p>
                       <div className="rounded bg-background p-3">
-                        <code className="text-sm">https://memoryhub-cloud.onrender.com</code>
+                        <code className="text-sm">https://api.persistq.com</code>
                       </div>
                     </div>
                     
@@ -568,7 +568,7 @@ export default function ManualSetupPage() {
                       </p>
                       <div className="rounded-lg border border-border bg-surface p-3">
                         <pre className="text-sm overflow-x-auto">
-                          <code>{`export PERSISTQ_URL="https://memoryhub-cloud.onrender.com"
+                          <code>{`export PERSISTQ_URL="https://api.persistq.com"
 export PERSISTQ_API_KEY="your-api-key-here"`}</code>
                         </pre>
                       </div>
@@ -579,7 +579,7 @@ export PERSISTQ_API_KEY="your-api-key-here"`}</code>
                       <div className="rounded-lg border border-border bg-surface p-3">
                         <pre className="text-sm overflow-x-auto">
                           <code>{`# Add to ~/.bashrc, ~/.zshrc, or ~/.profile
-export PERSISTQ_URL="https://memoryhub-cloud.onrender.com"
+export PERSISTQ_URL="https://api.persistq.com"
 export PERSISTQ_API_KEY="your-api-key-here"
 
 # Reload shell

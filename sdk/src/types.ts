@@ -43,7 +43,7 @@ export interface PaginatedResponse<T> {
   error?: string
 }
 
-export interface MemoryHubConfig {
+export interface PersistQConfig {
   baseUrl: string
   apiKey?: string
 }

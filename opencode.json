@@ -6,7 +6,7 @@
       "command": ["npx", "-y", "persistq"],
       "enabled": true,
       "environment": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "mh_e94538792377da4b46c5be2a91cc443921376d5f93a61cff56a67d5014a08862"
       }
     }

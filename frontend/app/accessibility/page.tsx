@@ -92,7 +92,7 @@ export default function AccessibilityPage() {
             </p>
             <div className="bg-surface p-4 rounded-lg mt-4">
               <p className="text-muted-foreground">
-                <strong>Email:</strong> <a href="mailto:accessibility@persistq.dev" className="text-accent-cyan hover:underline">accessibility@persistq.dev</a><br />
+                <strong>Email:</strong> <a href="mailto:support@persistq.com" className="text-accent-cyan hover:underline">support@persistq.com</a><br />
                 <strong>Subject Line:</strong> "Accessibility Feedback"<br />
                 <strong>Include:</strong> Description of the issue, URL/page affected, assistive technology used (if applicable)
               </p>
@@ -139,7 +139,7 @@ export default function AccessibilityPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">Alternative Formats</h2>
             <p className="text-muted-foreground">
-              If you require documentation or content in an alternative format (e.g., large print, Braille, audio), please contact us at <a href="mailto:accessibility@persistq.dev" className="text-accent-cyan hover:underline">accessibility@persistq.dev</a>. We will work to provide the requested format within a reasonable timeframe.
+              If you require documentation or content in an alternative format (e.g., large print, Braille, audio), please contact us at <a href="mailto:support@persistq.com" className="text-accent-cyan hover:underline">support@persistq.com</a>. We will work to provide the requested format within a reasonable timeframe.
             </p>
           </section>
 

@@ -1,11 +1,11 @@
-# MemoryHub SDK - Implementation Summary
+# PersistQ SDK - Implementation Summary
 
 **Date**: December 7, 2025
 **Status**: ✅ **Complete and Ready for Publishing**
 
 ## What Was Built
 
-We successfully extracted your existing TypeScript API client into a standalone, publishable npm package called `@memoryhub/sdk`.
+We successfully extracted your existing TypeScript API client into a standalone, publishable npm package called `persistq-sdk`.
 
 ### Package Details
 
@@ -76,10 +76,10 @@ The frontend now uses the SDK through a compatibility wrapper at `frontend/lib/a
 ```typescript
 // Before: Monolithic client in frontend
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
-export class MemoryHubClient { /* 350 lines */ }
+export class PersistQClient { /* 350 lines */ }
 
 // After: Thin wrapper around SDK
-export { MemoryHubClient } from '@memoryhub/sdk'
+export { PersistQClient } from 'persistq-sdk'
 export const apiClient = createClient({
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
 })
@@ -248,9 +248,9 @@ npm run build
 
 ## SDK vs MCP Server
 
-You now have **two ways** for developers to integrate with MemoryHub:
+You now have **two ways** for developers to integrate with PersistQ:
 
-### @memoryhub/sdk (TypeScript/JavaScript)
+### persistq-sdk (TypeScript/JavaScript)
 **Target**: Web/Node.js developers
 **Use Cases**:
 - Next.js/React apps
@@ -314,7 +314,7 @@ Yes! The SDK is production-ready. However, it's recommended to:
 
 ## Conclusion
 
-The MemoryHub SDK is **complete, tested, and ready for use**. You can:
+The PersistQ SDK is **complete, tested, and ready for use**. You can:
 
 1. ✅ Use it locally in your frontend (already integrated)
 2. ✅ Publish it to npm for external developers

@@ -105,7 +105,7 @@ export default function GettingStartedPage() {
       "command": "npx",
       "args": ["-y", "persistq"],
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": process.env.PERSISTQ_API_KEY,
       }
     }
@@ -140,7 +140,7 @@ export default function GettingStartedPage() {
                     `import { createClient } from 'persistq-sdk'
 
 const client = createClient({
-  baseUrl: 'https://memoryhub-cloud.onrender.com',
+  baseUrl: 'https://api.persistq.com',
   apiKey: 'your-api-key-here',
 })`,
                     "init",
@@ -158,7 +158,7 @@ const client = createClient({
                 <code>{`import { createClient } from 'persistq-sdk'
 
 const client = createClient({
-  baseUrl: 'https://memoryhub-cloud.onrender.com',
+  baseUrl: 'https://api.persistq.com',
   apiKey: 'your-api-key-here',
 })`}</code>
               </pre>
@@ -301,7 +301,7 @@ if (memories.status === 'success' && memories.data) {
     "persistq": {
       "command": "persistq",
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -324,7 +324,7 @@ if (memories.status === 'success' && memories.data) {
     "persistq": {
       "command": "persistq",
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }

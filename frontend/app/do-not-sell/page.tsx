@@ -85,7 +85,7 @@ export default function DoNotSellPage() {
               To exercise any of your California privacy rights, you may:
             </p>
             <ul className="list-disc list-inside text-muted-foreground space-y-2 mt-3">
-              <li>Email us at <a href="mailto:privacy@persistq.dev" className="text-accent-cyan hover:underline">privacy@persistq.dev</a> with subject line "California Privacy Rights Request"</li>
+              <li>Email us at <a href="mailto:privacy@persistq.com" className="text-accent-cyan hover:underline">privacy@persistq.com</a> with subject line "California Privacy Rights Request"</li>
               <li>Include your account email and specify which right(s) you wish to exercise</li>
             </ul>
             <p className="text-muted-foreground mt-3">
@@ -123,7 +123,7 @@ export default function DoNotSellPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">Sensitive Personal Information</h2>
             <p className="text-muted-foreground">
-              We do not collect or use sensitive personal information (as defined by CPRA) except as necessary to provide the Service. If you have concerns about sensitive information, contact us at <a href="mailto:privacy@persistq.dev" className="text-accent-cyan hover:underline">privacy@persistq.dev</a>.
+              We do not collect or use sensitive personal information (as defined by CPRA) except as necessary to provide the Service. If you have concerns about sensitive information, contact us at <a href="mailto:privacy@persistq.com" className="text-accent-cyan hover:underline">privacy@persistq.com</a>.
             </p>
           </section>
 
@@ -133,7 +133,7 @@ export default function DoNotSellPage() {
               For questions about your California privacy rights or this notice:
             </p>
             <p className="text-muted-foreground mt-3">
-              Email: <a href="mailto:privacy@persistq.dev" className="text-accent-cyan hover:underline">privacy@persistq.dev</a><br />
+              Email: <a href="mailto:privacy@persistq.com" className="text-accent-cyan hover:underline">privacy@persistq.com</a><br />
               Subject Line: "California Privacy Rights Request"
             </p>
           </section>

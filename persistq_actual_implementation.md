@@ -132,7 +132,7 @@ model Memory {
 
 ### Example Request (Store Memory)
 ```bash
-curl -X POST https://api.persistq.dev/api/memory \
+curl -X POST https://api.persistq.com/api/memory \
   -H "Authorization: Bearer mh_xxx" \
   -H "Content-Type: application/json" \
   -d '{
@@ -145,7 +145,7 @@ curl -X POST https://api.persistq.dev/api/memory \
 
 ### Example Request (Semantic Search)
 ```bash
-curl -X POST https://api.persistq.dev/api/memory/search \
+curl -X POST https://api.persistq.com/api/memory/search \
   -H "Authorization: Bearer mh_xxx" \
   -H "Content-Type: application/json" \
   -d '{
@@ -336,7 +336,7 @@ CLERK_SECRET_KEY=sk_test_xxx
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxx
 
 # CORS
-ALLOWED_ORIGINS=https://persistq.dev,https://www.persistq.dev
+ALLOWED_ORIGINS=https://persistq.com,https://www.persistq.com
 
 # Monitoring
 HIGHLIGHT_PROJECT_ID=5g5y914e
@@ -349,7 +349,7 @@ NODE_ENV=production
 
 ```bash
 # API
-NEXT_PUBLIC_API_URL=https://api.persistq.dev
+NEXT_PUBLIC_API_URL=https://api.persistq.com
 
 # Clerk
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxx
@@ -455,13 +455,13 @@ results = memory.search(
 ### cURL (Raw API)
 ```bash
 # Store
-curl -X POST https://api.persistq.dev/api/memory \
+curl -X POST https://api.persistq.com/api/memory \
   -H "Authorization: Bearer mh_xxx" \
   -H "Content-Type: application/json" \
   -d '{"content": "User prefers dark mode", "group": "preferences"}'
 
 # Search
-curl -X POST https://api.persistq.dev/api/memory/search \
+curl -X POST https://api.persistq.com/api/memory/search \
   -H "Authorization: Bearer mh_xxx" \
   -H "Content-Type: application/json" \
   -d '{"query": "user preferences", "limit": 5}'
@@ -772,7 +772,7 @@ Claude Code will:
 - [ ] Email pilot users for testimonials
 - [ ] Monitor Highlight.io for errors
 - [ ] Track signup conversion rate
-- [ ] Respond to user feedback (support@persistq.dev)
+- [ ] Respond to user feedback (support@persistq.com)
 - [ ] Daily health checks (API status, database, Redis)
 
 ---
@@ -780,9 +780,9 @@ Claude Code will:
 ## 22. Support & Maintenance
 
 ### Support Channels
-- **Email:** support@persistq.dev
-- **Documentation:** https://persistq.dev/docs
-- **Status Page:** https://status.persistq.dev (if created)
+- **Email:** support@persistq.com
+- **Documentation:** https://persistq.com/docs
+- **Status Page:** https://status.persistq.com (if created)
 - **GitHub Issues:** For SDK bugs (if public repos)
 - **Discord/Slack:** Community support (future)
 
@@ -972,7 +972,7 @@ Claude Code will:
 2. **SEO Optimization:** All pages with meta descriptions, canonical URLs, sitemap submitted & indexed
 3. **Billing Integration:** Dodo Payments (provider-agnostic), subscription management API
 4. **Marketing Strategy:** Complete 30-day launch plan with anonymous/brand-first approach
-5. **Domain Migration:** persistq.dev → persistq.com
+5. **Domain Migration:** persistq.dev → persistq.com ✓
 6. **Production Hardening:** Monitoring, error tracking, performance optimization
 
 ### Next Immediate Steps

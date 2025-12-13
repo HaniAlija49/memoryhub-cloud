@@ -83,7 +83,7 @@ const memories = await client.listMemories({
 ### Creating a Client
 
 ```typescript
-import { createClient, MemoryHubClient } from 'persistq-sdk'
+import { createClient, PersistQClient } from 'persistq-sdk'
 
 // Option 1: With API key
 const client = createClient({
@@ -338,12 +338,12 @@ import type {
   SearchResult,
   ApiResponse,
   PaginatedResponse,
-  MemoryHubConfig,
+  PersistQConfig,
   CreateMemoryParams,
   UpdateMemoryParams,
   ListMemoriesParams,
   SearchMemoriesParams,
-} from '@memoryhub/sdk'
+} from 'persistq-sdk'
 ```
 
 ### Memory Type
@@ -375,7 +375,7 @@ interface ApiResponse<T> {
 
 ```typescript
 // app/api/memories/route.ts
-import { createClient } from '@memoryhub/sdk'
+import { createClient } from 'persistq-sdk'
 import { NextResponse } from 'next/server'
 
 export async function GET() {

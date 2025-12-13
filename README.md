@@ -1,13 +1,13 @@
-# MemoryHub - AI-Powered Memory Layer
+# PersistQ - AI-Powered Memory Layer
 
 **Status**: ✅ Production Ready
 **Last Updated**: 2025-11-02
 
 ---
 
-## 🎯 What is MemoryHub?
+## 🎯 What is PersistQ?
 
-MemoryHub is a semantic memory storage system that allows AI agents and applications to store, retrieve, and search contextual information using vector embeddings.
+PersistQ is a semantic memory storage system that allows AI agents and applications to store, retrieve, and search contextual information using vector embeddings.
 
 ### Key Features
 

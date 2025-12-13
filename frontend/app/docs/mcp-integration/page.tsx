@@ -261,7 +261,7 @@ export default function MCPIntegrationPage() {
       "command": "npx",
       "args": ["-y", "persistq"],
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -285,7 +285,7 @@ export default function MCPIntegrationPage() {
       "command": "npx",
       "args": ["-y", "persistq"],
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -364,7 +364,7 @@ export default function MCPIntegrationPage() {
     "persistq": {
       "command": "persistq",
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -387,7 +387,7 @@ export default function MCPIntegrationPage() {
     "persistq": {
       "command": "persistq",
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -442,7 +442,7 @@ export default function MCPIntegrationPage() {
       "command": "npx",
       "args": ["-y", "persistq"],
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -466,7 +466,7 @@ export default function MCPIntegrationPage() {
       "command": "npx",
       "args": ["-y", "persistq"],
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -532,7 +532,7 @@ export default function MCPIntegrationPage() {
       "command": "npx",
       "args": ["-y", "persistq"],
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }
@@ -556,7 +556,7 @@ export default function MCPIntegrationPage() {
       "command": "npx",
       "args": ["-y", "persistq"],
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key-here"
       }
     }

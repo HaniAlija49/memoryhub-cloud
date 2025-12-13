@@ -213,7 +213,7 @@ export default function APIReferencePage() {
               {/* Base URL */}
               <div className="p-6 rounded-lg border border-border bg-surface">
                 <h3 className="font-semibold mb-2">Base URL</h3>
-                <code className="text-accent-cyan">https://memoryhub-cloud.onrender.com</code>
+                <code className="text-accent-cyan">https://api.persistq.com</code>
               </div>
 
               {/* Authentication */}
@@ -293,7 +293,7 @@ export default function APIReferencePage() {
                         <div>
                           <h4 className="font-semibold mb-3">Example Request</h4>
                           <div className="rounded-lg border border-border bg-surface p-4 relative">
-                            <CopyButton code={`curl -X POST https://memoryhub-cloud.onrender.com/api/memory \\
+                            <CopyButton code={`curl -X POST https://api.persistq.com/api/memory \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -304,7 +304,7 @@ export default function APIReferencePage() {
     }
   }'`} />
                             <pre className="text-sm overflow-x-auto">
-                              <code>{`curl -X POST https://memoryhub-cloud.onrender.com/api/memory \\
+                              <code>{`curl -X POST https://api.persistq.com/api/memory \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -389,10 +389,10 @@ export default function APIReferencePage() {
                         <div>
                           <h4 className="font-semibold mb-3">Example Request</h4>
                           <div className="rounded-lg border border-border bg-surface p-4 relative">
-                            <CopyButton code={`curl -X GET "https://memoryhub-cloud.onrender.com/api/memory/list?limit=10&offset=0" \\
+                            <CopyButton code={`curl -X GET "https://api.persistq.com/api/memory/list?limit=10&offset=0" \\
   -H "Authorization: Bearer YOUR_API_KEY"`} />
                             <pre className="text-sm overflow-x-auto">
-                              <code>{`curl -X GET "https://memoryhub-cloud.onrender.com/api/memory/list?limit=10&offset=0" \\
+                              <code>{`curl -X GET "https://api.persistq.com/api/memory/list?limit=10&offset=0" \\
   -H "Authorization: Bearer YOUR_API_KEY"`}</code>
                             </pre>
                           </div>
@@ -477,7 +477,7 @@ export default function APIReferencePage() {
                         <div>
                           <h4 className="font-semibold mb-3">Example Request</h4>
                           <div className="rounded-lg border border-border bg-surface p-4 relative">
-                            <CopyButton code={`curl -X POST https://memoryhub-cloud.onrender.com/api/memory/search \\
+                            <CopyButton code={`curl -X POST https://api.persistq.com/api/memory/search \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -486,7 +486,7 @@ export default function APIReferencePage() {
     "threshold": 0.7
   }'`} />
                             <pre className="text-sm overflow-x-auto">
-                              <code>{`curl -X POST https://memoryhub-cloud.onrender.com/api/memory/search \\
+                              <code>{`curl -X POST https://api.persistq.com/api/memory/search \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -550,10 +550,10 @@ export default function APIReferencePage() {
                         <div>
                           <h4 className="font-semibold mb-3">Example Request</h4>
                           <div className="rounded-lg border border-border bg-surface p-4 relative">
-                            <CopyButton code={`curl -X GET https://memoryhub-cloud.onrender.com/api/memory/stats \\
+                            <CopyButton code={`curl -X GET https://api.persistq.com/api/memory/stats \\
   -H "Authorization: Bearer YOUR_API_KEY"`} />
                             <pre className="text-sm overflow-x-auto">
-                              <code>{`curl -X GET https://memoryhub-cloud.onrender.com/api/memory/stats \\
+                              <code>{`curl -X GET https://api.persistq.com/api/memory/stats \\
   -H "Authorization: Bearer YOUR_API_KEY"`}</code>
                             </pre>
                           </div>
@@ -610,10 +610,10 @@ export default function APIReferencePage() {
                         <div>
                           <h4 className="font-semibold mb-3">Example Request</h4>
                           <div className="rounded-lg border border-border bg-surface p-4 relative">
-                            <CopyButton code={`curl -X GET https://memoryhub-cloud.onrender.com/api/memory/cm123456789 \\
+                            <CopyButton code={`curl -X GET https://api.persistq.com/api/memory/cm123456789 \\
   -H "Authorization: Bearer YOUR_API_KEY"`} />
                             <pre className="text-sm overflow-x-auto">
-                              <code>{`curl -X GET https://memoryhub-cloud.onrender.com/api/memory/cm123456789 \\
+                              <code>{`curl -X GET https://api.persistq.com/api/memory/cm123456789 \\
   -H "Authorization: Bearer YOUR_API_KEY"`}</code>
                             </pre>
                           </div>
@@ -694,14 +694,14 @@ export default function APIReferencePage() {
                         <div>
                           <h4 className="font-semibold mb-3">Example Request</h4>
                           <div className="rounded-lg border border-border bg-surface p-4 relative">
-                            <CopyButton code={`curl -X PUT https://memoryhub-cloud.onrender.com/api/memory/cm123456789 \\
+                            <CopyButton code={`curl -X PUT https://api.persistq.com/api/memory/cm123456789 \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
     "content": "User prefers dark mode and compact layouts"
   }'`} />
                             <pre className="text-sm overflow-x-auto">
-                              <code>{`curl -X PUT https://memoryhub-cloud.onrender.com/api/memory/cm123456789 \\
+                              <code>{`curl -X PUT https://api.persistq.com/api/memory/cm123456789 \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -750,10 +750,10 @@ export default function APIReferencePage() {
                         <div>
                           <h4 className="font-semibold mb-3">Example Request</h4>
                           <div className="rounded-lg border border-border bg-surface p-4 relative">
-                            <CopyButton code={`curl -X DELETE https://memoryhub-cloud.onrender.com/api/memory/cm123456789 \\
+                            <CopyButton code={`curl -X DELETE https://api.persistq.com/api/memory/cm123456789 \\
   -H "Authorization: Bearer YOUR_API_KEY"`} />
                             <pre className="text-sm overflow-x-auto">
-                              <code>{`curl -X DELETE https://memoryhub-cloud.onrender.com/api/memory/cm123456789 \\
+                              <code>{`curl -X DELETE https://api.persistq.com/api/memory/cm123456789 \\
   -H "Authorization: Bearer YOUR_API_KEY"`}</code>
                             </pre>
                           </div>

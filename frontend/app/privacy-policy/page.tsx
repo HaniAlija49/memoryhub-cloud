@@ -77,7 +77,7 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-2xl font-semibold mb-3">Your Rights (EEA)</h2>
             <p className="text-muted-foreground">
               EU/EEA residents have rights including access, rectification, deletion (right to be forgotten), restriction,
-              data portability, and objection. To exercise these rights, contact support@persistq.dev. We will respond
+              data portability, and objection. To exercise these rights, contact support@persistq.com. We will respond
               within legal timeframes.
             </p>
           </section>
@@ -85,7 +85,7 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">California Privacy Rights (CCPA/CPRA)</h2>
             <p className="text-muted-foreground">
-              California residents have rights including: (a) Right to Know what personal information we collect, use, disclose, and sell; (b) Right to Delete personal information (subject to legal exceptions); (c) Right to Opt-Out of the sale or sharing of personal information; (d) Right to Correct inaccurate information; (e) Right to Limit use of sensitive personal information; (f) Right to Non-Discrimination for exercising these rights. We do not sell personal information for monetary consideration and do not share personal information for cross-context behavioral advertising. To exercise your California privacy rights, contact <a href="mailto:privacy@persistq.dev" className="text-accent-cyan hover:underline">privacy@persistq.dev</a> with subject line "California Privacy Rights Request". We will verify your identity and respond within 45 days. You may also visit our <Link href="/do-not-sell" className="text-accent-cyan hover:underline">Do Not Sell or Share My Personal Information</Link> page.
+              California residents have rights including: (a) Right to Know what personal information we collect, use, disclose, and sell; (b) Right to Delete personal information (subject to legal exceptions); (c) Right to Opt-Out of the sale or sharing of personal information; (d) Right to Correct inaccurate information; (e) Right to Limit use of sensitive personal information; (f) Right to Non-Discrimination for exercising these rights. We do not sell personal information for monetary consideration and do not share personal information for cross-context behavioral advertising. To exercise your California privacy rights, contact <a href="mailto:privacy@persistq.com" className="text-accent-cyan hover:underline">privacy@persistq.com</a> with subject line "California Privacy Rights Request". We will verify your identity and respond within 45 days. You may also visit our <Link href="/do-not-sell" className="text-accent-cyan hover:underline">Do Not Sell or Share My Personal Information</Link> page.
             </p>
           </section>
 
@@ -94,7 +94,7 @@ export default function PrivacyPolicyPage() {
             <p className="text-muted-foreground">
               We use reasonable administrative, technical, and physical safeguards, including encrypted connections
               (HTTPS), hashed API keys (bcrypt), rate limiting, and access controls. However no system is perfectly
-              secure; promptly report suspected breaches to support@persistq.dev. We will notify affected users and
+              secure; promptly report suspected breaches to support@persistq.com. We will notify affected users and
               authorities as required by law.
             </p>
           </section>
@@ -142,7 +142,7 @@ export default function PrivacyPolicyPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">Contact & DPO</h2>
             <p className="text-muted-foreground">
-              For privacy inquiries or to exercise rights, contact: <a href="mailto:support@persistq.dev" className="text-accent-cyan hover:underline">support@persistq.dev</a>. If you are an EU data subject
+              For privacy inquiries or to exercise rights, contact: <a href="mailto:support@persistq.com" className="text-accent-cyan hover:underline">support@persistq.com</a>. If you are an EU data subject
               and want to escalate, specify 'Data Subject Request' in the subject line.
             </p>
           </section>

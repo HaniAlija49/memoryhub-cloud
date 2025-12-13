@@ -109,7 +109,7 @@ export default function CookiePolicyPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">Cookie Consent Management</h2>
             <p className="text-muted-foreground">
-              We maintain records of your cookie consent preferences, including: (a) Timestamp of consent; (b) Cookie banner version displayed; (c) Categories of cookies accepted or rejected; (d) Method of consent (accept all, necessary only, or custom). You may withdraw or modify your consent at any time by clearing your browser cookies and revisiting our site, or by contacting us at <a href="mailto:support@persistq.dev" className="text-accent-cyan hover:underline">support@persistq.dev</a>.
+              We maintain records of your cookie consent preferences, including: (a) Timestamp of consent; (b) Cookie banner version displayed; (c) Categories of cookies accepted or rejected; (d) Method of consent (accept all, necessary only, or custom). You may withdraw or modify your consent at any time by clearing your browser cookies and revisiting our site, or by contacting us at <a href="mailto:support@persistq.com" className="text-accent-cyan hover:underline">support@persistq.com</a>.
             </p>
           </section>
 
@@ -123,7 +123,7 @@ export default function CookiePolicyPage() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">Contact Us</h2>
             <p className="text-muted-foreground">
-              If you have questions about our use of cookies, contact us at <a href="mailto:support@persistq.dev" className="text-accent-cyan hover:underline">support@persistq.dev</a>.
+              If you have questions about our use of cookies, contact us at <a href="mailto:support@persistq.com" className="text-accent-cyan hover:underline">support@persistq.com</a>.
             </p>
           </section>
         </div>

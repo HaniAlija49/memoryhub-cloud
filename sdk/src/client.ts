@@ -11,7 +11,7 @@ import type {
   SearchResult,
   ApiResponse,
   PaginatedResponse,
-  MemoryHubConfig,
+  PersistQConfig,
   CreateMemoryParams,
   UpdateMemoryParams,
   ListMemoriesParams,
@@ -32,12 +32,12 @@ import type {
  * API Client Class
  * Manages all API calls with automatic authentication
  */
-export class MemoryHubClient {
+export class PersistQClient {
   private apiKey: string | null = null
   private clerkToken: string | null = null
   private baseUrl: string
 
-  constructor(config: MemoryHubConfig) {
+  constructor(config: PersistQConfig) {
     this.baseUrl = config.baseUrl
     if (config.apiKey) {
       this.apiKey = config.apiKey
@@ -342,6 +342,6 @@ export class MemoryHubClient {
 /**
  * Create a new API client instance
  */
-export function createClient(config: MemoryHubConfig): MemoryHubClient {
-  return new MemoryHubClient(config)
+export function createClient(config: PersistQConfig): PersistQClient {
+  return new PersistQClient(config)
 }

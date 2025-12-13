@@ -200,7 +200,7 @@ export default function TermsPage() {
             <p className="text-muted-foreground">
               These Terms constitute the entire agreement between you and PersistQ regarding the Service. If any
               provision is held invalid, the remainder shall continue in full force. Failure to enforce a right is not a waiver.
-              For support, contact support@persistq.dev.
+              For support, contact support@persistq.com.
             </p>
           </section>
 
@@ -208,8 +208,8 @@ export default function TermsPage() {
             <h2 className="text-2xl font-semibold mb-3">Contact</h2>
             <p className="text-muted-foreground">
               PersistQ<br />
-              Email: <a href="mailto:support@persistq.dev" className="text-accent-cyan hover:underline">support@persistq.dev</a><br />
-              Website: <a href="https://persistq.dev" className="text-accent-cyan hover:underline">https://persistq.dev</a>
+Email: <a href="mailto:support@persistq.com" className="text-accent-cyan hover:underline">support@persistq.com</a><br />
+              Website: <a href="https://persistq.com" className="text-accent-cyan hover:underline">https://persistq.com</a>
             </p>
           </section>
         </div>

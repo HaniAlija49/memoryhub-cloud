@@ -56,7 +56,7 @@ export default function LandingPage() {
     node: `import { createClient } from 'persistq-sdk';
 
 const client = createClient({
-  baseUrl: 'https://memoryhub-cloud.onrender.com',
+  baseUrl: 'https://api.persistq.com',
   apiKey: process.env.PERSISTQ_API_KEY,
 });
 
@@ -73,7 +73,7 @@ const results = await client.searchMemories(
   { limit: 10 }
 );`,
     curl: `# Store a memory
-curl -X POST https://memoryhub-cloud.onrender.com/api/memory \\
+curl -X POST https://api.persistq.com/api/memory \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -85,7 +85,7 @@ curl -X POST https://memoryhub-cloud.onrender.com/api/memory \\
   }'
 
 # Search memories
-curl -X POST https://memoryhub-cloud.onrender.com/api/memory/search \\
+curl -X POST https://api.persistq.com/api/memory/search \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -101,7 +101,7 @@ npm install -g persistq
     "persistq": {
       "command": "persistq",
       "env": {
-        "PERSISTQ_URL": "https://memoryhub-cloud.onrender.com",
+        "PERSISTQ_URL": "https://api.persistq.com",
         "PERSISTQ_API_KEY": "your-api-key"
       }
     }

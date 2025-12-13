@@ -1,4 +1,4 @@
-# MemoryHub API
+# PersistQ API
 
 A production-ready semantic memory storage API built with Next.js, PostgreSQL, and pgvector. Store, search, and retrieve memories using advanced vector similarity search with local embeddings.
 
@@ -87,7 +87,7 @@ GET /api/status
 ```json
 {
   "status": "healthy",
-  "service": "MemoryHub API",
+  "service": "PersistQ API",
   "version": "1.0.0",
   "timestamp": "2025-11-01T17:30:00.000Z",
   "checks": {
