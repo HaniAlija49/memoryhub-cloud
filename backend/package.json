@@ -28,7 +28,7 @@
     "multer": "^2.0.2",
     "next": "16.0.7",
     "pdf2json": "^4.0.0",
-    "persistq-sdk": "file:../sdk",
+    "persistq-sdk": "^1.0.7",
     "pgvector": "^0.2.1",
     "react": "19.2.1",
     "react-dom": "19.2.1",
