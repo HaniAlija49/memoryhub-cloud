@@ -76,18 +76,25 @@ export class PersistQClient {
     const headers: Record<string, string> = {
       ...(options.headers as Record<string, string>),
     }
-    
+
     // Only set Content-Type to application/json if not FormData
     if (!(options.body instanceof FormData)) {
       headers['Content-Type'] = 'application/json'
     }
 
-    // For Clerk-protected routes (like /api/auth/clerk-link), use Clerk token
+    // Authentication priority:
+    // 1. If useClerkAuth=true is explicitly requested, use Clerk token (billing endpoints)
+    // 2. If Clerk token is available, use it (frontend dashboard - not tracked for billing)
+    // 3. Otherwise use API key (external MCP/SDK calls - tracked for billing)
+    // This ensures frontend calls don't count toward API quotas
     if (useClerkAuth && this.clerkToken) {
+      // Explicitly requested Clerk auth (e.g., billing endpoints)
       headers['Authorization'] = `Bearer ${this.clerkToken}`
-    }
-    // For regular API routes, use API key
-    else if (this.apiKey) {
+    } else if (this.clerkToken) {
+      // Clerk token available - prioritize it over API key (frontend dashboard)
+      headers['Authorization'] = `Bearer ${this.clerkToken}`
+    } else if (this.apiKey) {
+      // No Clerk token - use API key (external API calls)
       headers['Authorization'] = `Bearer ${this.apiKey}`
     }
 
