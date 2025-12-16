@@ -1,25 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
 
 /**
  * POST /api/internal/events
  *
  * Internal endpoint for tracking user analytics events.
- * Called by frontend analytics.ts to store events in usage_events table.
+ * Called by frontend analytics.ts to log events.
  *
  * This endpoint:
  * - Requires authentication
  * - Only works if OBSERVABILITY_ENABLED=true
- * - Stores events for analytics and debugging
+ * - Sends events to backend API for storage
  * - Never blocks the UI (fire-and-forget from client)
  */
 export async function POST(request: NextRequest) {
   try {
     // Check if observability is enabled
-    if (process.env.OBSERVABILITY_ENABLED !== 'true') {
+    if (process.env.NEXT_PUBLIC_OBSERVABILITY_ENABLED !== 'true') {
       return NextResponse.json(
         { error: 'Observability is disabled' },
         { status: 403 }
@@ -46,13 +43,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Store event in database
-    await prisma.usageEvent.create({
-      data: {
-        userId,
-        event,
-      },
-    });
+    // Forward event to backend API
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
+
+    try {
+      await fetch(`${backendUrl}/api/internal/events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, event }),
+      });
+    } catch (backendError) {
+      // Silently fail if backend is unreachable
+      console.warn('Failed to send event to backend:', backendError);
+    }
 
     return NextResponse.json({ success: true });
 
