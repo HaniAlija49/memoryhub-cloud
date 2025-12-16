@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Check, Shield, Lock, Menu, X } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
 import InteractiveDemo from "@/components/InteractiveDemo"
-import CostCalculator from "@/components/CostCalculator"
 import CodeBlock from "@/components/CodeBlock"
 import PricingToggle from "@/components/PricingToggle"
 import CaseStudies from "@/components/CaseStudies"
@@ -611,9 +610,6 @@ npm install -g persistq
 
       {/* Interactive Demo Section */}
       <InteractiveDemo />
-
-      {/* Cost Calculator Section */}
-      <CostCalculator />
 
   
       {/* CTA Section */}
