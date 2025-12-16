@@ -232,18 +232,20 @@ npm install -g persistq
       <section ref={heroRef} className="container mx-auto px-4 pt-20 pb-16 md:pt-24 md:pb-20 animate-fade-in">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight">
-            Add persistent, private memory to your AI — with{" "}
+            Memory for{" "}
             <span className="bg-gradient-to-r from-accent-cyan via-accent-purple to-accent-cyan bg-clip-text text-transparent animated-gradient">
-              ZERO embedding cost
+              AI Agents
             </span>
+            <br />
+            (Claude, Copilot, and more)
           </h1>
 
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Build smarter AI agents in minutes — with full privacy and zero embedding fees.
+            PersistQ gives your agents long-term memory with local embeddings, pgvector, and Claude MCP — no OpenAI keys, no vector DB setup.
           </p>
 
           <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-            MCP-ready for Claude, GPT, and local LLM agents.
+            Everything you need to add semantic memory to AI agents.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -267,45 +269,71 @@ npm install -g persistq
             </Link>
           </div>
 
-          <p className="text-sm text-muted-foreground pt-2">No credit card required.</p>
+          <p className="text-sm text-muted-foreground pt-2">
+            <span className="font-medium">Free: 500 memories, 5,000 API calls/month.</span> No credit card required.
+          </p>
         </div>
       </section>
 
-      {/* Value Props - Above the Fold */}
+      {/* Value Props - Structured by Audience */}
       <section className="border-y border-border/40 bg-surface/30 py-16 animate-on-scroll">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            <div className="text-center space-y-3">
-              <div className="text-3xl md:text-4xl font-bold text-accent-cyan mb-2">$0</div>
-              <div className="font-semibold text-base">Zero Embedding Cost</div>
-              <div className="text-sm text-muted-foreground leading-relaxed">
-                Never pay OpenAI embedding fees again. Local Transformers.js embeddings included.
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* For Developers */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">For Developers</h3>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <Check className="w-5 h-5 text-accent-cyan shrink-0 mt-0.5" />
+                  <span>Simple REST API and official SDKs (TypeScript, Python)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-5 h-5 text-accent-cyan shrink-0 mt-0.5" />
+                  <span>JSON metadata, tags, groups for flexible querying</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-5 h-5 text-accent-cyan shrink-0 mt-0.5" />
+                  <span>Works with any stack that can do HTTP</span>
+                </li>
+              </ul>
             </div>
-            <div className="text-center space-y-3">
-              <div className="text-3xl md:text-4xl font-bold text-accent-purple mb-2">
-                <Shield className="w-10 h-10 mx-auto" />
-              </div>
-              <div className="font-semibold text-base">Privacy-First Architecture</div>
-              <div className="text-sm text-muted-foreground leading-relaxed">
-                Your data never touches OpenAI, Anthropic, or third-party AI services.
-              </div>
+
+            {/* For AI Agents */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">For AI Agents</h3>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <Check className="w-5 h-5 text-accent-purple shrink-0 mt-0.5" />
+                  <span>Perfect for Claude Code and Copilot via MCP</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-5 h-5 text-accent-purple shrink-0 mt-0.5" />
+                  <span>Store conversation history, decisions, and user preferences</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Check className="w-5 h-5 text-accent-purple shrink-0 mt-0.5" />
+                  <span>Hybrid semantic + keyword search tuned for agent memory, not generic search</span>
+                </li>
+              </ul>
             </div>
-            <div className="text-center space-y-3">
-              <div className="text-3xl md:text-4xl font-bold text-accent-cyan mb-2">~200ms</div>
-              <div className="font-semibold text-base">Built for AI Agents</div>
-              <div className="text-sm text-muted-foreground leading-relaxed">
-                Fast semantic search optimized for real-time agent loops (~200ms).
-              </div>
-            </div>
-            <div className="text-center space-y-3">
-              <div className="text-3xl md:text-4xl font-bold text-accent-purple mb-2">
-                <Check className="w-10 h-10 mx-auto" />
-              </div>
-              <div className="font-semibold text-base">Claude MCP Ready</div>
-              <div className="text-sm text-muted-foreground leading-relaxed">
-                Plug PersistQ into Claude Code with a single configuration.
-              </div>
+
+            {/* For Privacy-Sensitive Teams */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">For Privacy-Sensitive Teams</h3>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <Shield className="w-5 h-5 text-accent-cyan shrink-0 mt-0.5" />
+                  <span>Embeddings generated locally with Transformers.js; nothing sent to OpenAI/Anthropic</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Shield className="w-5 h-5 text-accent-cyan shrink-0 mt-0.5" />
+                  <span>Data stored in standard PostgreSQL + pgvector; no proprietary vector DB lock-in</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Shield className="w-5 h-5 text-accent-cyan shrink-0 mt-0.5" />
+                  <span>No external dependencies on AI providers for core functionality</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -347,9 +375,9 @@ npm install -g persistq
               <div className="text-accent-cyan mb-4">
                 <Check className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">Save money and increase privacy with local embedding generation</h3>
+              <h3 className="text-xl font-semibold mb-3">No external API calls for embeddings</h3>
               <p className="text-muted-foreground">
-                Generate embeddings locally with Transformers.js (384d). Never pay OpenAI or Anthropic for embeddings again.
+                Generate embeddings locally with Transformers.js (384d). Your data never leaves your infrastructure.
               </p>
             </div>
 
@@ -514,16 +542,22 @@ npm install -g persistq
             <div className="p-6 rounded-lg border border-border bg-surface hover:border-accent-cyan/50 transition-colors">
               <div className="text-3xl mb-4">🤖</div>
               <h3 className="text-lg font-semibold mb-3">AI Assistants</h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground mb-3">
                 Give your assistant long-term memory of preferences, tasks, and interactions.
+              </p>
+              <p className="text-xs text-muted-foreground/80 italic">
+                Example: Claude remembers your tech stack (Next.js + PostgreSQL + Tailwind) and stops suggesting React class components or MongoDB.
               </p>
             </div>
 
             <div className="p-6 rounded-lg border border-border bg-surface hover:border-accent-purple/50 transition-colors">
               <div className="text-3xl mb-4">⚙️</div>
-              <h3 className="text-lg font-semibold mb-3">Agent Frameworks</h3>
-              <p className="text-sm text-muted-foreground">
+              <h3 className="text-lg font-semibold mb-3">Customer Support Agents</h3>
+              <p className="text-sm text-muted-foreground mb-3">
                 Add a persistent knowledge layer to multi-step agents.
+              </p>
+              <p className="text-xs text-muted-foreground/80 italic">
+                Example: Your AI support agent remembers each user's last 5 issues and doesn't ask the same onboarding questions again.
               </p>
             </div>
 
@@ -553,13 +587,13 @@ npm install -g persistq
             <h2 className="text-2xl md:text-3xl font-bold mb-6">From the Founder</h2>
             <div className="prose prose-invert max-w-none">
               <p className="text-muted-foreground leading-relaxed mb-4">
-                PersistQ is new — but it was built from real frustration with expensive embeddings, privacy concerns, and overly complex vector databases.
+                PersistQ is new — but it was built from real frustration with privacy concerns, overly complex vector databases, and the need to send data to third parties for embeddings.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Developers deserve a memory layer that is fast, private, affordable, and easy to integrate.
+                Developers deserve a memory layer that is fast, private, simple, and easy to integrate.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                PersistQ gives you semantic memory with zero embedding cost, no vendor lock-in, and full Claude MCP support.
+                PersistQ gives you semantic memory with local embeddings, no vendor lock-in, and full Claude MCP support. No external API calls for embeddings means your data never leaves your infrastructure.
               </p>
               <p className="text-muted-foreground leading-relaxed font-medium">
                 If you're building an AI agent, PersistQ is designed for you.
@@ -602,7 +636,7 @@ npm install -g persistq
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-accent-cyan" />
-                <span>Zero embedding costs</span>
+                <span>No external API calls</span>
               </div>
               <div className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-accent-cyan" />

@@ -67,11 +67,11 @@ export interface PlanMetadata {
 export const PLANS: Record<string, PlanMetadata> = {
   free: {
     id: "free",
-    name: "Free",
-    description: "Perfect for testing and small projects",
+    name: "Hobby",
+    description: "For solo devs testing agents",
     limits: {
       apiCallsPerMonth: 5_000,
-      maxMemories: 250,
+      maxMemories: 500,
       maxMemorySize: 50 * 1024, // 50 KB per memory
       rateLimit: {
         requestsPerMinute: 10,
@@ -84,9 +84,9 @@ export const PLANS: Record<string, PlanMetadata> = {
     },
     features: [
       "5,000 API calls/month",
-      "250 memories",
+      "500 memories",
       "50 KB per memory",
-      "Community support",
+      "Community support only",
       "Basic analytics",
     ],
     providers: {
@@ -96,8 +96,8 @@ export const PLANS: Record<string, PlanMetadata> = {
 
   starter: {
     id: "starter",
-    name: "Starter",
-    description: "For growing applications and production use",
+    name: "Builder",
+    description: "For side projects and small apps",
     limits: {
       apiCallsPerMonth: 50_000,
       maxMemories: 2_500,
@@ -115,9 +115,9 @@ export const PLANS: Record<string, PlanMetadata> = {
       "50,000 API calls/month",
       "2,500 memories",
       "100 KB per memory",
-      "Email support",
-      "Advanced analytics",
-      "99.9% uptime SLA",
+      "Email support (best-effort)",
+      "Basic analytics",
+      "99% uptime SLA",
     ],
     providers: {
       dodo: {
@@ -145,12 +145,12 @@ export const PLANS: Record<string, PlanMetadata> = {
 
   pro: {
     id: "pro",
-    name: "Pro",
-    description: "For professional teams and high-traffic apps",
+    name: "RAG Apps",
+    description: "For apps indexing docs & knowledge",
     limits: {
       apiCallsPerMonth: 500_000,
       maxMemories: 25_000,
-      maxMemorySize: 500 * 1024, // 500 KB per memory
+      maxMemorySize: 200 * 1024, // 200 KB per memory
       rateLimit: {
         requestsPerMinute: 200,
         requestsPerDay: 100_000,
@@ -163,11 +163,10 @@ export const PLANS: Record<string, PlanMetadata> = {
     features: [
       "500,000 API calls/month",
       "25,000 memories",
-      "500 KB per memory",
-      "Priority support",
+      "200 KB per memory",
+      "Priority email support (24-48h)",
       "Advanced analytics",
-      "99.95% uptime SLA",
-      "Custom integrations",
+      "99.9% uptime SLA",
     ],
     recommended: true,
     providers: {
@@ -186,12 +185,12 @@ export const PLANS: Record<string, PlanMetadata> = {
 
   premium: {
     id: "premium",
-    name: "Premium",
-    description: "For enterprise-scale applications",
+    name: "Team / Scale",
+    description: "For teams and heavy workloads",
     limits: {
       apiCallsPerMonth: 2_000_000,
       maxMemories: 100_000,
-      maxMemorySize: 1024 * 1024, // 1 MB per memory
+      maxMemorySize: 500 * 1024, // 500 KB per memory
       rateLimit: {
         requestsPerMinute: 1000,
         requestsPerDay: 500_000,
@@ -204,13 +203,10 @@ export const PLANS: Record<string, PlanMetadata> = {
     features: [
       "2,000,000 API calls/month",
       "100,000 memories",
-      "1 MB per memory",
-      "Dedicated support",
+      "500 KB per memory",
+      "Priority support + SLA",
       "Advanced analytics",
-      "99.99% uptime SLA",
-      "Custom integrations",
-      "On-premise deployment option",
-      "Custom data retention",
+      "99.9% uptime guaranteed",
     ],
     providers: {
       dodo: {

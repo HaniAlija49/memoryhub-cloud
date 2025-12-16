@@ -87,13 +87,23 @@ const handleCheckout = async (planId: string, interval: "monthly" | "yearly") =>
         </div>
       </section>
 
+      {/* Plain-English Summary */}
+      <section className="container mx-auto px-4 pb-8">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-lg text-muted-foreground">
+            Start free while you experiment with Claude or Copilot. When you're ready to build real apps or RAG, upgrade in one click — no contract, cancel anytime.
+          </p>
+        </div>
+      </section>
+
       {/* Pricing Cards */}
       <section className="container mx-auto px-4 pb-24">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Free Plan */}
+          {/* Hobby Plan */}
           <div className="p-6 rounded-lg border border-border bg-surface">
-            <h3 className="text-2xl font-bold mb-2">Free</h3>
-            <p className="text-muted-foreground mb-6 text-sm">Perfect for testing</p>
+            <h3 className="text-2xl font-bold mb-2">Hobby</h3>
+            <p className="text-muted-foreground mb-2 text-sm">For solo devs testing agents</p>
+            <p className="text-xs text-muted-foreground/80 mb-4 leading-relaxed">Try PersistQ for Claude and Copilot. Perfect for experimenting with agent memory.</p>
             <div className="mb-6">
               <span className="text-4xl font-bold">$0</span>
               <span className="text-muted-foreground text-sm">/month</span>
@@ -114,8 +124,8 @@ const handleCheckout = async (planId: string, interval: "monthly" | "yearly") =>
               <div className="flex items-start gap-2">
                 <Check className="w-4 h-4 text-accent-cyan shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm font-medium">250 stored memories</p>
-                  <p className="text-xs text-muted-foreground">50KB each, 12.5MB total</p>
+                  <p className="text-sm font-medium">500 stored memories</p>
+                  <p className="text-xs text-muted-foreground">50KB each, 25MB total</p>
                 </div>
               </div>
               <div className="flex items-start gap-2">
@@ -129,10 +139,11 @@ const handleCheckout = async (planId: string, interval: "monthly" | "yearly") =>
             </div>
           </div>
 
-          {/* Starter Plan */}
+          {/* Builder Plan */}
           <div className="p-6 rounded-lg border border-border bg-surface">
-            <h3 className="text-2xl font-bold mb-2">Starter</h3>
-            <p className="text-muted-foreground mb-6 text-sm">For small applications</p>
+            <h3 className="text-2xl font-bold mb-2">Builder</h3>
+            <p className="text-muted-foreground mb-2 text-sm">For side projects and small apps</p>
+            <p className="text-xs text-muted-foreground/80 mb-4 leading-relaxed">Run real projects: side projects, internal tools, small production agents.</p>
             <div className="mb-6">
               <span className="text-4xl font-bold">${billingPeriod === "monthly" ? "5" : "50"}</span>
               <span className="text-muted-foreground text-sm">/{billingPeriod === "monthly" ? "month" : "year"}</span>
@@ -166,7 +177,7 @@ const handleCheckout = async (planId: string, interval: "monthly" | "yearly") =>
                 <Check className="w-4 h-4 text-accent-cyan shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm font-medium">Email support</p>
-                  <p className="text-xs text-muted-foreground">48hr response</p>
+                  <p className="text-xs text-muted-foreground">Best-effort</p>
                 </div>
               </div>
               <div className="flex items-start gap-2">
@@ -180,13 +191,14 @@ const handleCheckout = async (planId: string, interval: "monthly" | "yearly") =>
             </div>
           </div>
 
-          {/* Pro Plan */}
+          {/* RAG Apps Plan */}
           <div className="p-6 rounded-lg border-2 border-accent-cyan bg-surface relative">
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-accent-cyan text-black text-xs font-medium rounded-full">
               Most Popular
             </div>
-            <h3 className="text-2xl font-bold mb-2">Pro</h3>
-            <p className="text-muted-foreground mb-6 text-sm">For production apps</p>
+            <h3 className="text-2xl font-bold mb-2">RAG Apps</h3>
+            <p className="text-muted-foreground mb-2 text-sm">For apps indexing docs & knowledge</p>
+            <p className="text-xs text-muted-foreground/80 mb-4 leading-relaxed">Index docs, build searchable knowledge bases, production RAG agents.</p>
             <div className="mb-6">
               <span className="text-4xl font-bold">${billingPeriod === "monthly" ? "12" : "120"}</span>
               <span className="text-muted-foreground text-sm">/{billingPeriod === "monthly" ? "month" : "year"}</span>
@@ -219,8 +231,8 @@ const handleCheckout = async (planId: string, interval: "monthly" | "yearly") =>
               <div className="flex items-start gap-2">
                 <Check className="w-4 h-4 text-accent-cyan shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm font-medium">Priority support</p>
-                  <p className="text-xs text-muted-foreground">24hr response</p>
+                  <p className="text-sm font-medium">Priority email support</p>
+                  <p className="text-xs text-muted-foreground">24-48h response</p>
                 </div>
               </div>
               <div className="flex items-start gap-2">
@@ -234,10 +246,11 @@ const handleCheckout = async (planId: string, interval: "monthly" | "yearly") =>
             </div>
           </div>
 
-          {/* Premium Plan */}
+          {/* Team / Scale Plan */}
           <div className="p-6 rounded-lg border border-border bg-surface">
-            <h3 className="text-2xl font-bold mb-2">Premium</h3>
-            <p className="text-muted-foreground mb-6 text-sm">For growing businesses</p>
+            <h3 className="text-2xl font-bold mb-2">Team / Scale</h3>
+            <p className="text-muted-foreground mb-2 text-sm">For teams and heavy workloads</p>
+            <p className="text-xs text-muted-foreground/80 mb-4 leading-relaxed">Multiple apps, higher traffic, or team usage. Ideal for startups and agencies.</p>
             <div className="mb-6">
               <span className="text-4xl font-bold">${billingPeriod === "monthly" ? "29" : "290"}</span>
               <span className="text-muted-foreground text-sm">/{billingPeriod === "monthly" ? "month" : "year"}</span>
@@ -270,17 +283,13 @@ const handleCheckout = async (planId: string, interval: "monthly" | "yearly") =>
               <div className="flex items-start gap-2">
                 <Check className="w-4 h-4 text-accent-cyan shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm font-medium">Priority support</p>
-                  <p className="text-xs text-muted-foreground">12hr response</p>
+                  <p className="text-sm font-medium">Priority support + SLA</p>
+                  <p className="text-xs text-muted-foreground">99.9% uptime guaranteed</p>
                 </div>
               </div>
               <div className="flex items-start gap-2">
                 <Check className="w-4 h-4 text-accent-cyan shrink-0 mt-0.5" />
                 <p className="text-sm font-medium">Advanced analytics</p>
-              </div>
-              <div className="flex items-start gap-2">
-                <Check className="w-4 h-4 text-accent-cyan shrink-0 mt-0.5" />
-                <p className="text-sm font-medium">99.9% uptime SLA</p>
               </div>
             </div>
           </div>
@@ -296,10 +305,10 @@ const handleCheckout = async (planId: string, interval: "monthly" | "yearly") =>
               <thead>
                 <tr className="border-b border-border">
                   <th className="text-left py-4 px-4 font-medium">Feature</th>
-                  <th className="text-center py-4 px-4 font-medium">Free</th>
-                  <th className="text-center py-4 px-4 font-medium">Starter</th>
-                  <th className="text-center py-4 px-4 font-medium">Pro</th>
-                  <th className="text-center py-4 px-4 font-medium">Premium</th>
+                  <th className="text-center py-4 px-4 font-medium">Hobby</th>
+                  <th className="text-center py-4 px-4 font-medium">Builder</th>
+                  <th className="text-center py-4 px-4 font-medium">RAG Apps</th>
+                  <th className="text-center py-4 px-4 font-medium">Team / Scale</th>
                 </tr>
               </thead>
               <tbody>
@@ -312,7 +321,7 @@ const handleCheckout = async (planId: string, interval: "monthly" | "yearly") =>
                 </tr>
                 <tr className="border-b border-border/50">
                   <td className="py-4 px-4">Stored memories</td>
-                  <td className="text-center py-4 px-4">250</td>
+                  <td className="text-center py-4 px-4">500</td>
                   <td className="text-center py-4 px-4">2,500</td>
                   <td className="text-center py-4 px-4">25,000</td>
                   <td className="text-center py-4 px-4">100,000</td>
@@ -326,7 +335,7 @@ const handleCheckout = async (planId: string, interval: "monthly" | "yearly") =>
                 </tr>
                 <tr className="border-b border-border/50">
                   <td className="py-4 px-4">Total storage cap</td>
-                  <td className="text-center py-4 px-4">12.5 MB</td>
+                  <td className="text-center py-4 px-4">25 MB</td>
                   <td className="text-center py-4 px-4">250 MB</td>
                   <td className="text-center py-4 px-4">5 GB</td>
                   <td className="text-center py-4 px-4">50 GB</td>
@@ -334,9 +343,9 @@ const handleCheckout = async (planId: string, interval: "monthly" | "yearly") =>
                 <tr className="border-b border-border/50">
                   <td className="py-4 px-4">Support</td>
                   <td className="text-center py-4 px-4">Community</td>
-                  <td className="text-center py-4 px-4">Email (48hr)</td>
-                  <td className="text-center py-4 px-4">Priority (24hr)</td>
-                  <td className="text-center py-4 px-4">Priority (12hr)</td>
+                  <td className="text-center py-4 px-4">Email (best-effort)</td>
+                  <td className="text-center py-4 px-4">Priority (24-48h)</td>
+                  <td className="text-center py-4 px-4">Priority + SLA</td>
                 </tr>
                 <tr className="border-b border-border/50">
                   <td className="py-4 px-4">Analytics</td>

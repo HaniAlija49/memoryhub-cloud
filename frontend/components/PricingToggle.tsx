@@ -21,34 +21,34 @@ interface PricingPlan {
 
 const plans: PricingPlan[] = [
   {
-    name: "Free",
+    name: "Hobby",
     monthlyPrice: 0,
     yearlyPrice: 0,
     apiCalls: "5,000",
-    memories: "250",
-    storage: "12.5MB",
+    memories: "500",
+    storage: "25MB",
     features: [
       "Basic semantic search",
       "Local embeddings",
-      "Community support"
+      "Community support only"
     ]
   },
   {
-    name: "Starter",
+    name: "Builder",
     monthlyPrice: 5,
     yearlyPrice: 48,
     apiCalls: "50K",
     memories: "2,500",
     storage: "250MB",
     features: [
-      "Everything in Free",
+      "Everything in Hobby",
       "Advanced search filters",
-      "Email support",
-      "API analytics"
+      "Email support (best-effort)",
+      "99% uptime SLA"
     ]
   },
   {
-    name: "Pro",
+    name: "RAG Apps",
     monthlyPrice: 12,
     yearlyPrice: 115,
     apiCalls: "500K",
@@ -57,26 +57,24 @@ const plans: PricingPlan[] = [
     highlighted: true,
     badge: "Most Popular",
     features: [
-      "Everything in Starter",
-      "Priority support",
-      "Custom embeddings",
-      "Team collaboration",
-      "Advanced analytics"
+      "Everything in Builder",
+      "Priority email support (24-48h)",
+      "Advanced analytics",
+      "99.9% uptime SLA"
     ]
   },
   {
-    name: "Premium",
+    name: "Team / Scale",
     monthlyPrice: 29,
     yearlyPrice: 278,
     apiCalls: "2M",
     memories: "100K",
     storage: "50GB",
     features: [
-      "Everything in Pro",
-      "Dedicated support",
-      "Custom integrations",
-      "SLA guarantee",
-      "Advanced security features"
+      "Everything in RAG Apps",
+      "Priority support + SLA",
+      "Advanced analytics",
+      "99.9% uptime guaranteed"
     ]
   }
 ]
@@ -216,7 +214,7 @@ export default function PricingToggle() {
                     }`}
                     variant={plan.highlighted ? "default" : "outline"}
                   >
-                    {plan.name === "Free" ? "Get Started" : "Start Free Trial"}
+                    {plan.name === "Hobby" ? "Get Started" : "Start Free Trial"}
                   </Button>
                 </Link>
               </CardFooter>

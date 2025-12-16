@@ -21,25 +21,25 @@ import type { BillingInterval } from "@/lib/billing-types"
 const PLANS = [
   {
     id: 'starter',
-    name: 'Starter',
+    name: 'Builder',
     pricing: { monthly: 500, yearly: 5000 }, // in cents
     limits: { apiCalls: 50000, memories: 2500 },
-    features: ['50K API calls/month', '2.5K memories', 'Email support'],
+    features: ['50K API calls/month', '2.5K memories', 'Email support (best-effort)'],
   },
   {
     id: 'pro',
-    name: 'Pro',
+    name: 'RAG Apps',
     pricing: { monthly: 1200, yearly: 12000 },
     limits: { apiCalls: 500000, memories: 25000 },
-    features: ['500K API calls/month', '25K memories', 'Priority support', 'Custom integrations'],
+    features: ['500K API calls/month', '25K memories', 'Priority email support (24-48h)', 'Advanced analytics'],
     recommended: true,
   },
   {
     id: 'premium',
-    name: 'Premium',
+    name: 'Team / Scale',
     pricing: { monthly: 2900, yearly: 29000 },
     limits: { apiCalls: 2000000, memories: 100000 },
-    features: ['2M API calls/month', '100K memories', 'Dedicated support', 'On-premise deployment'],
+    features: ['2M API calls/month', '100K memories', 'Priority support + SLA'],
   },
 ]
 
