@@ -4,10 +4,6 @@ import { prisma } from '@/lib/prisma';
 import { checkRateLimit } from '@/lib/ratelimit';
 import { isValidEvent, PersistQEvent } from '@/lib/analytics/events';
 
-// Rate limiting: 100 events per minute per user
-const EVENTS_RATE_LIMIT = 100;
-const EVENTS_WINDOW = 60; // 1 minute in seconds
-
 export async function POST(request: NextRequest) {
   try {
     // Authenticate user (Clerk or API key)
@@ -32,18 +28,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check rate limiting for events
-    const rateLimitResult = await checkRateLimit(
-      user.id, 
-      EVENTS_RATE_LIMIT, 
-      EVENTS_WINDOW
-    );
-    
+    // Check rate limiting for events (100 events per minute)
+    const rateLimitResult = await checkRateLimit(user.id);
+
     if (!rateLimitResult.success) {
       return NextResponse.json(
-        { 
-          error: 'Too many events', 
-          resetAfter: rateLimitResult.reset 
+        {
+          error: 'Too many events',
+          resetAfter: rateLimitResult.reset
         },
         { status: 429 }
       );
