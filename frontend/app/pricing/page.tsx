@@ -9,6 +9,7 @@ import { useAuth } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
 import { BillingService } from "@/services/billing.service"
 import { useToast } from "@/hooks/use-toast"
+import { useTrackEvent } from "@/lib/analytics"
 
 export default function PricingPage() {
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">("monthly")
@@ -16,13 +17,17 @@ export default function PricingPage() {
   const { isSignedIn, getToken } = useAuth()
   const router = useRouter()
   const { toast } = useToast()
+  const trackEvent = useTrackEvent()
 
-  const handleCheckout = async (planId: string, interval: "monthly" | "yearly") => {
+const handleCheckout = async (planId: string, interval: "monthly" | "yearly") => {
     // Redirect to signup if not authenticated
     if (!isSignedIn) {
       router.push("/signup")
       return
     }
+
+    // Track checkout start
+    trackEvent('checkout_started')
 
     setIsLoading(`${planId}-${interval}`)
 

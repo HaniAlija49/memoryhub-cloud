@@ -6,6 +6,7 @@ import { createErrorResponse, createSuccessResponse } from '@/lib/utils'
 import { saveMemorySchema, validateRequest } from '@/lib/validation'
 import { withSentryTracing } from '@/app/_utils/app-router-sentry.config'
 import { enforceQuota } from '@/lib/billing/quotas'
+import * as Sentry from '@sentry/nextjs'
 
 export const POST = withSentryTracing(async function POST(request: NextRequest) {
   try {
@@ -68,7 +69,21 @@ export const POST = withSentryTracing(async function POST(request: NextRequest) 
       RETURNING id, content, project, metadata, created_at
     `
 
-    const savedMemory = memory[0]
+const savedMemory = memory[0]
+
+    // Add Sentry breadcrumb for memory creation (only if observability enabled)
+    if (process.env.OBSERVABILITY_ENABLED === 'true') {
+      Sentry.addBreadcrumb({
+        category: 'memory',
+        message: 'Memory created',
+        level: 'info',
+        data: {
+          memoryId: savedMemory.id,
+          project: savedMemory.project,
+          authMethod: method,
+        }
+      });
+    }
 
     return NextResponse.json({
       status: 'success',

@@ -24,10 +24,12 @@ import { useApi } from "@/hooks/use-api"
 import { MemoryService, type Memory } from "@/services"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { DocumentUploadModal } from "@/components/document-upload-modal"
+import { useTrackEvent } from "@/lib/analytics"
 
 export default function MemoriesPage() {
   const api = useApi()
   const { toast } = useToast()
+  const trackEvent = useTrackEvent()
 
   const [view, setView] = useState<"list" | "grid">("list")
   const [selectedGroup, setSelectedGroup] = useState("All Memories")
@@ -79,7 +81,10 @@ export default function MemoriesPage() {
     loadMemories()
   }
 
-  const handleDocumentUploadSuccess = (chunksCount: number) => {
+const handleDocumentUploadSuccess = (chunksCount: number) => {
+    // Track document upload
+    trackEvent('document_uploaded')
+    
     toast({
       title: "Document processed successfully!",
       description: `Created ${chunksCount} memories from your document.`,
@@ -194,7 +199,10 @@ export default function MemoriesPage() {
 
     setIsCreating(false)
 
-    if (memoryId) {
+if (memoryId) {
+      // Track memory creation
+      trackEvent('memory_created')
+      
       toast({
         title: "Memory created",
         description: "Your memory has been successfully stored",
@@ -216,9 +224,12 @@ export default function MemoriesPage() {
     }
   }
 
-  const handleDelete = async (id: string) => {
+const handleDelete = async (id: string) => {
     const success = await MemoryService.delete(id)
     if (success) {
+      // Track memory deletion
+      trackEvent('memory_deleted')
+      
       setMemories(memories.filter((m) => m.id !== id))
       toast({
         title: 'Success',

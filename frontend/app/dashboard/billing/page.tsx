@@ -12,12 +12,14 @@ import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Loader2, AlertCircle, ExternalLink } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { useTrackEvent } from "@/lib/analytics"
 import type { BillingData } from "@/lib/billing-types"
 
 export default function BillingPage() {
   const api = useApi()
   const { getToken } = useAuth()
   const { toast } = useToast()
+  const trackEvent = useTrackEvent()
 
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -27,7 +29,7 @@ export default function BillingPage() {
   const [showCancelDialog, setShowCancelDialog] = useState(false)
   const [isActionLoading, setIsActionLoading] = useState(false)
 
-  // Check for success redirect from checkout
+// Check for success redirect from checkout
   useEffect(() => {
     if (typeof window === 'undefined') return
 
@@ -37,6 +39,9 @@ export default function BillingPage() {
     const status = params.get('status')
 
     if (success === 'true' && subscriptionId) {
+      // Track successful subscription activation
+      trackEvent('subscription_activated')
+      
       toast({
         title: "Payment Successful!",
         description: `Your subscription is now ${status || 'active'}. Refreshing your plan details...`,
@@ -54,7 +59,7 @@ export default function BillingPage() {
     }
   }, [toast, api.isReady])
 
-  // Load billing data (skip if coming from checkout redirect to avoid double load)
+// Load billing data (skip if coming from checkout redirect to avoid double load)
   useEffect(() => {
     if (typeof window === 'undefined') return
 
@@ -62,8 +67,9 @@ export default function BillingPage() {
     const params = new URLSearchParams(window.location.search)
     const isCheckoutSuccess = params.get('success') === 'true' && params.get('subscription_id')
 
-    // Skip initial load if checkout success - the timeout above will handle it
+    // Track billing page view (only on initial load, not checkout success)
     if (!isCheckoutSuccess && api.isReady) {
+      trackEvent('billing_opened')
       loadBillingData()
     }
   }, [api.isReady])

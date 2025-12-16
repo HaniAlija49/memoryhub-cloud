@@ -123,3 +123,14 @@ model Feedback {
   @@index([createdAt])
   @@map("feedback")
 }
+
+model UsageEvent {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  event     String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("usage_events")
+}

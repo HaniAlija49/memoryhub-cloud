@@ -27,6 +27,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { MemoryService } from '@/services/memory.service';
 import { apiClient } from '@/lib/api-client';
+import { useTrackEvent } from '@/lib/analytics';
 import type { DocumentChunk, ProcessingStats } from 'persistq-sdk';
 
 interface DocumentUploadModalProps {
@@ -44,6 +45,7 @@ interface ProcessingOptions {
 
 export function DocumentUploadModal({ open, onOpenChange, onSuccess }: DocumentUploadModalProps) {
   const { toast } = useToast();
+  const trackEvent = useTrackEvent();
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [processing, setProcessing] = useState(false);
@@ -172,7 +174,10 @@ export function DocumentUploadModal({ open, onOpenChange, onSuccess }: DocumentU
         }
       }
 
-      if (savedCount === chunks.length) {
+if (savedCount === chunks.length) {
+        // Track document processing success
+        trackEvent('document_processed');
+        
         toast({
           title: "Success!",
           description: `Saved ${savedCount} memories from ${file?.name}`,

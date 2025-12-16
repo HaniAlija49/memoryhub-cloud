@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { ClerkProvider } from "@clerk/nextjs"
 import { CookieConsent } from "@/components/cookie-consent"
+import { SentryUserContext } from "@/components/sentry-user-context"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
@@ -89,7 +90,7 @@ export default function RootLayout({
   }
 
   return (
-    <ClerkProvider
+<ClerkProvider
       signInUrl="/login"
       signUpUrl="/signup"
       afterSignInUrl="/dashboard"
@@ -109,6 +110,7 @@ export default function RootLayout({
             />
           </head>
           <body className={`font-sans antialiased`}>
+            <SentryUserContext />
             {children}
             <CookieConsent />
             <Analytics />

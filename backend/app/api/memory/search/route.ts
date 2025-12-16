@@ -5,6 +5,7 @@ import { createErrorResponse, createSuccessResponse } from '@/lib/utils'
 import { searchMemorySchema, validateRequest } from '@/lib/validation'
 import { withSentryTracing } from '@/app/_utils/app-router-sentry.config'
 import { enforceQuota } from '@/lib/billing/quotas'
+import * as Sentry from '@sentry/nextjs'
 
 export const POST = withSentryTracing(async function POST(request: NextRequest) {
   try {
@@ -31,18 +32,46 @@ export const POST = withSentryTracing(async function POST(request: NextRequest) 
 
     const { query, limit = 10 } = validation.data
 
-    // Search using semantic search
+// Search using semantic search
     const results = await searchMemories(user.id, query, limit)
+
+    // Add Sentry breadcrumb for search (only if observability enabled)
+    if (process.env.OBSERVABILITY_ENABLED === 'true') {
+      Sentry.addBreadcrumb({
+        category: 'search',
+        message: 'Memory search performed',
+        level: 'info',
+        data: {
+          queryLength: query.length,
+          resultCount: results?.length || 0,
+          limit,
+          authMethod: method,
+        }
+      });
+    }
 
     return NextResponse.json({
       status: 'success',
       data: results || []
     })
 
-  } catch (error) {
+} catch (error) {
     if (error instanceof AuthError) {
       return createErrorResponse(error.message, error.statusCode)
     }
+    
+    // Add Sentry breadcrumb for search failure (only if observability enabled)
+    if (process.env.OBSERVABILITY_ENABLED === 'true') {
+      Sentry.addBreadcrumb({
+        category: 'search',
+        message: 'Memory search failed',
+        level: 'error',
+        data: {
+          error: error instanceof Error ? error.message : 'Unknown error',
+        }
+      });
+    }
+    
     console.error('Error searching memories:', error)
     return createErrorResponse('Failed to search memories', 500)
   }

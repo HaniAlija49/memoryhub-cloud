@@ -5,6 +5,7 @@ import { checkRateLimit } from './ratelimit'
 import bcrypt from 'bcrypt'
 import { Redis } from '@upstash/redis'
 import { authenticateRequest } from './clerk-auth-helper'
+import * as Sentry from '@sentry/nextjs'
 
 export class AuthError extends Error {
   constructor(message: string, public statusCode: number = 401) {
@@ -152,13 +153,22 @@ export async function authenticate(request?: Request): Promise<AuthResult> {
   // Try Clerk authentication first (frontend dashboard calls)
   const clerkAuth = await authenticateRequest(request || new Request('http://localhost'))
 
-  if (clerkAuth.userId) {
+if (clerkAuth.userId) {
     // Get user from Clerk ID
     const user = await prisma.user.findUnique({
       where: { clerkUserId: clerkAuth.userId },
     })
 
     if (user) {
+      // Set user context in Sentry for error correlation (only if observability enabled)
+      if (process.env.OBSERVABILITY_ENABLED === 'true') {
+        Sentry.setUser({
+          id: user.id,
+          email: user.email,
+          clerkUserId: user.clerkUserId || undefined,
+        });
+      }
+
       // Check rate limit
       const rateLimitResult = await checkRateLimit(user.id)
       if (!rateLimitResult.success) {
@@ -175,9 +185,18 @@ export async function authenticate(request?: Request): Promise<AuthResult> {
     }
   }
 
-  // Fall back to API key authentication (external calls via MCP, SDK, etc.)
+// Fall back to API key authentication (external calls via MCP, SDK, etc.)
   try {
     const user = await validateApiKey()
+    
+    // Set user context in Sentry for error correlation (only if observability enabled)
+    if (process.env.OBSERVABILITY_ENABLED === 'true') {
+      Sentry.setUser({
+        id: user.id,
+        email: user.email,
+      });
+    }
+    
     return {
       user,
       method: 'api_key',

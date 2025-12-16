@@ -9,19 +9,24 @@ import { AuthService } from "@/services"
 import { copyToClipboard } from "@/lib/utils"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { McpConfigTabs } from "@/components/mcp-config-tabs"
+import { useTrackEvent } from "@/lib/analytics"
 
 export default function ApiKeysPage() {
   const api = useApi()
   const { toast } = useToast()
+  const trackEvent = useTrackEvent()
   const [isRegenerating, setIsRegenerating] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
 
-  const handleGenerate = async () => {
+const handleGenerate = async () => {
     setIsGenerating(true)
     const result = await AuthService.generateApiKey()
     setIsGenerating(false)
 
     if (result) {
+      // Track API key generation
+      trackEvent('api_key_generated')
+      
       toast({
         title: 'API Key Generated!',
         description: 'Your API key is ready to use',
@@ -45,7 +50,10 @@ export default function ApiKeysPage() {
     const result = await AuthService.regenerateApiKey()
     setIsRegenerating(false)
 
-    if (result) {
+if (result) {
+      // Track API key regeneration
+      trackEvent('api_key_regenerated')
+      
       toast({
         title: 'API Key Regenerated!',
         description: 'Your new API key is ready to use',
@@ -111,10 +119,13 @@ function ApiKeyDisplay({ apiKey, isLoading }: { apiKey: string | null; isLoading
   const [isVisible, setIsVisible] = useState(false) // Hidden by default for security
   const { toast } = useToast()
 
-  const handleCopyKey = async () => {
+const handleCopyKey = async () => {
     if (!apiKey) return
     const success = await copyToClipboard(apiKey)
     if (success) {
+      // Track API key copy
+      trackEvent('api_key_copied')
+      
       toast({
         title: "API key copied",
         description: "The API key has been copied to your clipboard",

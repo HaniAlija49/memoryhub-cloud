@@ -1,13 +1,16 @@
 import * as Sentry from "@sentry/nextjs";
 
+// Only enable Sentry if explicitly enabled AND in production
+const isObservabilityEnabled = process.env.NEXT_PUBLIC_OBSERVABILITY_ENABLED === 'true' && process.env.NODE_ENV === 'production';
+
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
-  // Only enable in production
-  enabled: process.env.NODE_ENV === 'production',
+  // Only enable if observability is enabled
+  enabled: isObservabilityEnabled,
 
-  // Error tracking
-  tracesSampleRate: 1.0,
+  // Error tracking - reduced to 10% as specified
+  tracesSampleRate: 0.1,
 
   // Performance monitoring
   replaysSessionSampleRate: 0.1, // 10% of sessions
