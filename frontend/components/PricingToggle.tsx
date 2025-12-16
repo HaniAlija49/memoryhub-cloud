@@ -96,7 +96,7 @@ export default function PricingToggle() {
   }
 
   return (
-    <section className="py-32 container mx-auto px-4 bg-surface/30">
+    <section className="py-16 container mx-auto px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-5xl font-bold mb-6">Simple, transparent pricing</h2>
@@ -214,7 +214,7 @@ export default function PricingToggle() {
                     }`}
                     variant={plan.highlighted ? "default" : "outline"}
                   >
-                    {plan.name === "Hobby" ? "Get Started" : "Start Free Trial"}
+                    {plan.name === "Hobby" ? "Get Started" : `Upgrade to ${plan.name}`}
                   </Button>
                 </Link>
               </CardFooter>

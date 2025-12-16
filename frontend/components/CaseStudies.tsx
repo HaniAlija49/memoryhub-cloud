@@ -80,7 +80,7 @@ const caseStudies: CaseStudy[] = [
 
 export default function CaseStudies() {
   return (
-    <section className="py-32 container mx-auto px-4">
+    <section className="py-16 container mx-auto px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 bg-accent-purple/10 px-4 py-2 rounded-full mb-6">

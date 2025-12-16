@@ -5,7 +5,6 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Check, Shield, Lock, Menu, X } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
-import InteractiveDemo from "@/components/InteractiveDemo"
 import CodeBlock from "@/components/CodeBlock"
 import PricingToggle from "@/components/PricingToggle"
 import CaseStudies from "@/components/CaseStudies"
@@ -243,10 +242,6 @@ npm install -g persistq
             PersistQ gives your agents long-term memory with local embeddings, pgvector, and Claude MCP — no OpenAI keys, no vector DB setup.
           </p>
 
-          <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-            Everything you need to add semantic memory to AI agents.
-          </p>
-
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Link href="/signup">
               <Button
@@ -338,18 +333,18 @@ npm install -g persistq
         </div>
       </section>
 
-      {/* Demo GIF Placeholder Section */}
+      {/* Demo Video Section */}
       <section className="container mx-auto px-4 py-16 animate-on-scroll">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <h2 className="text-4xl md:text-5xl font-bold">See PersistQ in Action</h2>
           <p className="text-lg text-muted-foreground">30-second demo</p>
 
-          {/* Demo GIF Placeholder */}
+          {/* Demo Video Placeholder */}
           <div className="rounded-lg border-2 border-dashed border-border bg-surface/50 aspect-video flex items-center justify-center">
             <div className="text-center space-y-4 p-8">
               <div className="text-6xl">🎬</div>
               <div className="text-lg font-medium text-muted-foreground">
-                Your demo video or GIF will go here
+                Demo video will go here
               </div>
               <div className="text-sm text-muted-foreground max-w-md mx-auto">
                 Example: store → search → retrieve
@@ -360,7 +355,7 @@ npm install -g persistq
       </section>
 
       {/* Features Section - Benefit Driven */}
-      <section id="features" className="container mx-auto px-4 py-16 animate-on-scroll">
+      <section id="features" className="container mx-auto px-4 py-16 bg-surface/30 animate-on-scroll">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">Built for Developers, Optimized for AI</h2>
@@ -528,7 +523,7 @@ npm install -g persistq
       </section>
 
       {/* Use Cases Section (Renamed from Success Stories) */}
-      <section className="container mx-auto px-4 py-16 bg-surface/30 animate-on-scroll">
+      <section className="container mx-auto px-4 py-16 animate-on-scroll">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">Use Cases</h2>
@@ -580,7 +575,7 @@ npm install -g persistq
       </section>
 
       {/* Founder's Note Section */}
-      <section className="container mx-auto px-4 py-16 animate-on-scroll">
+      <section className="container mx-auto px-4 py-16 bg-surface/30 animate-on-scroll">
         <div className="max-w-3xl mx-auto">
           <div className="rounded-lg border border-border bg-surface p-8 md:p-12">
             <h2 className="text-2xl md:text-3xl font-bold mb-6">From the Founder</h2>
@@ -608,10 +603,6 @@ npm install -g persistq
       {/* Powerful Features Section */}
       <TechnicalSpecs />
 
-      {/* Interactive Demo Section */}
-      <InteractiveDemo />
-
-  
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-16 animate-on-scroll">
         <div className="max-w-4xl mx-auto text-center space-y-8">
@@ -620,15 +611,26 @@ npm install -g persistq
             Start building with PersistQ today. No credit card required.
           </p>
           <div className="flex flex-col items-center justify-center gap-6">
-            <Link href="/signup">
-              <Button
-                size="lg"
-                className="bg-accent-cyan hover:bg-accent-cyan/90 text-black font-medium text-base h-14 px-10"
-              >
-                Start Free
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link href="/signup">
+                <Button
+                  size="lg"
+                  className="bg-accent-cyan hover:bg-accent-cyan/90 text-black font-medium text-base h-14 px-10"
+                >
+                  Start Free
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
+              <Link href="/docs">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-base h-14 px-10"
+                >
+                  View Docs
+                </Button>
+              </Link>
+            </div>
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-accent-cyan" />
@@ -650,7 +652,7 @@ npm install -g persistq
       {/* Footer */}
       <footer className="border-t border-border/40 bg-surface/30">
         <div className="container mx-auto px-4 py-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 mb-12">
             <div>
               <h4 className="font-semibold mb-4">Product</h4>
               <ul className="space-y-3 text-sm text-muted-foreground">
