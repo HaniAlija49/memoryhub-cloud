@@ -75,10 +75,10 @@ export const VALID_EVENTS = new Set<PersistQEvent>([
 ]);
 
 // Event categories for grouping
-export const EVENT_CATEGORIES = {
+export const EVENT_CATEGORIES: Record<string, PersistQEvent[]> = {
   MEMORY: [
     'memory_created',
-    'memory_searched', 
+    'memory_searched',
     'memory_updated',
     'memory_deleted',
     'document_uploaded',
@@ -87,7 +87,7 @@ export const EVENT_CATEGORIES = {
   ],
   API_KEY: [
     'api_key_generated',
-    'api_key_regenerated', 
+    'api_key_regenerated',
     'api_key_copied',
   ],
   BILLING: [
@@ -106,7 +106,7 @@ export const EVENT_CATEGORIES = {
     'dashboard_opened',
     'settings_opened',
   ],
-} as const;
+};
 
 // Validation function
 export function isValidEvent(event: string): event is PersistQEvent {
