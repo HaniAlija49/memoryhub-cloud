@@ -16,6 +16,7 @@ export default function LandingPage() {
   const [showStickyCTA, setShowStickyCTA] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const heroRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   // Sticky CTA on scroll
   useEffect(() => {
@@ -47,6 +48,30 @@ export default function LandingPage() {
     const elements = document.querySelectorAll(".animate-on-scroll")
     elements.forEach((el) => observer.observe(el))
 
+    return () => observer.disconnect()
+  }, [])
+
+  // Lazy video autoplay when in viewport
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            video.play().catch(() => {
+              // Autoplay failed, user will need to click play
+            })
+          } else {
+            video.pause()
+          }
+        })
+      },
+      { threshold: 0.5 }
+    )
+
+    observer.observe(video)
     return () => observer.disconnect()
   }, [])
 
@@ -337,20 +362,36 @@ npm install -g persistq
       <section className="container mx-auto px-4 py-16 animate-on-scroll">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <h2 className="text-4xl md:text-5xl font-bold">See PersistQ in Action</h2>
-          <p className="text-lg text-muted-foreground">30-second demo</p>
+          <p className="text-lg text-muted-foreground">45-second demo</p>
 
-          {/* Demo Video Placeholder */}
-          <div className="rounded-lg border-2 border-dashed border-border bg-surface/50 aspect-video flex items-center justify-center">
-            <div className="text-center space-y-4 p-8">
-              <div className="text-6xl">🎬</div>
-              <div className="text-lg font-medium text-muted-foreground">
-                Demo video will go here
+          {/* Demo Video */}
+          <div className="rounded-lg overflow-hidden border border-border bg-surface/50 shadow-2xl">
+            <video
+              ref={videoRef}
+              className="w-full h-auto"
+              muted
+              loop
+              playsInline
+              controls
+              controlsList="nodownload"
+              poster="/demo-poster.jpg"
+              preload="none"
+              title="PersistQ Demo: Setup and usage with one prompt"
+              aria-label="PersistQ demonstration video showing how to setup and use semantic memory with a single prompt"
+            >
+              <source src="/demo-video.webm" type="video/webm" />
+              <source src="/demo-video.mp4" type="video/mp4" />
+              <div className="aspect-video flex items-center justify-center bg-surface/50 p-8">
+                <p className="text-muted-foreground">
+                  Your browser doesn&apos;t support video playback. PersistQ demo shows one-prompt setup for AI semantic memory with real-time storage, search, and retrieval.
+                </p>
               </div>
-              <div className="text-sm text-muted-foreground max-w-md mx-auto">
-                Example: store → search → retrieve
-              </div>
-            </div>
+            </video>
           </div>
+
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
+            <span className="text-accent-cyan font-medium">One prompt to setup</span> — watch how PersistQ stores, searches, and retrieves memories in real-time
+          </p>
         </div>
       </section>
 
